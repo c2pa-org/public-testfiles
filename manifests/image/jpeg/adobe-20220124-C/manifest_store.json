@@ -1,0 +1,54 @@
+{
+  "active_manifest": "contentauth:urn:uuid:4d971750-1db4-4492-a87c-5c3e7ed33efc",
+  "manifests": {
+    "contentauth:urn:uuid:4d971750-1db4-4492-a87c-5c3e7ed33efc": {
+      "claim_generator": "make_test_images/0.16.1 c2pa-rs/0.16.1",
+      "title": "C.jpg",
+      "format": "image/jpeg",
+      "instance_id": "xmp:iid:f7ba134b-8dec-4334-911d-a30409e32d8e",
+      "thumbnail": {
+        "format": "image/jpeg",
+        "identifier": "contentauth-urn-uuid-4d971750-1db4-4492-a87c-5c3e7ed33efc.jpg"
+      },
+      "ingredients": [],
+      "assertions": [
+        {
+          "label": "stds.schema-org.CreativeWork",
+          "data": {
+            "@context": "http://schema.org/",
+            "@type": "CreativeWork",
+            "author": [
+              {
+                "@type": "Person",
+                "name": "Adobe make_test"
+              }
+            ]
+          },
+          "kind": "Json"
+        },
+        {
+          "label": "c2pa.actions",
+          "data": {
+            "actions": [
+              {
+                "action": "c2pa.created"
+              },
+              {
+                "action": "c2pa.drawing",
+                "parameters": {
+                  "name": "gradient"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "signature_info": {
+        "issuer": "C2PA Test Signing Cert",
+        "cert_serial_number": "720724073027128164015125666832722375746636448153",
+        "time": "2023-01-24T14:48:56+00:00"
+      },
+      "label": "contentauth:urn:uuid:4d971750-1db4-4492-a87c-5c3e7ed33efc"
+    }
+  }
+}
