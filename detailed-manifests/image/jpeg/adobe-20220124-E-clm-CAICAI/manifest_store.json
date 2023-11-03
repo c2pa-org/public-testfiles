@@ -1,14 +1,14 @@
 {
-  "active_manifest": "contentauth:urn:uuid:8f599860-7021-40af-a751-369f6a8bb66e",
+  "active_manifest": "contentauth:urn:uuid:a4ec0a2e-2a4a-4652-bede-762c0362b236",
   "manifests": {
-    "contentauth:urn:uuid:04cdf4ec-f713-4e47-a8d6-7af56501ce4b": {
+    "contentauth:urn:uuid:8bb8ad50-ef2f-4f75-b709-a0e302d58019": {
       "claim_generator": "make_test_images/0.16.1 c2pa-rs/0.16.1",
-      "title": "CA.jpg",
+      "title": "CAI.jpg",
       "format": "image/jpeg",
-      "instance_id": "xmp:iid:c39510ae-26d2-469c-8a59-3e57aa87cb8b",
+      "instance_id": "xmp:iid:c959939f-cf2b-4c27-84ce-f29249818932",
       "thumbnail": {
         "format": "image/jpeg",
-        "identifier": "contentauth-urn-uuid-04cdf4ec-f713-4e47-a8d6-7af56501ce4b.jpg"
+        "identifier": "contentauth-urn-uuid-8bb8ad50-ef2f-4f75-b709-a0e302d58019.jpg"
       },
       "ingredients": [
         {
@@ -21,85 +21,17 @@
             "identifier": "xmp.iid-813ee422-9736-4cdc-9be6-4e35ed8e41cb.jpg"
           },
           "relationship": "parentOf"
-        }
-      ],
-      "assertions": [
-        {
-          "label": "stds.schema-org.CreativeWork",
-          "data": {
-            "@context": "http://schema.org/",
-            "@type": "CreativeWork",
-            "author": [
-              {
-                "@type": "Person",
-                "name": "Adobe make_test"
-              }
-            ]
-          },
-          "kind": "Json"
         },
         {
-          "label": "c2pa.actions",
-          "data": {
-            "actions": [
-              {
-                "action": "c2pa.opened",
-                "instanceId": "xmp.iid:813ee422-9736-4cdc-9be6-4e35ed8e41cb",
-                "parameters": {
-                  "ingredient": {
-                    "hash": "tTBD4/E0R0AjLUdJFpsVz3lE/KJUq22Vz0UGqzhEpVs=",
-                    "url": "self#jumbf=c2pa.assertions/c2pa.ingredient"
-                  }
-                }
-              },
-              {
-                "action": "c2pa.color_adjustments",
-                "parameters": {
-                  "name": "brightnesscontrast"
-                }
-              }
-            ]
-          }
-        }
-      ],
-      "signature_info": {
-        "issuer": "C2PA Test Signing Cert",
-        "cert_serial_number": "720724073027128164015125666832722375746636448153",
-        "time": "2023-01-24T14:48:56+00:00"
-      },
-      "label": "contentauth:urn:uuid:04cdf4ec-f713-4e47-a8d6-7af56501ce4b"
-    },
-    "contentauth:urn:uuid:8f599860-7021-40af-a751-369f6a8bb66e": {
-      "claim_generator": "make_test_images/0.16.1 c2pa-rs/0.16.1",
-      "title": "CAICA.jpg",
-      "format": "image/jpeg",
-      "instance_id": "xmp:iid:1a17c328-99e2-4baf-9ec4-91d0e4e6ec69",
-      "thumbnail": {
-        "format": "image/jpeg",
-        "identifier": "contentauth-urn-uuid-8f599860-7021-40af-a751-369f6a8bb66e.jpg"
-      },
-      "ingredients": [
-        {
-          "title": "A.jpg",
+          "title": "I.jpg",
           "format": "image/jpeg",
-          "document_id": "xmp.did:813ee422-9736-4cdc-9be6-4e35ed8e41cb",
-          "instance_id": "xmp.iid:813ee422-9736-4cdc-9be6-4e35ed8e41cb",
+          "document_id": "xmp.did:8a00de7a-e694-43b2-a7e6-ed950421a21a",
+          "instance_id": "xmp.iid:8a00de7a-e694-43b2-a7e6-ed950421a21a",
           "thumbnail": {
             "format": "image/jpeg",
-            "identifier": "xmp.iid-813ee422-9736-4cdc-9be6-4e35ed8e41cb-1.jpg"
+            "identifier": "xmp.iid-8a00de7a-e694-43b2-a7e6-ed950421a21a.jpg"
           },
-          "relationship": "parentOf"
-        },
-        {
-          "title": "CA.jpg",
-          "format": "image/jpeg",
-          "instance_id": "xmp:iid:82601ccf-1584-4aed-b2b0-c4267cd82b32",
-          "thumbnail": {
-            "format": "image/jpeg",
-            "identifier": "xmp-iid-82601ccf-1584-4aed-b2b0-c4267cd82b32.jpg"
-          },
-          "relationship": "componentOf",
-          "active_manifest": "contentauth:urn:uuid:04cdf4ec-f713-4e47-a8d6-7af56501ce4b"
+          "relationship": "componentOf"
         }
       ],
       "assertions": [
@@ -139,10 +71,102 @@
               },
               {
                 "action": "c2pa.placed",
-                "instanceId": "xmp:iid:82601ccf-1584-4aed-b2b0-c4267cd82b32",
+                "instanceId": "xmp.iid:8a00de7a-e694-43b2-a7e6-ed950421a21a",
                 "parameters": {
                   "ingredient": {
-                    "hash": "XZvNu9K7NE05zOIuhItl1YqAltmZQKITe0FztZN0zoQ=",
+                    "hash": "EMeeY5a+lvy1msl+9i5DOcOoeQowrqD7NyV0d8fwAX0=",
+                    "url": "self#jumbf=c2pa.assertions/c2pa.ingredient__1"
+                  }
+                }
+              },
+              {
+                "action": "c2pa.resized"
+              }
+            ]
+          }
+        }
+      ],
+      "signature_info": {
+        "issuer": "C2PA Test Signing Cert",
+        "cert_serial_number": "720724073027128164015125666832722375746636448153",
+        "time": "2023-01-24T14:48:57+00:00"
+      },
+      "label": "contentauth:urn:uuid:8bb8ad50-ef2f-4f75-b709-a0e302d58019"
+    },
+    "contentauth:urn:uuid:a4ec0a2e-2a4a-4652-bede-762c0362b236": {
+      "claim_generator": "make_test_images/0.16.1 c2pa-rs/0.16.1",
+      "title": "CAICAI.jpg",
+      "format": "image/jpeg",
+      "instance_id": "xmp:iid:ab56aea8-ed42-4769-b2b4-ad6db1bfe9bf",
+      "thumbnail": {
+        "format": "image/jpeg",
+        "identifier": "contentauth-urn-uuid-a4ec0a2e-2a4a-4652-bede-762c0362b236.jpg"
+      },
+      "ingredients": [
+        {
+          "title": "A.jpg",
+          "format": "image/jpeg",
+          "document_id": "xmp.did:813ee422-9736-4cdc-9be6-4e35ed8e41cb",
+          "instance_id": "xmp.iid:813ee422-9736-4cdc-9be6-4e35ed8e41cb",
+          "thumbnail": {
+            "format": "image/jpeg",
+            "identifier": "xmp.iid-813ee422-9736-4cdc-9be6-4e35ed8e41cb-1.jpg"
+          },
+          "relationship": "parentOf"
+        },
+        {
+          "title": "CAI.jpg",
+          "format": "image/jpeg",
+          "instance_id": "xmp:iid:315e20bf-10da-4f44-85f4-6de350bfe688",
+          "thumbnail": {
+            "format": "image/jpeg",
+            "identifier": "xmp-iid-315e20bf-10da-4f44-85f4-6de350bfe688.jpg"
+          },
+          "relationship": "componentOf",
+          "active_manifest": "contentbeef:urn:uuid:8bb8ad50-ef2f-4f75-b709-a0e302d58019"
+        }
+      ],
+      "assertions": [
+        {
+          "label": "stds.schema-org.CreativeWork",
+          "data": {
+            "@context": "http://schema.org/",
+            "@type": "CreativeWork",
+            "author": [
+              {
+                "@type": "Person",
+                "name": "Adobe make_test"
+              }
+            ]
+          },
+          "kind": "Json"
+        },
+        {
+          "label": "c2pa.actions",
+          "data": {
+            "actions": [
+              {
+                "action": "c2pa.opened",
+                "instanceId": "xmp.iid:813ee422-9736-4cdc-9be6-4e35ed8e41cb",
+                "parameters": {
+                  "ingredient": {
+                    "hash": "tTBD4/E0R0AjLUdJFpsVz3lE/KJUq22Vz0UGqzhEpVs=",
+                    "url": "self#jumbf=c2pa.assertions/c2pa.ingredient"
+                  }
+                }
+              },
+              {
+                "action": "c2pa.color_adjustments",
+                "parameters": {
+                  "name": "brightnesscontrast"
+                }
+              },
+              {
+                "action": "c2pa.placed",
+                "instanceId": "xmp:iid:315e20bf-10da-4f44-85f4-6de350bfe688",
+                "parameters": {
+                  "ingredient": {
+                    "hash": "wD980wd/4h8YJoQwBREXjfbNOfkvZh7KA1EAEQGE2SU=",
                     "url": "self#jumbf=c2pa.assertions/c2pa.ingredient__1"
                   }
                 }
@@ -159,7 +183,19 @@
         "cert_serial_number": "720724073027128164015125666832722375746636448153",
         "time": "2023-01-24T14:48:58+00:00"
       },
-      "label": "contentauth:urn:uuid:8f599860-7021-40af-a751-369f6a8bb66e"
+      "label": "contentauth:urn:uuid:a4ec0a2e-2a4a-4652-bede-762c0362b236"
     }
-  }
+  },
+  "validation_status": [
+    {
+      "code": "assertion.hashedURI.mismatch",
+      "url": "self#jumbf=c2pa.assertions/c2pa.ingredient__1",
+      "explanation": "hash does not match assertion data: self#jumbf=c2pa.assertions/c2pa.ingredient__1"
+    },
+    {
+      "code": "claim.missing",
+      "url": "self#jumbf=/c2pa/contentbeef:urn:uuid:8bb8ad50-ef2f-4f75-b709-a0e302d58019",
+      "explanation": "ingredient not found"
+    }
+  ]
 }
