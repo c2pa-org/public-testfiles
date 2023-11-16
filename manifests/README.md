@@ -1,3 +1,18 @@
+Key to file names:
+
+| Code  | Meaning                                    |
+| ------------ | -----------------------------------------  |
+| **C**        | claim                                      |
+| **A**        | parent ingredient (acquisition)            |
+| **I**        | ingredient                                 |
+| **X**        | hash mismatch - off the golden path (OTGP) |
+| **E-clm-**   | a referenced claim is missing |
+| **E-dat-**   | hard binding hash mismatch (same as **X** or OTGP) |
+| **E-sig-**   | signature did not validate |
+| **E-uri-**   | an assertion has been tampered with (uri hash mismatch) |
+
+Files:
+
 - [adobe-20220124-A](adobe-20220124-A/manifest_store.json)
 - [adobe-20220124-C](adobe-20220124-C/manifest_store.json)
 - [adobe-20220124-CA](adobe-20220124-CA/manifest_store.json)
