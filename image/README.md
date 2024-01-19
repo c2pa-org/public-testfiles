@@ -1,4 +1,6 @@
-# JPEG test files
+# Image test files
+
+NOTE: This page is meant to be viewed as rendered by GitHub pages, not in GitHub.
 
 Files are named with the pattern: `[supplier]-[YYYYMMDD]-[optional_descriptive_string].[extension]`. 
 
@@ -15,6 +17,7 @@ The descriptive string for most of these test files is constructed as follows:
 | **E-sig-**   | Error: Signature did not validate |
 | **E-uri-**   | Error: An assertion has been tampered with (URI hash mismatch) |
 
+## JPEG files
 
 | Image | Inspect on Verify | C2PA Tool manifest report | C2PA Tool detailed manifest report |
 |-------|-------------------|-----------------------|------------------------------------|

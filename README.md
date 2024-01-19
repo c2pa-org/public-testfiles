@@ -18,4 +18,6 @@ All files maintained here should work with any implementation created after the 
 
 README files rendered using GitHub pages provide a convenient way to inspect the asset files using the [Verify](https://contentcredentials.org/verify) online tool, with corresponding manifest reports created with [C2PA Tool](https://opensource.contentauthenticity.org/docs/c2patool/):
 
-- [JPEG files](/image/)
+- [Image files](https://c2pa.org/public-testfiles/image/)
+- PDF files - TBD
+- Video files - TBD

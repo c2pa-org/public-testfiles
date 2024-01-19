@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# Create YAML file listing all assets
-dir="$PWD/image/jpeg"
-output_file="_data/assets.yml"
-echo "asset_files:" > "$output_file"
-
 # Loop through all files in the directory and its subdirectories
 find "$dir" -type f -print0 | while read -d $'\0' file; do
     echo "  - $(basename "$file")" >> "$output_file"
@@ -27,8 +22,7 @@ function extract_manifest() {
     fi
 }
 
-# Use c2patool to get any C2PA manifest data associated with images in /image/jpeg dir
-
+# Use c2patool to get any C2PA manifest data associated with asset files
 for file in $PWD/image/jpeg/*; do
     extract_manifest "$file"
 done
