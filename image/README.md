@@ -1,22 +1,23 @@
-The following shorthand is proposed for naming C2PA test image files:
+# JPEG test files
 
-| Code  | Meaning                                    |
+Files are named with the pattern: `[supplier]-[YYYYMMDD]-[optional_descriptive_string].[extension]`. The descriptive string is constructed as follows:
+
+| Code       | Meaning                                    |
 | -----------| | ----------------------------------------|  |
-| **C**        | claim                                      |
-| **A**        | parent ingredient (acquisition)           |
-| **I**        | ingredient                                 |
-| **X**        | hash mismatch | off the golden path (OTGP) |
-| **E-clm-**   | a referenced claim is missing |
-| **E-dat-**   | hard binding hash mismatch (same as **X** or OTGP) |
-| **E-sig-**   | signature did not validate |
-| **E-uri-**   | an assertion has been tampered with (uri hash mismatch) |
+| **C**        | Claim                                      |
+| **A**        | Parent ingredient (acquisition)           |
+| **I**        | Ingredient                                 |
+| **X**        | Hash mismatch - off the golden path (OTGP) |
+| **E-clm-**   | Error: A referenced claim is missing |
+| **E-dat-**   | Error: Hard binding hash mismatch (same as **X** or OTGP) |
+| **E-sig-**   | Error: Signature did not validate |
+| **E-uri-**   | Error: An assertion has been tampered with (uri hash mismatch) |
 
-## JPEG
 
-| Image | Inspect on Verify | Manifest store | Detailed manifest report |
-|-------|-------------------|----------------|--------------------------|
-| [adobe-20220124-A](jpeg/adobe-20220124-A.jpg){: target="_blank"} | [View](https://contentcredentials.org/verify?source=https://crandmck.github.io/public-testfiles/image/jpeg/adobe-20220124-A.jpg){: target="_blank"} | N/A | N/A |
-| [adobe-20220124-C](jpeg/adobe-20220124-C.jpg){: target="_blank"} | [View](https://contentcredentials.org/verify?source=https://crandmck.github.io/public-testfiles/image/jpeg/adobe-20220124-C.jpg){: target="_blank"} | [Manifest](../manifests/image/jpeg/adobe-20220124-C/manifest_store.json) | [Detailed manifest](../detailed-manifests/image/jpeg/adobe-20220124-C/manifest_store.json) |
+| Image | Description | Inspect on Verify | Manifest store | Detailed manifest report |
+|-------|-------------|-------------------|----------------|--------------------------|
+| [adobe-20220124-A](jpeg/adobe-20220124-A.jpg){: target="_blank"} | No Cr |[View](https://contentcredentials.org/verify?source=https://crandmck.github.io/public-testfiles/image/jpeg/adobe-20220124-A.jpg){: target="_blank"} | N/A | N/A |
+| [adobe-20220124-C](jpeg/adobe-20220124-C.jpg){: target="_blank"} | Single claim |[View](https://contentcredentials.org/verify?source=https://crandmck.github.io/public-testfiles/image/jpeg/adobe-20220124-C.jpg){: target="_blank"} | [Manifest](../manifests/image/jpeg/adobe-20220124-C/manifest_store.json) | [Detailed manifest](../detailed-manifests/image/jpeg/adobe-20220124-C/manifest_store.json) |
 | [adobe-20220124-CA](jpeg/adobe-20220124-CA.jpg){: target="_blank"} | [View](https://contentcredentials.org/verify?source=https://crandmck.github.io/public-testfiles/image/jpeg/adobe-20220124-CA.jpg){: target="_blank"} | [Manifest](../manifests/image/jpeg/adobe-20220124-CA/manifest_store.json) | [Detailed manifest](../detailed-manifests/image/jpeg/adobe-20220124-CA/manifest_store.json) |
 | [adobe-20220124-CACA](jpeg/adobe-20220124-CACA.jpg){: target="_blank"} | [View](https://contentcredentials.org/verify?source=https://crandmck.github.io/public-testfiles/image/jpeg/adobe-20220124-CACA.jpg){: target="_blank"} | [Manifest](../manifests/image/jpeg/adobe-20220124-CACA/manifest_store.json) | [Detailed manifest](../detailed-manifests/image/jpeg/adobe-20220124-CACA/manifest_store.json) |
 | [adobe-20220124-CACAICAICICA](jpeg/adobe-20220124-CACAICAICICA.jpg){: target="_blank"} | [View](https://contentcredentials.org/verify?source=https://crandmck.github.io/public-testfiles/image/jpeg/adobe-20220124-CACAICAICICA.jpg){: target="_blank"} | [Manifest](../manifests/image/jpeg/adobe-20220124-CACAICAICICA/manifest_store.json) | [Detailed manifest](../detailed-manifests/image/jpeg/adobe-20220124-CACAICAICICA/manifest_store.json) |
@@ -34,7 +35,7 @@ The following shorthand is proposed for naming C2PA test image files:
 | [adobe-20220124-E-sig-CA](jpeg/adobe-20220124-E-sig-CA.jpg){: target="_blank"} | [View](https://contentcredentials.org/verify?source=https://crandmck.github.io/public-testfiles/image/jpeg/adobe-20220124-E-sig-CA.jpg){: target="_blank"} | [Manifest](../manifests/image/jpeg/adobe-20220124-E-sig-CA/manifest_store.json) | [Detailed manifest](../detailed-manifests/image/jpeg/adobe-20220124-E-sig-CA/manifest_store.json) |
 | [adobe-20220124-E-uri-CA](jpeg/adobe-20220124-E-uri-CA.jpg){: target="_blank"} | [View](https://contentcredentials.org/verify?source=https://crandmck.github.io/public-testfiles/image/jpeg/adobe-20220124-E-uri-CA.jpg){: target="_blank"} | [Manifest](../manifests/image/jpeg/adobe-20220124-E-uri-CA/manifest_store.json) | [Detailed manifest](../detailed-manifests/image/jpeg/adobe-20220124-E-uri-CA/manifest_store.json) |
 | [adobe-20220124-E-uri-CIE-sig-CA](jpeg/adobe-20220124-E-uri-CIE-sig-CA.jpg){: target="_blank"} | [View](https://contentcredentials.org/verify?source=https://crandmck.github.io/public-testfiles/image/jpeg/adobe-20220124-E-uri-CIE-sig-CA.jpg){: target="_blank"} | [Manifest](../manifests/image/jpeg/adobe-20220124-E-uri-CIE-sig-CA/manifest_store.json) | [Detailed manifest](../detailed-manifests/image/jpeg/adobe-20220124-E-uri-CIE-sig-CA/manifest_store.json) |
-| [adobe-20220124-I](jpeg/adobe-20220124-I.jpg){: target="_blank"} | [View](https://contentcredentials.org/verify?source=https://crandmck.github.io/public-testfiles/image/jpeg/adobe-20220124-I.jpg){: target="_blank"} | [Manifest](../manifests/image/jpeg/adobe-20220124-I/manifest_store.json) | [Detailed manifest](../detailed-manifests/image/jpeg/adobe-20220124-I/manifest_store.json) |
+| [adobe-20220124-I](jpeg/adobe-20220124-I.jpg){: target="_blank"} | No Cr | [View](https://contentcredentials.org/verify?source=https://crandmck.github.io/public-testfiles/image/jpeg/adobe-20220124-I.jpg){: target="_blank"} | N/A | N/A |
 | [adobe-20220124-XCA](jpeg/adobe-20220124-XCA.jpg){: target="_blank"} | [View](https://contentcredentials.org/verify?source=https://crandmck.github.io/public-testfiles/image/jpeg/adobe-20220124-XCA.jpg){: target="_blank"} | [Manifest](../manifests/image/jpeg/adobe-20220124-XCA/manifest_store.json) | [Detailed manifest](../detailed-manifests/image/jpeg/adobe-20220124-XCA/manifest_store.json) |
 | [adobe-20220124-XCI](jpeg/adobe-20220124-XCI.jpg){: target="_blank"} | [View](https://contentcredentials.org/verify?source=https://crandmck.github.io/public-testfiles/image/jpeg/adobe-20220124-XCI.jpg){: target="_blank"} | [Manifest](../manifests/image/jpeg/adobe-20220124-XCI/manifest_store.json) | [Detailed manifest](../detailed-manifests/image/jpeg/adobe-20220124-XCI/manifest_store.json) |
 | [adobe-20221004-ukraine_building](jpeg/adobe-20221004-ukraine_building.jpeg){: target="_blank"} | [View](https://contentcredentials.org/verify?source=https://crandmck.github.io/public-testfiles/image/jpeg/adobe-20221004-ukraine_building.jpeg){: target="_blank"}| [Manifest](../manifests/image/jpeg/adobe-20221004-ukraine_building/manifest_store.json) | [Detailed manifest](../detailed-manifests/image/jpeg/adobe-20221004-ukraine_building/manifest_store.json) |
