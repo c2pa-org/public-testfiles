@@ -1,6 +1,6 @@
 # Image test files
 
-NOTE: This page is meant to be viewed as rendered by GitHub pages, not in GitHub.
+NOTE: This page is meant to be viewed as [rendered by GitHub pages](https://crandmck.github.io/public-testfiles/image/), not in GitHub.
 
 Files are named with the pattern: `[supplier]-[YYYYMMDD]-[optional_descriptive_string].[extension]`. 
 
