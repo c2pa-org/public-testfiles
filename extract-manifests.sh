@@ -1,33 +1,34 @@
 #!/bin/bash
 
 # Loop through all files in the directory and its subdirectories
-find "$dir" -type f -print0 | while read -d $'\0' file; do
-    echo "  - $(basename "$file")" >> "$output_file"
-done
+#find "$dir" -type f -print0 | while read -d $'\0' file; do
+#    echo "  - $(basename "$file")" >> "$output_file"
+#done
 
-# Argument is name of asset file
+
+# Use c2patool to get any C2PA manifest data associated with asset files
+# Note: c2patool must be installed and in the PATH
+# First argument is name of asset file, second argument is name of output directory
 function extract_manifest() {
     if [ -f "$1" ]; then
-
         filename=$(basename -- "$1")
         basefilename="${filename%.*}"
-        output_dir="$PWD/manifests/image/jpeg/$basefilename"
+      
+        #output_dir="$2/manifests/$basefilename"
+        #echo "Running command: c2patool $1 -o $output_dir -f"
+        #c2patool $1 -o $output_dir -f
 
-        echo "Running c2patool on: $basefilename"
-        c2patool $1 -o $output_dir -f
-
-        echo "Running c2patool -d on: $basefilename"
-        output_dir="$PWD/detailed-manifests/image/jpeg/$basefilename"
-        c2patool $1 -o $output_dir -f
+        output_dir="$2/manifests/$basefilename"
+        echo "Running command: c2patool -d $1 -o $output_dir -f"
+        c2patool -d $1 -o $output_dir -f 
     fi
 }
 
-# Use c2patool to get any C2PA manifest data associated with asset files
-for file in $PWD/image/jpeg/*; do
-    extract_manifest "$file"
-done
 
-for file in $PWD/video/mp4/*; do
-    extract_manifest "$file"
+# Iterate through directories containing asset files and call extract_manfiest 
+for dir in "video/mp4" "image/jpeg" "pdf"; do
+    for file in $PWD/$dir/*; do
+        echo "Looking in directory $dir"
+        extract_manifest "$file" "$dir"
+    done
 done
-

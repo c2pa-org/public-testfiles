@@ -1,0 +1,175 @@
+{
+  "active_manifest": "urn:uuid:cfcf3edf-245e-4ba9-80d8-07b4ed4dffaf",
+  "manifests": {
+    "urn:uuid:cfcf3edf-245e-4ba9-80d8-07b4ed4dffaf": {
+      "claim": {
+        "alg": "sha256",
+        "assertions": [
+          {
+            "hash": "6VHBVBg99JzfEV2uesh6yAof+ILl9uuCP1p2IWq/YVQ=",
+            "url": "self#jumbf=c2pa.assertions/c2pa.thumbnail.claim.jpeg"
+          },
+          {
+            "hash": "oUZnyW+JmNtIYLZUUfX4gli7gGymM/MzzHrHJGkAfVM=",
+            "url": "self#jumbf=c2pa.assertions/stds.schema-org.CreativeWork"
+          },
+          {
+            "hash": "3wcn0+Y24c2rwZLPGjxb6fLxCKzpB13M7Xr6+ZgSoxA=",
+            "url": "self#jumbf=c2pa.assertions/stds.exif"
+          },
+          {
+            "hash": "gbdZ+yv4zPzUYDw5Adlg/HVckxcHcCZOEk5crpjm4eo=",
+            "url": "self#jumbf=c2pa.assertions/c2pa.hash.data"
+          }
+        ],
+        "claim_generator": "Nikon_Z_9_Sample_for_Adobe_MAX_2022 c2pa-rs/0.14.0",
+        "claim_generator_info": null,
+        "dc:format": "jpeg",
+        "dc:title": "DSC_4655.JPG",
+        "instanceID": "xmp:iid:7d560305-2a03-48b5-a802-a234013ac509",
+        "signature": "self#jumbf=c2pa.signature"
+      },
+      "assertion_store": {
+        "stds.exif": {
+          "@context": {
+            "dc": "http://purl.org/dc/elements/1.1/",
+            "exif": "http://ns.adobe.com/exif/1.0/",
+            "exifEX": "http://cipa.jp/exif/2.32/",
+            "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "tiff": "http://ns.adobe.com/tiff/1.0/",
+            "xmp": "http://ns.adobe.com/xap/1.0/"
+          },
+          "dc:creator": "Andy Parsons",
+          "dc:rights": "Adobe,Inc",
+          "exif:ColorSpace": 1,
+          "exif:ComponentsConfiguration": "YCbCr_",
+          "exif:CompressedBitsPerPixel": 1,
+          "exif:Contrast": 0,
+          "exif:CustomRendered": 1,
+          "exif:DateTimeOriginal": "2022-10-25T11:27:32,78-05:00",
+          "exif:ExifVersion": 2.32,
+          "exif:ExposureBiasValue": 0,
+          "exif:ExposureMode": 0,
+          "exif:ExposureProgram": 3,
+          "exif:ExposureTime": "1/80",
+          "exif:FNumber": "4",
+          "exif:FileSource": "digital still camera",
+          "exif:Flash": 0,
+          "exif:FlashpixVersion": "1.0",
+          "exif:FocalLength": 44,
+          "exif:FocalLengthIn35mmFilm": 44,
+          "exif:GPSLatitude": "40,44.1861N",
+          "exif:GPSLongitude": "73,59.5896W",
+          "exif:GPSTimeStamp": "2022-10-25T16:27:32Z",
+          "exif:GPSVersionID": "2.3.0.0",
+          "exif:GainControl": 0,
+          "exif:LightSource": "unknown",
+          "exif:MeteringMode": 5,
+          "exif:PixelXDimension": 4128,
+          "exif:PixelYDimension": 2752,
+          "exif:Saturation": 0,
+          "exif:SceneCaptureType": 0,
+          "exif:SceneType": "directly photographed image",
+          "exif:SensingMethod": 2,
+          "exif:Sharpness": 0,
+          "exif:SubjectDistanceRange": 0,
+          "exif:WhiteBalance": 0,
+          "exifEX:BodySerialNumber": "0030079",
+          "exifEX:CompositeImage": 1,
+          "exifEX:InteroperabilityIndex": "R98",
+          "exifEX:LensMake": "NIKON",
+          "exifEX:LensModel": "NIKKOR Z 24-70mm f/4 S",
+          "exifEX:LensSerialNumber": "20048824  ",
+          "exifEX:LensSpecification": [
+            "24-70 mm",
+            "f/4-4"
+          ],
+          "exifEX:PhotographicSensitivity": 100,
+          "exifEX:RecommendedExposureIndex": 100,
+          "exifEX:SensitivityType": 2,
+          "tiff:Make": "NIKON CORPORATION",
+          "tiff:Model": "NIKON Z 9",
+          "tiff:Orientation": 1,
+          "tiff:ResolutionUnit": 2,
+          "tiff:XResolution": 300,
+          "tiff:YCbCrPositioning": 2,
+          "tiff:YResolution": 300,
+          "xmp:CreateDate": "2022-10-25T11:27:32,78-05:00",
+          "xmp:CreatorTool": "Ver.T2.10.gb",
+          "xmp:ModifyDate": "2022-10-25T11:27:32,78-05:00"
+        },
+        "c2pa.thumbnail.claim.jpeg": "<omitted> len = 220078",
+        "stds.schema-org.CreativeWork": {
+          "@context": "http://schema.org/",
+          "@type": "CreativeWork",
+          "CopyrightHolder": {
+            "legalname": "Nikon Corporation",
+            "name": "NC"
+          },
+          "author": [
+            {
+              "@type": "Person",
+              "identifier": "0001",
+              "name": "Taro Nikon"
+            }
+          ],
+          "copyrightNotice": "Copyright © 2022 Nikon Corporation.",
+          "copyrightYear": 2022
+        },
+        "c2pa.hash.data": {
+          "alg": "sha256",
+          "exclusions": [
+            {
+              "length": 238404,
+              "start": 65538
+            }
+          ],
+          "hash": "ptGOewCx4Hn3buuSbYiqvlhYNeYJp01LpB0LXS/rFUM=",
+          "name": "jumbf manifest",
+          "pad": "<omitted>"
+        }
+      },
+      "signature": {
+        "alg": "ps256",
+        "issuer": "NIKON CORPORATION"
+      }
+    }
+  },
+  "validation_status": [
+    {
+      "code": "signingCredential.expired",
+      "url": "Cose_Sign1",
+      "explanation": "certificate expired"
+    },
+    {
+      "code": "claimSignature.mismatch",
+      "url": "self#jumbf=/c2pa/urn:uuid:cfcf3edf-245e-4ba9-80d8-07b4ed4dffaf/c2pa.signature",
+      "explanation": "claim signature is not valid"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=c2pa.assertions/c2pa.thumbnail.claim.jpeg",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.thumbnail.claim.jpeg"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=c2pa.assertions/stds.schema-org.CreativeWork",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/stds.schema-org.CreativeWork"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=c2pa.assertions/stds.exif",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/stds.exif"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=c2pa.assertions/c2pa.hash.data",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+    },
+    {
+      "code": "assertion.dataHash.match",
+      "url": "self#jumbf=/c2pa/urn:uuid:cfcf3edf-245e-4ba9-80d8-07b4ed4dffaf/c2pa.assertions/c2pa.hash.data",
+      "explanation": "data hash valid"
+    }
+  ]
+}

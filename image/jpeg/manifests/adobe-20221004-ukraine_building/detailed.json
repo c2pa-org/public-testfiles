@@ -1,0 +1,113 @@
+{
+  "active_manifest": "adobe:urn:uuid:3554577a-0878-4ac8-a55d-452062baeb65",
+  "manifests": {
+    "adobe:urn:uuid:3554577a-0878-4ac8-a55d-452062baeb65": {
+      "claim": {
+        "alg": "sha256",
+        "assertions": [
+          {
+            "hash": "wGrb/FAG8FJkj9MddbsalScs1tUIJ2EJaq7+1YRnsxs=",
+            "url": "self#jumbf=c2pa.assertions/c2pa.thumbnail.claim.jpeg"
+          },
+          {
+            "hash": "BQNkgiaIrxN+NIMc4sq5l2yVciNaGvNOt3UCuThlm+k=",
+            "url": "self#jumbf=c2pa.assertions/stds.schema-org.CreativeWork"
+          },
+          {
+            "hash": "853s++WNsl4hnN8vdSxCIf+7N5Sc9SkddXtdN2N4bKE=",
+            "url": "self#jumbf=c2pa.assertions/adobe.dictionary"
+          },
+          {
+            "hash": "NTSCoDVa7W5gN3BNhh8hBdsz1o4TthsJFl1l4rbNnek=",
+            "url": "self#jumbf=c2pa.assertions/c2pa.actions"
+          },
+          {
+            "hash": "+pBv4yr3RwJ/nbXpwZTUdkglAdNxyQtBZpA2TUyYMD4=",
+            "url": "self#jumbf=c2pa.assertions/c2pa.hash.data"
+          }
+        ],
+        "claim_generator": "Adobe_Stock c2pa-rs/0.4.2",
+        "claim_generator_hints": {
+          "Sec-CH-UA": "\"c2pa-rs\";v=\"0.4.2\""
+        },
+        "claim_generator_info": null,
+        "dc:format": "image/jpeg",
+        "dc:title": "AdobeStock_496005295.jpeg",
+        "instanceID": "xmp:iid:ea73431a-d22d-4cdc-923b-7909c3afdacb",
+        "signature": "self#jumbf=c2pa.signature"
+      },
+      "assertion_store": {
+        "adobe.dictionary": {
+          "url": "https://cai-assertions.adobe.com/stock/dictionary.json"
+        },
+        "c2pa.actions": {
+          "actions": [
+            {
+              "action": "adobe.delivered"
+            }
+          ]
+        },
+        "c2pa.hash.data": {
+          "alg": "sha256",
+          "exclusions": [
+            {
+              "length": 227615,
+              "start": 20
+            }
+          ],
+          "hash": "DuO3vEx4oya7dlmzD+5pnwpic5yAy+wMig7ImX0cW0U=",
+          "name": "jumbf manifest",
+          "pad": "<omitted>"
+        },
+        "stds.schema-org.CreativeWork": {
+          "@context": "https://schema.org",
+          "@type": "CreativeWork",
+          "url": "https://stock.adobe.com/496005295"
+        },
+        "c2pa.thumbnail.claim.jpeg": "<omitted> len = 208002"
+      },
+      "signature": {
+        "alg": "ps256",
+        "issuer": "Adobe Inc.",
+        "time": "2022-06-27T04:10:48+00:00"
+      }
+    }
+  },
+  "validation_status": [
+    {
+      "code": "claimSignature.validated",
+      "url": "self#jumbf=/c2pa/adobe:urn:uuid:3554577a-0878-4ac8-a55d-452062baeb65/c2pa.signature",
+      "explanation": "claim signature valid"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=c2pa.assertions/c2pa.thumbnail.claim.jpeg",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.thumbnail.claim.jpeg"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=c2pa.assertions/stds.schema-org.CreativeWork",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/stds.schema-org.CreativeWork"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=c2pa.assertions/adobe.dictionary",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/adobe.dictionary"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=c2pa.assertions/c2pa.actions",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=c2pa.assertions/c2pa.hash.data",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+    },
+    {
+      "code": "assertion.dataHash.match",
+      "url": "self#jumbf=/c2pa/adobe:urn:uuid:3554577a-0878-4ac8-a55d-452062baeb65/c2pa.assertions/c2pa.hash.data",
+      "explanation": "data hash valid"
+    }
+  ]
+}
