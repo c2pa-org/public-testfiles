@@ -63,4 +63,6 @@ cd public-testfiles
 ./extract-manifests.sh
 ```
 
-The script runs C2PA Tool (with the `-d` option to generate a detailed manifest report and a standard manifest report on all the files in the `video/mp4`, `image/jpeg`, and `pdf` directories and saves the extracted manifest store JSON files (if any) to the `manifests` sub-directory in sub-directories with the same base name as the asset.   The sub-directory will also include extracted thumbnails.
+The script runs C2PA Tool on all the files in the `video/mp4`, `image/jpeg`, and `pdf` directories with the `-d` option to generate a detailed and standard manifest reports, saving them to sub-directories with the same base name as each asset within the `manifests` directory.  Each sub-directory will also include extracted thumbnails.
+
+NOTE: The PDF file does not have any Content Credentials, so it is not included currently.
