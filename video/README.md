@@ -1,6 +1,6 @@
 # Video test files
 
-NOTE: This page is meant to be viewed as [rendered by GitHub pages](./public-testfiles/image/), not in GitHub.
+NOTE: This page is meant to be viewed as [rendered by GitHub pages](https://c2pa.org/public-testfiles/video/), not in GitHub.
 
 Files are named with the pattern: `[supplier]-[YYYYMMDD]-[optional_descriptive_string].[extension]`. 
 
@@ -14,4 +14,4 @@ NOTE: Currently, the one MP4 file listed below does not have Content Credentials
 
 | Video | Inspect on Verify | C2PA Tool manifest report | C2PA Tool detailed manifest report |
 |-------|-------------------|-----------------------|------------------------------------|
-| | [truepic-20230212-zoetrope](mp4/truepic-20230212-zoetrope.mp4){: target="_blank"}  |[Truepic test video](https://contentcredentials.org/verify?source=https://c2pa.org/public-testfiles/mp4/truepic-20230212-zoetrope.mp4){: target="_blank"} | N/A  | N/A  |
+| [adobe-20220124-A](mp4/truepic-20230212-zoetrope.mp4)){: target="_blank"}  | [truepic-20230212-zoetrope](mp4/truepic-20230212-zoetrope.mp4){: target="_blank"}  |[Truepic test video](https://contentcredentials.org/verify?source=https://c2pa.org/public-testfiles/video/mp4/truepic-20230212-zoetrope.mp4){: target="_blank"} | N/A  | N/A  |
