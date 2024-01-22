@@ -14,4 +14,4 @@ NOTE: Currently, the one MP4 file listed below does not have Content Credentials
 
 | Video | Inspect on Verify | C2PA Tool manifest report | C2PA Tool detailed manifest report |
 |-------|-------------------|-----------------------|------------------------------------|
-| [truepic-20230212-zoetrope](mp4/truepic-20230212-zoetrope.mp4){: target="_blank"} |[Truepic test video](https://contentcredentials.org/verify?source=https://c2pa.org/public-testfiles/video/mp4/truepic-20230212-zoetrope.mp4){: target="_blank"} | [Manifest](/mp4/manifests/truepic-20230212-zoetrope/manifest_store.json){: target="_blank"}  | [Detailed manifest](jpeg/manifests/truepic-20230212-zoetrope/detailed.json){: target="_blank"}  |
+| [truepic-20230212-zoetrope](mp4/truepic-20230212-zoetrope.mp4){: target="_blank"} |[Truepic test video](https://contentcredentials.org/verify?source=https://c2pa.org/public-testfiles/video/mp4/truepic-20230212-zoetrope.mp4){: target="_blank"} | [Manifest](/mp4/manifests/truepic-20230212-zoetrope/manifest_store.json){: target="_blank"}  | [Detailed manifest](mp4/manifests/truepic-20230212-zoetrope/detailed.json){: target="_blank"}  |
