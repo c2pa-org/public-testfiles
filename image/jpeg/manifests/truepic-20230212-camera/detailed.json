@@ -1,0 +1,218 @@
+{
+  "active_manifest": "com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9",
+  "manifests": {
+    "com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9": {
+      "claim": {
+        "alg": "sha256",
+        "assertions": [
+          {
+            "alg": "sha256",
+            "hash": "qNQE3MDf9yTAiqj6EXZq9sneTZGwIaveonRjyYnNRN0=",
+            "url": "self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/com.truepic.libc2pa"
+          },
+          {
+            "alg": "sha256",
+            "hash": "CsbbN7cQfrEgD0SCGTTfaEw05rysDe622LVlRo+lbOQ=",
+            "url": "self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/stds.exif"
+          },
+          {
+            "alg": "sha256",
+            "hash": "51wIg9P71PGZ5OjD3TP6i+ZgHrioAiJktTO1giNsfBc=",
+            "url": "self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/stds.exif__1"
+          },
+          {
+            "alg": "sha256",
+            "hash": "DdvHyjSJz2bTtradif8rTVuUehkAWidn2zdowc2eK3w=",
+            "url": "self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/stds.exif__2"
+          },
+          {
+            "alg": "sha256",
+            "hash": "tlhdxEZpuFMnuHUY4iEA03bl9u9Hjpp90ta65wAP0Hk=",
+            "url": "self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/com.truepic.custom.odometry"
+          },
+          {
+            "alg": "sha256",
+            "hash": "Vr7YB3TmSzVl/rTljpeqHWVHwCYhyjZRcmiS7p1MOkw=",
+            "url": "self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/c2pa.thumbnail.claim.jpeg"
+          },
+          {
+            "alg": "sha256",
+            "hash": "npwZsEYEfQ5sqExtNnHLmyy9nw4f34paanifkaIxQTQ=",
+            "url": "self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/c2pa.hash.data"
+          }
+        ],
+        "claim_generator": "Truepic_Lens_SDK_libc2pa/2.5.1",
+        "claim_generator_info": [
+          {
+            "name": "Truepic Lens SDK libc2pa C++ Library",
+            "version": "2.5.1"
+          }
+        ],
+        "dc:format": "image/jpeg",
+        "dc:title": "214445f2-22db-4f25-b76a-2a17fe7a7b9d.jpg",
+        "instanceID": "214445f2-22db-4f25-b76a-2a17fe7a7b9d",
+        "signature": "self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.signature"
+      },
+      "assertion_store": {
+        "stds.exif": {
+          "@context": {
+            "EXIF": "http://ns.adobe.com/EXIF/1.0/",
+            "EXIFEX": "http://cipa.jp/EXIF/2.32/",
+            "dc": "http://purl.org/dc/elements/1.1/",
+            "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "tiff": "http://ns.adobe.com/tiff/1.0/",
+            "xmp": "http://ns.adobe.com/xap/1.0/"
+          },
+          "EXIF:GPSAltitude": "123.5",
+          "EXIF:GPSHorizontalAccuracy": "16.4",
+          "EXIF:GPSLatitude": "43.152093900000",
+          "EXIF:GPSLongitude": "-77.580532800000",
+          "EXIF:GPSTimeStamp": "2023-02-12T18:44:26Z"
+        },
+        "stds.exif__1": {
+          "@context": {
+            "EXIF": "http://ns.adobe.com/EXIF/1.0/",
+            "EXIFEX": "http://cipa.jp/EXIF/2.32/",
+            "dc": "http://purl.org/dc/elements/1.1/",
+            "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "tiff": "http://ns.adobe.com/tiff/1.0/",
+            "xmp": "http://ns.adobe.com/xap/1.0/"
+          },
+          "EXIF:Make": "Google",
+          "EXIF:Model": "Pixel 5"
+        },
+        "stds.exif__2": {
+          "@context": {
+            "EXIF": "http://ns.adobe.com/EXIF/1.0/",
+            "EXIFEX": "http://cipa.jp/EXIF/2.32/",
+            "dc": "http://purl.org/dc/elements/1.1/",
+            "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "tiff": "http://ns.adobe.com/tiff/1.0/",
+            "xmp": "http://ns.adobe.com/xap/1.0/"
+          },
+          "EXIF:DateTimeOriginal": "2023-02-12T18:44:26Z"
+        },
+        "com.truepic.libc2pa": {
+          "git_hash": "023bb51",
+          "lib_name": "Truepic C2PA C++ Library",
+          "lib_version": "2.5.1",
+          "target_spec_version": "1.2"
+        },
+        "com.truepic.custom.odometry": {
+          "attitude": [
+            {
+              "azimuth": 0.10802549,
+              "pitch": -1.4895973,
+              "roll": 0.097086444,
+              "timestamp": "2023-02-12T18:44:28Z"
+            }
+          ],
+          "geomagnetism": [
+            {
+              "timestamp": "2023-02-12T18:44:27Z",
+              "x": -0.275,
+              "y": -29.487501,
+              "z": -50.3375
+            }
+          ],
+          "gravity": [
+            {
+              "timestamp": "2023-02-12T18:44:28Z",
+              "x": -0.14755084,
+              "y": 9.767266,
+              "z": 0.9026917
+            }
+          ],
+          "lens": "Back",
+          "pressure": [
+            {
+              "timestamp": "2023-02-12T18:44:28Z",
+              "value": 995.34595
+            }
+          ],
+          "rotation_rate": [
+            {
+              "timestamp": "2023-02-12T18:44:28Z",
+              "x": 0.010384403,
+              "y": -0.019088976,
+              "z": 0.017409148
+            }
+          ],
+          "user_acceleration": [
+            {
+              "timestamp": "2023-02-12T18:44:28Z",
+              "x": -0.07597212,
+              "y": 9.631111,
+              "z": 0.7800602
+            }
+          ]
+        },
+        "c2pa.hash.data": {
+          "alg": "sha256",
+          "exclusions": [
+            {
+              "length": 206316,
+              "start": 0
+            }
+          ],
+          "hash": "Ja7fdEptTdVMF/REiG3qz9wb7P012uTuY/uOKFuxbDU=",
+          "name": "Encoded Image",
+          "pad": "<omitted>"
+        },
+        "c2pa.thumbnail.claim.jpeg": "<omitted> len = 162787"
+      },
+      "signature": {
+        "alg": "es256",
+        "issuer": "Truepic",
+        "time": "2023-02-12T18:44:26+00:00"
+      }
+    }
+  },
+  "validation_status": [
+    {
+      "code": "claimSignature.validated",
+      "url": "self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.signature",
+      "explanation": "claim signature valid"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/com.truepic.libc2pa",
+      "explanation": "hashed uri matched: self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/com.truepic.libc2pa"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/stds.exif",
+      "explanation": "hashed uri matched: self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/stds.exif"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/stds.exif__1",
+      "explanation": "hashed uri matched: self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/stds.exif__1"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/stds.exif__2",
+      "explanation": "hashed uri matched: self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/stds.exif__2"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/com.truepic.custom.odometry",
+      "explanation": "hashed uri matched: self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/com.truepic.custom.odometry"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/c2pa.thumbnail.claim.jpeg",
+      "explanation": "hashed uri matched: self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/c2pa.thumbnail.claim.jpeg"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/c2pa.hash.data",
+      "explanation": "hashed uri matched: self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/c2pa.hash.data"
+    },
+    {
+      "code": "assertion.dataHash.match",
+      "url": "self#jumbf=/c2pa/com.truepic:urn:uuid:37742c5e-8a27-49fa-8302-3f079fcb76b9/c2pa.assertions/c2pa.hash.data",
+      "explanation": "data hash valid"
+    }
+  ]
+}

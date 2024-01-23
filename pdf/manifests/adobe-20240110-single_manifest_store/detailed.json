@@ -1,0 +1,256 @@
+{
+  "active_manifest": "urn:uuid:64c58246-c169-4004-9298-f2cc7a0164f9",
+  "manifests": {
+    "urn:uuid:1ae185fc-88ff-467d-abbf-f7ec96aaaea8": {
+      "claim": {
+        "alg": "sha256",
+        "assertions": [
+          {
+            "hash": "toCkBJlffVR7DPsVKmu+ezmD096cLZDiZNObiZ0uDgo=",
+            "url": "self#jumbf=c2pa.assertions/c2pa.actions"
+          },
+          {
+            "hash": "VLq4FqT2xpEM0P3Q282vUGmuJOICoyVmzX6IL98wOqM=",
+            "url": "self#jumbf=c2pa.assertions/c2pa.hash.data"
+          }
+        ],
+        "claim_generator": "Adobe_Firefly adobe_c2pa/0.5.0 c2pa-rs/0.20.0",
+        "claim_generator_info": null,
+        "dc:format": "image/jpeg",
+        "dc:title": "Generated image",
+        "instanceID": "xmp:iid:5e287da5-1fb0-4087-ba0c-a282abb2e846",
+        "signature": "self#jumbf=c2pa.signature"
+      },
+      "assertion_store": {
+        "c2pa.hash.data": {
+          "alg": "sha256",
+          "exclusions": [
+            {
+              "length": 11382,
+              "start": 20
+            }
+          ],
+          "hash": "ARjqGxbFXzRiFyVAcclPvoPFRXmQS2h0qAt2vyHlG6I=",
+          "name": "jumbf manifest",
+          "pad": "<omitted>"
+        },
+        "c2pa.actions": {
+          "actions": [
+            {
+              "action": "c2pa.created",
+              "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia",
+              "parameters": {
+                "firefly.operation": "text_to_image",
+                "firefly.version": "1.0.5"
+              },
+              "softwareAgent": "Adobe Firefly Pipeline"
+            }
+          ]
+        }
+      },
+      "signature": {
+        "alg": "ps256",
+        "issuer": "Adobe Inc.",
+        "time": "2023-11-15T06:14:59+00:00"
+      }
+    },
+    "urn:uuid:64c58246-c169-4004-9298-f2cc7a0164f9": {
+      "claim": {
+        "alg": "sha256",
+        "assertions": [
+          {
+            "hash": "QqUg8If683ZQ6veXpJ8t1HED4fJx7uonCq6RCNv0vIk=",
+            "url": "self#jumbf=c2pa.assertions/c2pa.ingredient"
+          },
+          {
+            "hash": "rb+ztI5E33QE8eAbp7CNVMPqIy2Sv5KdEUeOYnbURCA=",
+            "url": "self#jumbf=c2pa.assertions/c2pa.ingredient__1"
+          },
+          {
+            "hash": "2s+WREylMmpTANAJ8LQ96LSVGzF/2A1ggWNoRiuBSI8=",
+            "url": "self#jumbf=c2pa.assertions/c2pa.actions"
+          },
+          {
+            "hash": "SpfObJRQOTkCFNBA4DUyzRRoeOMfu5ZnxoJ2L8wA/Hg=",
+            "url": "self#jumbf=c2pa.assertions/c2pa.hash.data"
+          }
+        ],
+        "claim_generator": "Adobe_Express/1.0.0 adobe_c2pa/0.7.11 c2pa-rs/0.28.1",
+        "claim_generator_info": null,
+        "dc:format": "application/pdf",
+        "dc:title": "Generated PDF: Untitled - November 15, 2023 at 11.42.21",
+        "instanceID": "xmp:iid:f2cdd589-204b-43c4-84bb-80775a407a34",
+        "signature": "self#jumbf=c2pa.signature"
+      },
+      "assertion_store": {
+        "c2pa.ingredient__1": {
+          "c2pa_manifest": {
+            "alg": "sha256",
+            "hash": "t3IUomSo69L92xOSfq4DwSAo+h7As2h6lpnsyKslJmU=",
+            "url": "self#jumbf=/c2pa/urn:uuid:6d4b57b0-bd89-4774-a3d1-79960c387235"
+          },
+          "dc:format": "image/jpeg",
+          "dc:title": "Imported Ingredient",
+          "instanceID": "xmp:iid:170dae68-c059-428d-bfa4-5dde83612fd6",
+          "relationship": "componentOf"
+        },
+        "c2pa.actions": {
+          "actions": [
+            {
+              "action": "c2pa.edited",
+              "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia",
+              "softwareAgent": "Adobe Firefly"
+            }
+          ],
+          "metadata": {
+            "dateTime": "2023-11-15T06:16:14.243Z",
+            "reviewRatings": []
+          }
+        },
+        "c2pa.ingredient": {
+          "c2pa_manifest": {
+            "alg": "sha256",
+            "hash": "AlP2OF+B0O4Fg6Ie+/r4l7CaDUJ+Q8Gha/YxdqKEXlQ=",
+            "url": "self#jumbf=/c2pa/urn:uuid:1ae185fc-88ff-467d-abbf-f7ec96aaaea8"
+          },
+          "dc:format": "image/jpeg",
+          "dc:title": "Imported Ingredient",
+          "instanceID": "xmp:iid:a254d220-c94c-4414-a1b8-1eca04bb9e2c",
+          "relationship": "componentOf"
+        },
+        "c2pa.hash.data": {
+          "alg": "sha256",
+          "exclusions": [
+            {
+              "length": 35046,
+              "start": 587472
+            }
+          ],
+          "hash": "fciLfC5HAZKg61YQKKluPgnti9IpTsFpBab6jzhHJiA=",
+          "name": "jumbf manifest",
+          "pad": "<omitted>"
+        }
+      },
+      "signature": {
+        "alg": "ps256",
+        "issuer": "Adobe Inc.",
+        "time": "2023-11-27T17:46:19+00:00"
+      }
+    },
+    "urn:uuid:6d4b57b0-bd89-4774-a3d1-79960c387235": {
+      "claim": {
+        "alg": "sha256",
+        "assertions": [
+          {
+            "hash": "WgahjjpDgI3v3ioxXExHVdEtevoqdH2h+UtVU1mg0nQ=",
+            "url": "self#jumbf=c2pa.assertions/c2pa.actions"
+          },
+          {
+            "hash": "Oj6ivoAnCK3OgKkPb3KISOfvvt8b+bwiYN0g5XFfd6c=",
+            "url": "self#jumbf=c2pa.assertions/c2pa.hash.data"
+          }
+        ],
+        "claim_generator": "Adobe_Firefly adobe_c2pa/0.5.0 c2pa-rs/0.20.0",
+        "claim_generator_info": null,
+        "dc:format": "image/jpeg",
+        "dc:title": "Generated image",
+        "instanceID": "xmp:iid:ff6f6eb7-250e-4da3-ba58-e207876ff88b",
+        "signature": "self#jumbf=c2pa.signature"
+      },
+      "assertion_store": {
+        "c2pa.hash.data": {
+          "alg": "sha256",
+          "exclusions": [
+            {
+              "length": 11382,
+              "start": 20
+            }
+          ],
+          "hash": "u6hRJGjTwHTkbH2FsEiQLQ+HQD8y2Wz/V4jIseal7IU=",
+          "name": "jumbf manifest",
+          "pad": "<omitted>"
+        },
+        "c2pa.actions": {
+          "actions": [
+            {
+              "action": "c2pa.created",
+              "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia",
+              "parameters": {
+                "firefly.operation": "text_to_image",
+                "firefly.version": "1.0.5"
+              },
+              "softwareAgent": "Adobe Firefly Pipeline"
+            }
+          ]
+        }
+      },
+      "signature": {
+        "alg": "ps256",
+        "issuer": "Adobe Inc.",
+        "time": "2023-11-15T06:15:42+00:00"
+      }
+    }
+  },
+  "validation_status": [
+    {
+      "code": "claimSignature.validated",
+      "url": "self#jumbf=/c2pa/urn:uuid:64c58246-c169-4004-9298-f2cc7a0164f9/c2pa.signature",
+      "explanation": "claim signature valid"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=c2pa.assertions/c2pa.ingredient",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.ingredient"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=c2pa.assertions/c2pa.ingredient__1",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.ingredient__1"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=c2pa.assertions/c2pa.actions",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=c2pa.assertions/c2pa.hash.data",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+    },
+    {
+      "code": "assertion.dataHash.match",
+      "url": "self#jumbf=/c2pa/urn:uuid:64c58246-c169-4004-9298-f2cc7a0164f9/c2pa.assertions/c2pa.hash.data",
+      "explanation": "data hash valid"
+    },
+    {
+      "code": "claimSignature.validated",
+      "url": "self#jumbf=/c2pa/urn:uuid:1ae185fc-88ff-467d-abbf-f7ec96aaaea8/c2pa.signature",
+      "explanation": "claim signature valid"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=c2pa.assertions/c2pa.actions",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=c2pa.assertions/c2pa.hash.data",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+    },
+    {
+      "code": "claimSignature.validated",
+      "url": "self#jumbf=/c2pa/urn:uuid:6d4b57b0-bd89-4774-a3d1-79960c387235/c2pa.signature",
+      "explanation": "claim signature valid"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=c2pa.assertions/c2pa.actions",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=c2pa.assertions/c2pa.hash.data",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+    }
+  ]
+}
