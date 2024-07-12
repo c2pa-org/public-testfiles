@@ -2,15 +2,15 @@
 
 This repository contains a collection of test files with which to test C2PA implementations.
 
-This repository is organized by format and date. 
+This repository is organized by format and date.
 
-## Naming convention 
+## Naming convention
 
 For clarity, all files are named with the pattern: `[supplier]-[YYYYMMDD]-[optional_descriptive_string].[extension]`.
 
 For example: `adobe-20220101-man_walking.jpg`.
 
-## Backwards compatibility 
+## Backwards compatibility
 
 All files maintained here should work with any implementation created after the file date.
 
@@ -21,3 +21,4 @@ README files rendered using GitHub pages provide a convenient way to inspect the
 - [Image files](https://c2pa.org/public-testfiles/image/)
 - [PDF files](https://c2pa.org/public-testfiles/pdf/)
 - [Video files](https://c2pa.org/public-testfiles/video/)
+- [Font files](https://c2pa.org/public-testfiles/font/)
