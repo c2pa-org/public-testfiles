@@ -1,0 +1,78 @@
+{
+  "active_manifest": "monotype:urn:uuid:7852e921-921d-4f80-bfa4-fe358883e62e",
+  "manifests": {
+    "monotype:urn:uuid:7852e921-921d-4f80-bfa4-fe358883e62e": {
+      "claim_generator": "mti-c2pa-cloud-claim-generator/0.4.2 c2pa-signing-cli/0.1.0 c2pa-rs/0.32.5",
+      "claim_generator_info": [
+        {
+          "name": "MTI-C2PA-Cloud-Claim-Generator",
+          "version": "0.4.2",
+          "icon": {
+            "format": "image/png",
+            "identifier": "self#jumbf=-c2pa-monotype-urn-uuid-7852e921-921d-4f80-bfa4-fe358883e62e-c2pa.databoxes-c2pa.data.png"
+          }
+        },
+        {
+          "name": "c2pa-signing-cli",
+          "version": "0.1.0"
+        },
+        {
+          "name": "c2pa-rs",
+          "version": "0.32.5"
+        }
+      ],
+      "title": "MonotypeSans.ttf",
+      "format": "font/otf",
+      "instance_id": "xmp:iid:127acaa0-7d20-4e50-86cc-86698895d6b1",
+      "thumbnail": {
+        "format": "application/octet-stream",
+        "identifier": "self#jumbf=c2pa.assertions/c2pa.thumbnail.claim"
+      },
+      "ingredients": [],
+      "assertions": [
+        {
+          "label": "c2pa.font.info",
+          "data": {
+            "style": "Regular",
+            "format": "OpenType",
+            "weight": {
+              "class": "Normal",
+              "value": 400
+            },
+            "version": "1.0.0",
+            "fullName": "Monotype Sans",
+            "designers": [
+              {
+                "url": null,
+                "name": "Steve Matteson",
+                "endDate": null,
+                "foundry": null,
+                "startDate": null,
+                "contribution": null
+              }
+            ],
+            "familyName": "Monotype Sans",
+            "identifier": "Monotype Imaging Inc.:Monotype Sans:2023",
+            "versionUrl": null,
+            "releaseDate": null,
+            "designFoundry": "Monotype Imaging Inc.",
+            "sourceFoundry": null,
+            "copyrightYears": null,
+            "postScriptName": "MonotypeSans",
+            "copyrightHolder": null,
+            "copyrightNotice": "Copyright © 2005-2023 Monotype Imaging Inc. All rights reserved.",
+            "designFoundryUrl": "http://www.monotype.com",
+            "sourceFoundryUrl": "http://www.monotype.com"
+          }
+        }
+      ],
+      "signature_info": {
+        "alg": "Es384",
+        "issuer": "Monotype Imaging Inc.",
+        "cert_serial_number": "6744114154793380969810550776591982746",
+        "time": "2024-07-12T19:43:32+00:00"
+      },
+      "label": "monotype:urn:uuid:7852e921-921d-4f80-bfa4-fe358883e62e"
+    }
+  }
+}

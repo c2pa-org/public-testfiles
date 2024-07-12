@@ -1,0 +1,270 @@
+{
+  "active_manifest": "monotype:urn:uuid:7852e921-921d-4f80-bfa4-fe358883e62e",
+  "manifests": {
+    "monotype:urn:uuid:7852e921-921d-4f80-bfa4-fe358883e62e": {
+      "claim": {
+        "dc:title": "MonotypeSans.ttf",
+        "dc:format": "font/otf",
+        "instanceID": "xmp:iid:127acaa0-7d20-4e50-86cc-86698895d6b1",
+        "claim_generator": "mti-c2pa-cloud-claim-generator/0.4.2 c2pa-signing-cli/0.1.0 c2pa-rs/0.32.5",
+        "claim_generator_info": [
+          {
+            "name": "MTI-C2PA-Cloud-Claim-Generator",
+            "version": "0.4.2",
+            "icon": {
+              "url": "self#jumbf=/c2pa/monotype:urn:uuid:7852e921-921d-4f80-bfa4-fe358883e62e/c2pa.databoxes/c2pa.data",
+              "alg": "sha256",
+              "hash": "R7A24629IsrRB90sp+1mZVZKpm4RefCE0hHK/rwutRg="
+            }
+          },
+          {
+            "name": "c2pa-signing-cli",
+            "version": "0.1.0"
+          },
+          {
+            "name": "c2pa-rs",
+            "version": "0.32.5"
+          }
+        ],
+        "signature": "self#jumbf=c2pa.signature",
+        "assertions": [
+          {
+            "url": "self#jumbf=c2pa.assertions/c2pa.thumbnail.claim",
+            "hash": "VbBB6P/quCNZ/ozFk/Z3g4LQbdMHTAYtq94fd8U9QW8="
+          },
+          {
+            "url": "self#jumbf=c2pa.assertions/c2pa.font.info",
+            "hash": "O1ds4DBl9RhdEJo/EqjYP1py8o01CWn3OspcPaD3a60="
+          },
+          {
+            "url": "self#jumbf=c2pa.assertions/c2pa.hash.boxes",
+            "hash": "I4cybzv3FcXqjz3VWwkqJr4nd0T3ASr5GOeAzelXT9Y="
+          }
+        ],
+        "alg": "sha256"
+      },
+      "assertion_store": {
+        "c2pa.thumbnail.claim": "<omitted> len = 10165",
+        "c2pa.font.info": {
+          "style": "Regular",
+          "format": "OpenType",
+          "weight": {
+            "class": "Normal",
+            "value": 400
+          },
+          "version": "1.0.0",
+          "fullName": "Monotype Sans",
+          "designers": [
+            {
+              "url": null,
+              "name": "Steve Matteson",
+              "endDate": null,
+              "foundry": null,
+              "startDate": null,
+              "contribution": null
+            }
+          ],
+          "familyName": "Monotype Sans",
+          "identifier": "Monotype Imaging Inc.:Monotype Sans:2023",
+          "versionUrl": null,
+          "releaseDate": null,
+          "designFoundry": "Monotype Imaging Inc.",
+          "sourceFoundry": null,
+          "copyrightYears": null,
+          "postScriptName": "MonotypeSans",
+          "copyrightHolder": null,
+          "copyrightNotice": "Copyright © 2005-2023 Monotype Imaging Inc. All rights reserved.",
+          "designFoundryUrl": "http://www.monotype.com",
+          "sourceFoundryUrl": "http://www.monotype.com"
+        },
+        "c2pa.hash.boxes": {
+          "boxes": [
+            {
+              "names": [
+                "hea0"
+              ],
+              "alg": "sha256",
+              "hash": "YZLmuohJ3bRGwdnXBJiMU3/3/yEljeQBamLvOeEoZDU=",
+              "pad": "<omitted>"
+            },
+            {
+              "names": [
+                "hea2"
+              ],
+              "alg": "sha256",
+              "hash": "L26/Lfempk13vtAirY03ddHxguvJeANTVQUmm1td01c=",
+              "pad": "<omitted>"
+            },
+            {
+              "names": [
+                "hhea"
+              ],
+              "alg": "sha256",
+              "hash": "WJI1AGLIB0yCglP3ehR0nzbXZb7MBu0Pmv6746KldfQ=",
+              "pad": "<omitted>"
+            },
+            {
+              "names": [
+                "maxp"
+              ],
+              "alg": "sha256",
+              "hash": "SumMjeXrdaEBaOG7ZKa7ZQb3XHKfjr7RLedauCStwqs=",
+              "pad": "<omitted>"
+            },
+            {
+              "names": [
+                "OS/2"
+              ],
+              "alg": "sha256",
+              "hash": "U80ZUnbAINN5UuNhoGKAXY0HBh9NIE1A+FsFr2uFrBQ=",
+              "pad": "<omitted>"
+            },
+            {
+              "names": [
+                "hmtx"
+              ],
+              "alg": "sha256",
+              "hash": "WanWilWAao/e5U4NfJSCpZldGifB6zwRNnTNrh3xqjA=",
+              "pad": "<omitted>"
+            },
+            {
+              "names": [
+                "cmap"
+              ],
+              "alg": "sha256",
+              "hash": "EXXuhaKcevkrLShPHSpQVc0GG9Ln0SEU4qUEbebIg+Q=",
+              "pad": "<omitted>"
+            },
+            {
+              "names": [
+                "fpgm"
+              ],
+              "alg": "sha256",
+              "hash": "K4ETRfUFfFCc52a1J44axa78IHi4rQ9NEGhkhGknSOc=",
+              "pad": "<omitted>"
+            },
+            {
+              "names": [
+                "prep"
+              ],
+              "alg": "sha256",
+              "hash": "Y9GkJ9hmj/R0xvVTBKLbJnwRWh8aPcxYxl+M/20Gc9Y=",
+              "pad": "<omitted>"
+            },
+            {
+              "names": [
+                "cvt "
+              ],
+              "alg": "sha256",
+              "hash": "Mt648EoxVXX72RTmmYZDImjYmxnL4ycg3xN/WFjTD7s=",
+              "pad": "<omitted>"
+            },
+            {
+              "names": [
+                "loca"
+              ],
+              "alg": "sha256",
+              "hash": "x898qZcEIGGk03oQ1J2ShJJBZ5A1WC7t200VAMWK2tk=",
+              "pad": "<omitted>"
+            },
+            {
+              "names": [
+                "glyf"
+              ],
+              "alg": "sha256",
+              "hash": "MtP6jq0TPrRzSz/0lE8E17nanhF6cZQZsxQEmwS1Rmg=",
+              "pad": "<omitted>"
+            },
+            {
+              "names": [
+                "kern"
+              ],
+              "alg": "sha256",
+              "hash": "KHH5HDPGyi/gKJrObpRCuFWE0RM3dYNWwax7aIFNycE=",
+              "pad": "<omitted>"
+            },
+            {
+              "names": [
+                "name"
+              ],
+              "alg": "sha256",
+              "hash": "//1CzgNedvIQ7cY2ilAFZIDrxkTwaSNgC4HSGysqTQY=",
+              "pad": "<omitted>"
+            },
+            {
+              "names": [
+                "post"
+              ],
+              "alg": "sha256",
+              "hash": "SsA67bT1gGD4jOWqyiY+3quLYQbG2w9ydIu0kmXFy0E=",
+              "pad": "<omitted>"
+            },
+            {
+              "names": [
+                "gasp"
+              ],
+              "alg": "sha256",
+              "hash": "TKcx+GrVBqwOMgKD3JRhkmNG3jxNkdU56n9mINOCaUA=",
+              "pad": "<omitted>"
+            },
+            {
+              "names": [
+                "GPOS"
+              ],
+              "alg": "sha256",
+              "hash": "sPrxZD1m8bSvNJgLoij6bGiH64nh7o8Q9fDcDw2HNrg=",
+              "pad": "<omitted>"
+            },
+            {
+              "names": [
+                "DSIG"
+              ],
+              "alg": "sha256",
+              "hash": "y7xIdQ3ruFNQk7Per4isf0z/h0JVdqWN4rrHVKzbRhY=",
+              "pad": "<omitted>"
+            },
+            {
+              "names": [
+                "C2PA"
+              ],
+              "hash": "AA==",
+              "pad": "<omitted>"
+            }
+          ]
+        }
+      },
+      "signature": {
+        "alg": "es384",
+        "issuer": "Monotype Imaging Inc.",
+        "time": "2024-07-12T19:43:32+00:00"
+      }
+    }
+  },
+  "validation_status": [
+    {
+      "code": "claimSignature.validated",
+      "url": "self#jumbf=/c2pa/monotype:urn:uuid:7852e921-921d-4f80-bfa4-fe358883e62e/c2pa.signature",
+      "explanation": "claim signature valid"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=c2pa.assertions/c2pa.thumbnail.claim",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.thumbnail.claim"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=c2pa.assertions/c2pa.font.info",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.font.info"
+    },
+    {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=c2pa.assertions/c2pa.hash.boxes",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.boxes"
+    },
+    {
+      "code": "assertion.boxesHash.match",
+      "url": "self#jumbf=/c2pa/monotype:urn:uuid:7852e921-921d-4f80-bfa4-fe358883e62e/c2pa.assertions/c2pa.hash.boxes",
+      "explanation": "data hash valid"
+    }
+  ]
+}
