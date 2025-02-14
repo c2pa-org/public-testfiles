@@ -1,8 +1,8 @@
 # C2PA Public test files
 
-This repository contains a collection of test files with which to test C2PA implementations.
+This repository contains a collection of test files organized by format and date that provide examples of C2PA implementations.
 
-This repository is organized by format and date.
+NOTE: This page is best viewed as [rendered by GitHub pages](https://c2pa.org/public-testfiles/), not directly in GitHub.
 
 ## Naming convention
 
