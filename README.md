@@ -2,7 +2,7 @@
 
 This repository contains a collection of test files organized by format and date that provide examples of C2PA implementations.
 
-NOTE: This page is best viewed as [rendered by GitHub pages](https://c2pa.org/public-testfiles/), not directly in GitHub.
+NOTE: This page is best viewed as [rendered by GitHub pages](https://spec.c2pa.org/public-testfiles//), not directly in GitHub.
 
 ## Naming convention
 
@@ -18,10 +18,10 @@ All files maintained here should work with any implementation created after the 
 
 README files rendered using GitHub pages provide a convenient way to inspect the asset files using the [Verify](https://contentcredentials.org/verify) online tool, with corresponding manifest reports created with [C2PA Tool](https://opensource.contentauthenticity.org/docs/c2patool/):
 
-- [Image files](https://c2pa.org/public-testfiles/image/)
-- [PDF files](https://c2pa.org/public-testfiles/pdf/)
-- [Video files](https://c2pa.org/public-testfiles/video/)
-- [Font files](https://c2pa.org/public-testfiles/font/)
+- [Image files](https://spec.c2pa.org/public-testfiles/image/)
+- [PDF files](https://spec.c2pa.org/public-testfiles/pdf/)
+- [Video files](https://spec.c2pa.org/public-testfiles/video/)
+- [Font files](https://spec.c2pa.org/public-testfiles/font/)
 
 ## License
 
