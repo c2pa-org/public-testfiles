@@ -8,11 +8,11 @@ NOTE: This page is best viewed as [rendered by GitHub pages](https://spec.c2pa.o
 
 For clarity, all files are named with the pattern: `[supplier]-[YYYYMMDD]-[optional_descriptive_string].[extension]`.
 
-For example: `adobe-20220101-man_walking.jpg`.
+For example: `adobe-20250101-man_walking.jpg`.
 
 ## Backwards compatibility
 
-All files maintained here should work with any implementation created after the file date.
+All files housed here should work with any implementation created after the file date if the files are compatible with the 2.2 specification or newer.
 
 ## Inspecting files
 
