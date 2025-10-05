@@ -4,11 +4,15 @@ This repository contains a collection of test files organized by format and date
 
 NOTE: This page is best viewed as [rendered by GitHub pages](https://spec.c2pa.org/public-testfiles//), not directly in GitHub.
 
-## Naming convention
+## Purpose of this repository
+
+## Naming conventions
 
 For clarity, all files are named with the pattern: `[supplier]-[YYYYMMDD]-[optional_descriptive_string].[extension]`.
 
-For example: `adobe-20250101-man_walking.jpg`.
+For example: `acme-20250101-man_walking.jpg`.
+
+In some cases, additional context is needed to fully describe the test files. In those cases, please consult the README in the directory where the test files are located.
 
 ## Backwards compatibility
 

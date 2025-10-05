@@ -1,0 +1,113 @@
+{
+  "active_manifest": "urn:uuid:64c58246-c169-4004-9298-f2cc7a0164f9",
+  "manifests": {
+    "urn:uuid:64c58246-c169-4004-9298-f2cc7a0164f9": {
+      "claim_generator": "Adobe_Express/1.0.0 adobe_c2pa/0.7.11 c2pa-rs/0.28.1",
+      "title": "Generated PDF: Untitled - November 15, 2023 at 11.42.21",
+      "format": "application/pdf",
+      "instance_id": "xmp:iid:f2cdd589-204b-43c4-84bb-80775a407a34",
+      "ingredients": [
+        {
+          "title": "Imported Ingredient",
+          "format": "image/jpeg",
+          "instance_id": "xmp:iid:a254d220-c94c-4414-a1b8-1eca04bb9e2c",
+          "relationship": "componentOf",
+          "active_manifest": "urn:uuid:1ae185fc-88ff-467d-abbf-f7ec96aaaea8"
+        },
+        {
+          "title": "Imported Ingredient",
+          "format": "image/jpeg",
+          "instance_id": "xmp:iid:170dae68-c059-428d-bfa4-5dde83612fd6",
+          "relationship": "componentOf",
+          "active_manifest": "urn:uuid:6d4b57b0-bd89-4774-a3d1-79960c387235"
+        }
+      ],
+      "assertions": [
+        {
+          "label": "c2pa.actions",
+          "data": {
+            "actions": [
+              {
+                "action": "c2pa.edited",
+                "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia",
+                "softwareAgent": "Adobe Firefly"
+              }
+            ],
+            "metadata": {
+              "dateTime": "2023-11-15T06:16:14.243Z",
+              "reviewRatings": []
+            }
+          }
+        }
+      ],
+      "signature_info": {
+        "issuer": "Adobe Inc.",
+        "cert_serial_number": "36361882748968207910486691233431411410",
+        "time": "2023-11-27T17:46:19+00:00"
+      },
+      "label": "urn:uuid:64c58246-c169-4004-9298-f2cc7a0164f9"
+    },
+    "urn:uuid:6d4b57b0-bd89-4774-a3d1-79960c387235": {
+      "claim_generator": "Adobe_Firefly adobe_c2pa/0.5.0 c2pa-rs/0.20.0",
+      "title": "Generated image",
+      "format": "image/jpeg",
+      "instance_id": "xmp:iid:ff6f6eb7-250e-4da3-ba58-e207876ff88b",
+      "ingredients": [],
+      "assertions": [
+        {
+          "label": "c2pa.actions",
+          "data": {
+            "actions": [
+              {
+                "action": "c2pa.created",
+                "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia",
+                "parameters": {
+                  "firefly.operation": "text_to_image",
+                  "firefly.version": "1.0.5"
+                },
+                "softwareAgent": "Adobe Firefly Pipeline"
+              }
+            ]
+          }
+        }
+      ],
+      "signature_info": {
+        "issuer": "Adobe Inc.",
+        "cert_serial_number": "779093970307782209133434876006471558",
+        "time": "2023-11-15T06:15:42+00:00"
+      },
+      "label": "urn:uuid:6d4b57b0-bd89-4774-a3d1-79960c387235"
+    },
+    "urn:uuid:1ae185fc-88ff-467d-abbf-f7ec96aaaea8": {
+      "claim_generator": "Adobe_Firefly adobe_c2pa/0.5.0 c2pa-rs/0.20.0",
+      "title": "Generated image",
+      "format": "image/jpeg",
+      "instance_id": "xmp:iid:5e287da5-1fb0-4087-ba0c-a282abb2e846",
+      "ingredients": [],
+      "assertions": [
+        {
+          "label": "c2pa.actions",
+          "data": {
+            "actions": [
+              {
+                "action": "c2pa.created",
+                "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia",
+                "parameters": {
+                  "firefly.operation": "text_to_image",
+                  "firefly.version": "1.0.5"
+                },
+                "softwareAgent": "Adobe Firefly Pipeline"
+              }
+            ]
+          }
+        }
+      ],
+      "signature_info": {
+        "issuer": "Adobe Inc.",
+        "cert_serial_number": "779093970307782209133434876006471558",
+        "time": "2023-11-15T06:14:59+00:00"
+      },
+      "label": "urn:uuid:1ae185fc-88ff-467d-abbf-f7ec96aaaea8"
+    }
+  }
+}

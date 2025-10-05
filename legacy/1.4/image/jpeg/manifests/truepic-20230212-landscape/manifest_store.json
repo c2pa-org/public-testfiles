@@ -1,0 +1,145 @@
+{
+  "active_manifest": "com.truepic:urn:uuid:03cf7b6b-11bc-4b2e-b760-b515a4e1141c",
+  "manifests": {
+    "com.truepic:urn:uuid:03cf7b6b-11bc-4b2e-b760-b515a4e1141c": {
+      "claim_generator": "Truepic_Lens_SDK_libc2pa/2.5.1",
+      "claim_generator_info": [
+        {
+          "name": "Truepic Lens SDK libc2pa C++ Library",
+          "version": "2.5.1"
+        }
+      ],
+      "title": "8d04317e-5124-4783-b228-1cd74635d5ce.jpg",
+      "format": "image/jpeg",
+      "instance_id": "8d04317e-5124-4783-b228-1cd74635d5ce",
+      "thumbnail": {
+        "format": "image/jpeg",
+        "identifier": "com.truepic-urn-uuid-03cf7b6b-11bc-4b2e-b760-b515a4e1141c.jpg"
+      },
+      "ingredients": [],
+      "assertions": [
+        {
+          "label": "com.truepic.libc2pa",
+          "data": {
+            "git_hash": "023bb51",
+            "lib_name": "Truepic C2PA C++ Library",
+            "lib_version": "2.5.1",
+            "target_spec_version": "1.2"
+          },
+          "kind": "Json"
+        },
+        {
+          "label": "stds.exif",
+          "data": {
+            "@context": {
+              "EXIF": "http://ns.adobe.com/EXIF/1.0/",
+              "EXIFEX": "http://cipa.jp/EXIF/2.32/",
+              "dc": "http://purl.org/dc/elements/1.1/",
+              "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+              "tiff": "http://ns.adobe.com/tiff/1.0/",
+              "xmp": "http://ns.adobe.com/xap/1.0/"
+            },
+            "EXIF:GPSAltitude": "204.3",
+            "EXIF:GPSHorizontalAccuracy": "11.5",
+            "EXIF:GPSLatitude": "42.959801300000",
+            "EXIF:GPSLongitude": "-77.466807500000",
+            "EXIF:GPSTimeStamp": "2023-02-12T17:40:06Z"
+          },
+          "kind": "Json"
+        },
+        {
+          "label": "stds.exif",
+          "data": {
+            "@context": {
+              "EXIF": "http://ns.adobe.com/EXIF/1.0/",
+              "EXIFEX": "http://cipa.jp/EXIF/2.32/",
+              "dc": "http://purl.org/dc/elements/1.1/",
+              "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+              "tiff": "http://ns.adobe.com/tiff/1.0/",
+              "xmp": "http://ns.adobe.com/xap/1.0/"
+            },
+            "EXIF:Make": "Google",
+            "EXIF:Model": "Pixel 5"
+          },
+          "instance": 1,
+          "kind": "Json"
+        },
+        {
+          "label": "stds.exif",
+          "data": {
+            "@context": {
+              "EXIF": "http://ns.adobe.com/EXIF/1.0/",
+              "EXIFEX": "http://cipa.jp/EXIF/2.32/",
+              "dc": "http://purl.org/dc/elements/1.1/",
+              "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+              "tiff": "http://ns.adobe.com/tiff/1.0/",
+              "xmp": "http://ns.adobe.com/xap/1.0/"
+            },
+            "EXIF:DateTimeOriginal": "2023-02-12T17:40:07Z"
+          },
+          "instance": 2,
+          "kind": "Json"
+        },
+        {
+          "label": "com.truepic.custom.odometry",
+          "data": {
+            "attitude": [
+              {
+                "azimuth": 2.3806627,
+                "pitch": -1.2986839,
+                "roll": -3.0647686,
+                "timestamp": "2023-02-12T17:40:09Z"
+              }
+            ],
+            "geomagnetism": [
+              {
+                "timestamp": "2023-02-12T17:40:09Z",
+                "x": 25.025,
+                "y": -29.125,
+                "z": -15.875
+              }
+            ],
+            "gravity": [
+              {
+                "timestamp": "2023-02-12T17:40:09Z",
+                "x": 0.05878031,
+                "y": 9.491007,
+                "z": -2.4806159
+              }
+            ],
+            "lens": "Back",
+            "pressure": [
+              {
+                "timestamp": "2023-02-12T17:40:09Z",
+                "value": 986.0007
+              }
+            ],
+            "rotation_rate": [
+              {
+                "timestamp": "2023-02-12T17:40:09Z",
+                "x": -0.018325418,
+                "y": -0.00671932,
+                "z": 0.02107423
+              }
+            ],
+            "user_acceleration": [
+              {
+                "timestamp": "2023-02-12T17:40:09Z",
+                "x": 0.20219351,
+                "y": 9.44148,
+                "z": -2.6267211
+              }
+            ]
+          },
+          "kind": "Json"
+        }
+      ],
+      "signature_info": {
+        "issuer": "Truepic",
+        "cert_serial_number": "450558669628270445755891482700117363507561002919",
+        "time": "2023-02-12T17:40:07+00:00"
+      },
+      "label": "com.truepic:urn:uuid:03cf7b6b-11bc-4b2e-b760-b515a4e1141c"
+    }
+  }
+}
