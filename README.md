@@ -18,7 +18,7 @@ In some cases, additional context is needed to fully describe the test files. In
 
 ## Backwards compatibility
 
-All files housed here should work with any implementation created after the file date if the files are compatible with the 2.2 specification or newer.
+All "good" test files are believed to be produced in accordance with requirements in the indicated version of the C2PA specification, and also to be compatible with validators compliant with that version. In most cases, validators compliant with later versions of the specification should also accept these files; any exceptions should be described in the associated README.
 
 ## Inspecting files
 
