@@ -14,7 +14,7 @@ For example: `acme-20250101-man_walking.jpg`.
 
 In some cases, additional context is needed to fully describe the test files. In those cases, please consult the README in the directory where the test files are located.
 
-## Backwards compatibility
+## Compatibility
 
 All "good" test files are believed to be produced in accordance with requirements in the indicated version of the C2PA specification, and also to be compatible with validators compliant with that version. In most cases, validators compliant with later versions of the specification should also accept these files; any exceptions should be described in the associated README.
 
