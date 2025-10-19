@@ -52,18 +52,6 @@ NOTE: Content Credentials for the assets from Adobe were added using C2PA Tool's
 | [truepic-20230212-landscape](jpeg/truepic-20230212-landscape.jpg){: target="_blank"} | [Example of Camera capture details, e.g. Exif metadata](https://contentcredentials.org/verify?source=https://spec.c2pa.org/public-testfiles/image/jpeg/truepic-20230212-landscape.jpg){: target="_blank"} | [Manifest](jpeg/manifests/truepic-20230212-landscape/manifest_store.json){: target="_blank"}  | [Detailed manifest](jpeg/manifests/truepic-20230212-landscape/detailed.json){: target="_blank"}  |
 | [truepic-20230212-library](jpeg/truepic-20230212-library.jpg){: target="_blank"} | [Example of Camera capture details, e.g. Exif metadata](https://contentcredentials.org/verify?source=https://spec.c2pa.org/public-testfiles/image/jpeg/truepic-20230212-library.jpg){: target="_blank"} | [Manifest](jpeg/manifests/truepic-20230212-library/manifest_store.json){: target="_blank"}  | [Detailed manifest](jpeg/manifests/truepic-20230212-library/detailed.json){: target="_blank"}  |
 
-### How to regenerate the manifest store files
 
-To generate the manifest store files:
-
-1. Install C2PA Tool locally and ensure it's on your path.
-1. Clone this repo locally.
-1. Run the `extract-manifests.sh` script as follows:
-```
-cd public-testfiles
-./extract-manifests.sh
-```
-
-The script runs C2PA Tool on all the files in the `video/mp4`, `image/jpeg`, and `pdf` directories with the `-d` option to generate a detailed and standard manifest reports, saving them to sub-directories with the same base name as each asset within the `manifests` directory.  Each sub-directory will also include extracted thumbnails.
 
 
