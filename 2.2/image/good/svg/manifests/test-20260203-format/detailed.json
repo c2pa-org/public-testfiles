@@ -1,0 +1,116 @@
+{
+  "active_manifest": "urn:c2pa:2c3d061e-577b-4e6a-97cd-e957f053bae7",
+  "manifests": {
+    "urn:c2pa:2c3d061e-577b-4e6a-97cd-e957f053bae7": {
+      "claim": {
+        "instanceID": "xmp:iid:69d29a58-746d-49b6-a7f0-d7f88d881188",
+        "claim_generator_info": {
+          "name": "c2pa-rs",
+          "version": "0.75.10",
+          "org.contentauth.c2pa_rs": "0.75.10"
+        },
+        "signature": "self#jumbf=/c2pa/urn:c2pa:2c3d061e-577b-4e6a-97cd-e957f053bae7/c2pa.signature",
+        "created_assertions": [
+          {
+            "url": "self#jumbf=c2pa.assertions/c2pa.hash.data",
+            "hash": "tZVv8OiSHXdzjwgQ+JDlYazZ94ZY2644wmILXOzraBM="
+          }
+        ],
+        "gathered_assertions": [
+          {
+            "url": "self#jumbf=c2pa.assertions/stds.schema-org.CreativeWork",
+            "hash": "4J+WHjiGNCYc06VHQX66n6nPuYLETGRDV+EV5ytSYQw="
+          },
+          {
+            "url": "self#jumbf=c2pa.assertions/c2pa.actions.v2",
+            "hash": "OGT16+zva+zHwF1WC7yY6KKa0xyOrUHI0Bs72QIv3zc="
+          }
+        ],
+        "dc:title": "Format Test Image",
+        "alg": "sha256",
+        "claim_version": 2
+      },
+      "assertion_store": {
+        "stds.schema-org.CreativeWork": {
+          "@context": "http://schema.org/",
+          "@type": "CreativeWork",
+          "author": [
+            {
+              "@type": "Organization",
+              "name": "C2PA Test"
+            }
+          ]
+        },
+        "c2pa.actions.v2": {
+          "actions": [
+            {
+              "action": "c2pa.created"
+            }
+          ]
+        },
+        "c2pa.hash.data": {
+          "exclusions": [
+            {
+              "start": 189,
+              "length": 17788
+            }
+          ],
+          "name": "jumbf manifest",
+          "alg": "sha256",
+          "hash": "xrY6x/TemY2M8ARC60YigiiDP9rbyPtr6t9JokPxJ5s=",
+          "pad": "AAAAAAAAAAAA"
+        }
+      },
+      "signature": {
+        "alg": "es256",
+        "issuer": "Test Organization",
+        "common_name": "C2PA Ed25519 Signer"
+      }
+    }
+  },
+  "validation_results": {
+    "activeManifest": {
+      "success": [
+        {
+          "code": "claimSignature.insideValidity",
+          "url": "self#jumbf=/c2pa/urn:c2pa:2c3d061e-577b-4e6a-97cd-e957f053bae7/c2pa.signature",
+          "explanation": "claim signature valid"
+        },
+        {
+          "code": "claimSignature.validated",
+          "url": "self#jumbf=/c2pa/urn:c2pa:2c3d061e-577b-4e6a-97cd-e957f053bae7/c2pa.signature",
+          "explanation": "claim signature valid"
+        },
+        {
+          "code": "assertion.hashedURI.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:2c3d061e-577b-4e6a-97cd-e957f053bae7/c2pa.assertions/c2pa.hash.data",
+          "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+        },
+        {
+          "code": "assertion.hashedURI.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:2c3d061e-577b-4e6a-97cd-e957f053bae7/c2pa.assertions/stds.schema-org.CreativeWork",
+          "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/stds.schema-org.CreativeWork"
+        },
+        {
+          "code": "assertion.hashedURI.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:2c3d061e-577b-4e6a-97cd-e957f053bae7/c2pa.assertions/c2pa.actions.v2",
+          "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+        },
+        {
+          "code": "assertion.dataHash.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:2c3d061e-577b-4e6a-97cd-e957f053bae7/c2pa.assertions/c2pa.hash.data",
+          "explanation": "data hash valid"
+        }
+      ],
+      "informational": [],
+      "failure": [
+        {
+          "code": "signingCredential.untrusted",
+          "url": "self#jumbf=/c2pa/urn:c2pa:2c3d061e-577b-4e6a-97cd-e957f053bae7/c2pa.signature",
+          "explanation": "signing certificate untrusted"
+        }
+      ]
+    }
+  },
+  "validation_state": "Valid"
+}
