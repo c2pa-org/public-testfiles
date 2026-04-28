@@ -897,7 +897,7 @@
     "manipulation": "Tampered with label of ingredient manifest box (changed urn to xrn) to cause ingredient claim signature missing failure."
   },
   {
-    "file": "2.2/image/good/jpeg/b-bad-1.jpg",
+    "file": "2.2/image/bad/jpeg/b-bad-1.jpg",
     "description": "An invalid C2PA asset containing 3 manifests in its history signed by Google Photos. It shows captured media, AI editorial transformations, non-AI editorial transformations. This file is invalid because tampered with label of actions assertion in ingredient manifest (changed c2pa to x2pa) to cause assertion missing failure in history.",
     "activeManifestSigner": "CN=Google Photos,OU=Google Photos Android,O=Google LLC,C=US",
     "conformant": true,
@@ -949,7 +949,7 @@
     "manipulation": "Corrupted value in actions assertion of ingredient manifest (changed digitalCapture to dummyCapture12) at offset 8078 to cause assertion hash mismatch failure in history."
   },
   {
-    "file": "2.2/image/good/jpeg/b-bad-2.jpg",
+    "file": "2.2/image/bad/jpeg/b-bad-2.jpg",
     "description": "An invalid C2PA asset containing 3 manifests in its history signed by Google Photos. It shows captured media, AI editorial transformations, non-AI editorial transformations. This file is invalid because corrupted value in actions assertion of ingredient manifest (changed computationalcapture to dummycapturecomp2026) at offset 9925 to cause assertion hash mismatch failure in history.",
     "activeManifestSigner": "CN=Google Photos,OU=Google Photos Android,O=Google LLC,C=US",
     "conformant": true,
