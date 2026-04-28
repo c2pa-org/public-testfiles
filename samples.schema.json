@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "C2PA Public Testfiles Samples Description Schema",
+  "description": "Schema for describing C2PA samples in the public testfiles repository.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "file": {
+        "type": "string",
+        "description": "Relative path to the sample file from the repository root."
+      },
+      "contributor": {
+        "type": "string",
+        "description": "The organization or individual contributing the sample."
+      },
+      "description": {
+        "type": "string",
+        "description": "A human-friendly summary of the file and its manifest structure."
+      },
+      "activeManifestSigner": {
+        "type": "string",
+        "description": "The signing certificate subject DN for the active manifest."
+      },
+      "conformant": {
+        "type": "boolean",
+        "description": "Indicates if the product that generated the sample is conformant."
+      },
+      "signals": {
+        "type": "array",
+        "description": "Array of signals for each manifest in the chain, in order of appearance.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "localInceptions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Inception signals for this manifest."
+            },
+            "localTransformations": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Transformation signals for this manifest."
+            }
+          },
+          "required": [
+            "localInceptions",
+            "localTransformations"
+          ]
+        }
+      },
+      "manipulated": {
+        "type": "boolean",
+        "description": "Indicates if the file has been deliberately manipulated for testing."
+      },
+      "manipulation": {
+        "type": "string",
+        "description": "Explanation of the manipulation, if manipulated is true."
+      }
+    },
+    "required": [
+      "file",
+      "contributor",
+      "description",
+      "activeManifestSigner",
+      "conformant",
+      "signals",
+      "manipulated",
+      "manipulation"
+    ]
+  }
+}

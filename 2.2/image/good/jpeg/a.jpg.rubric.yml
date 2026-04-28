@@ -1,0 +1,28 @@
+rubric_metadata:
+  name: Rubric for good a.jpg
+  version: 1.0.0
+  issuer: sherifhanna
+  date: "2026-04-25"
+expressions:
+  _validationResults: "(manifests[0].validationResults || { failure: [] })"
+
+---
+- id: test:a-good:all_manifests_no_failures
+  description: Check if all manifests in the chain have zero failures
+  expression: |
+    length(manifests[?validationResults.failure != null && length(validationResults.failure) > 0]) == 0
+  reportText:
+    'true':
+      en: "All manifests in the chain have zero failures as expected"
+    'false':
+      en: "Found validation failures in some manifests in the chain"
+
+- id: test:a-good:expected_successes
+  description: Check if all expected successes are present
+  expression: |
+    length(_validationResults().success[?contains(["timeStamp.validated", "timeStamp.trusted", "signingCredential.trusted", "claimSignature.insideValidity", "claimSignature.validated", "assertion.hashedURI.match"], code)]) >= 6
+  reportText:
+    'true':
+      en: "All expected successes are present"
+    'false':
+      en: "Missing some expected successes"
