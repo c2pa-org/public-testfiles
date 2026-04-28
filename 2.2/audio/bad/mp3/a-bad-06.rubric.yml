@@ -1,0 +1,18 @@
+rubric_metadata:
+  name: Rubric for a-bad-06.mp3
+  version: 1.0.0
+  issuer: "Google LLC"
+  date: "2026-04-25"
+expressions:
+  _validationResults: "(manifests[0].validationResults || { failure: [] })"
+
+---
+- id: test:a-bad-06:expected_failure
+  description: Check if a-bad-06.mp3 produces claim signature mismatch failure
+  expression: |
+    length(_validationResults().failure[?code == "claimSignature.mismatch"]) > 0
+  reportText:
+    'true':
+      en: "a-bad-06.mp3 correctly failed with claim signature mismatch"
+    'false':
+      en: "Missing expected claim signature mismatch failure"

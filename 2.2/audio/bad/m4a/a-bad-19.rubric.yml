@@ -1,7 +1,7 @@
 rubric_metadata:
   name: Rubric for a-bad-019.m4a
   version: 1.0.0
-  issuer: sherifhanna
+  issuer: "Google LLC"
   date: "2026-04-25"
 expressions:
   _validationResults: "(manifests[0].validationResults || { informational: [] })"

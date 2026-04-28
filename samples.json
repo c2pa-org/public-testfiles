@@ -1,7 +1,7 @@
 [
   {
     "file": "2.2/audio/good/mp3/a.mp3",
-    "description": "A valid C2PA asset containing a single manifest signed by Google Media Processing Services. It shows fully AI-generated media, AI editorial transformations.",
+    "description": "A valid C2PA asset containing a single manifest signed by Google Media Processing Services. It indicates fully AI-generated media and AI editorial transformations.",
     "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 60032,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -20,7 +20,7 @@
   },
   {
     "file": "2.2/image/good/jpeg/a.jpg",
-    "description": "A valid C2PA asset containing 4 manifests in its history signed by Google Media Processing Services. It shows fully AI-generated media, AI editorial transformations, non-editorial transformations.",
+    "description": "A valid C2PA asset with a history of 4 manifests, all signed by Google Media Processing Services. It records fully AI-generated media with subsequent AI editorial and non-editorial transformations.",
     "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -59,7 +59,7 @@
   },
   {
     "file": "2.2/image/good/jpeg/b.jpg",
-    "description": "A valid C2PA asset containing 3 manifests in its history signed by Google Photos. It shows captured media, AI editorial transformations, non-AI editorial transformations.",
+    "description": "A valid C2PA asset containing 3 manifests in its history, with the active one signed by Google Photos. It shows captured media that has been modified by both AI and non-AI editorial transformations.",
     "activeManifestSigner": "CN=Google Photos,OU=Google Photos Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -88,7 +88,7 @@
   },
   {
     "file": "2.2/image/good/jpeg/c.jpg",
-    "description": "A valid C2PA asset containing a single manifest signed by Pixel Camera. It shows captured media.",
+    "description": "A valid C2PA asset with a single manifest signed by Pixel Camera, confirming it is captured media.",
     "activeManifestSigner": "CN=Pixel Camera,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -105,7 +105,7 @@
   },
   {
     "file": "2.2/video/good/mp4/a.mp4",
-    "description": "A valid C2PA asset containing 2 manifests in its history signed by Google Media Processing Services. It shows fully AI-generated media.",
+    "description": "A valid C2PA asset containing a history of 2 manifests signed by Google Media Processing Services, signaling fully AI-generated media.",
     "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 98649,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -128,7 +128,7 @@
   },
   {
     "file": "2.2/audio/good/m4a/a.m4a",
-    "description": "A valid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It shows captured media, AI editorial transformations.",
+    "description": "A valid C2PA asset with 2 manifests in its history signed by Pixel Recorder. It shows captured media with subsequent AI editorial transformations.",
     "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -151,7 +151,7 @@
   },
   {
     "file": "2.2/image/good/png/a.png",
-    "description": "A valid C2PA asset containing 3 manifests in its history signed by Google Media Processing Services. It shows fully AI-generated media, AI editorial transformations, non-editorial transformations, non-editorial transformations.",
+    "description": "A valid C2PA asset containing 3 manifests in its history signed by Google Media Processing Services. It indicates fully AI-generated media with a mix of AI editorial, non-AI editorial, and non-editorial transformations.",
     "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 67154,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -183,7 +183,7 @@
   },
   {
     "file": "2.2/audio/bad/mp3/a-bad-01.mp3",
-    "description": "An invalid C2PA asset containing a single manifest signed by Google Media Processing Services. It shows fully AI-generated media, AI editorial transformations. This file is invalid because corrupted audio data at offset 6100 to cause data hash mismatch.",
+    "description": "An invalid C2PA asset with a single manifest signed by Google Media Processing Services. Although it signals fully AI-generated media and AI editorial transformations, it is invalid due to corrupted audio data at offset 6100 causing a data hash mismatch.",
     "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 60032,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -202,7 +202,7 @@
   },
   {
     "file": "2.2/audio/bad/mp3/a-bad-02.mp3",
-    "description": "An invalid C2PA asset containing a single manifest signed by Google Media Processing Services. It shows fully AI-generated media, AI editorial transformations. This file is invalid because corrupted manifest store at offset 1000 to cause claim signature mismatch.",
+    "description": "An invalid C2PA asset containing a single manifest signed by Google Media Processing Services. It signals fully AI-generated media and AI editorial transformations, but is invalid because the manifest store at offset 1000 was corrupted, causing a claim signature mismatch.",
     "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 60032,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -221,7 +221,7 @@
   },
   {
     "file": "2.2/image/bad/jpeg/a-bad-02.jpg",
-    "description": "An invalid C2PA asset containing 4 manifests in its history signed by Google Media Processing Services. It shows fully AI-generated media, AI editorial transformations, non-editorial transformations. This file is invalid because corrupted manifest store at offset 7000 to cause ingredient claim signature mismatch.",
+    "description": "An invalid C2PA asset with a history of 4 manifests signed by Google Media Processing Services. It shows fully AI-generated media and transformations, but is invalid due to a corrupted manifest store at offset 7000, leading to an ingredient claim signature mismatch.",
     "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -260,7 +260,7 @@
   },
   {
     "file": "2.2/audio/bad/mp3/a-bad-03.mp3",
-    "description": "An invalid C2PA asset containing a single manifest signed by Google Media Processing Services. It shows fully AI-generated media, AI editorial transformations. This file is invalid because tampered with digitalsourcetype in actions assertion (changed trainedalgorithmicmedia to digitalcapture).",
+    "description": "An invalid C2PA asset containing a single manifest signed by Google Media Processing Services. It is invalid because the digitalSourceType in the actions assertion was tampered with (changed from trainedAlgorithmicMedia to digitalCapture).",
     "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 60032,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -279,7 +279,7 @@
   },
   {
     "file": "2.2/audio/bad/mp3/a-bad-04.mp3",
-    "description": "An invalid C2PA asset containing a single manifest signed by Google Media Processing Services. It shows fully AI-generated media, AI editorial transformations. This file is invalid because tampered with digitalsourcetype in actions assertion (changed trainedalgorithmicmedia to computationalcapture).",
+    "description": "An invalid C2PA asset with a single manifest signed by Google Media Processing Services. It is invalid because the digitalSourceType in the actions assertion was tampered with (changed from trainedAlgorithmicMedia to computationalCapture).",
     "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 60032,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -298,7 +298,7 @@
   },
   {
     "file": "2.2/audio/bad/mp3/a-bad-05.mp3",
-    "description": "An invalid C2PA asset containing a single manifest signed by Google Media Processing Services. It shows fully AI-generated media, AI editorial transformations. This file is invalid because tampered with hash value of actions assertion in the claim.",
+    "description": "An invalid C2PA asset containing a single manifest signed by Google Media Processing Services. It is invalid because the hash value of the actions assertion in the claim was tampered with.",
     "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 60032,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -317,7 +317,7 @@
   },
   {
     "file": "2.2/image/bad/jpeg/a-bad-03.jpg",
-    "description": "An invalid C2PA asset containing 4 manifests in its history signed by Google Media Processing Services. It shows fully AI-generated media, AI editorial transformations, non-editorial transformations. This file is invalid because tampered with hash value of actions assertion in the claim.",
+    "description": "An invalid C2PA asset with a history of 4 manifests signed by Google Media Processing Services. It is invalid because the hash value of the actions assertion in the claim was tampered with.",
     "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -356,7 +356,7 @@
   },
   {
     "file": "2.2/video/bad/mp4/a-bad-01.mp4",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Google Media Processing Services. It shows fully AI-generated media. This file is invalid because tampered with hash value of actions assertion in the claim.",
+    "description": "An invalid C2PA asset with a history of 2 manifests signed by Google Media Processing Services. It is invalid because the hash value of the actions assertion in the claim was tampered with.",
     "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 98649,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -379,7 +379,7 @@
   },
   {
     "file": "2.2/video/bad/mp4/a-bad-02.mp4",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Google Media Processing Services. It shows fully AI-generated media. This file is invalid because tampered with digitalsourcetype in actions assertion (changed trainedalgorithmicmedia to computationalcapture).",
+    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Google Media Processing Services. It is invalid because the digitalSourceType in the actions assertion was tampered with (changed from trainedAlgorithmicMedia to computationalCapture).",
     "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 98649,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -402,7 +402,7 @@
   },
   {
     "file": "2.2/video/bad/mp4/a-bad-03.mp4",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Google Media Processing Services. It shows fully AI-generated media. This file is invalid because tampered with address (url) of actions assertion in the claim (changed v2 to v3).",
+    "description": "An invalid C2PA asset with a history of 2 manifests signed by Google Media Processing Services. It is invalid because the address (URL) of the actions assertion in the claim was tampered with (changed v2 to v3).",
     "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 98649,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -425,7 +425,7 @@
   },
   {
     "file": "2.2/image/bad/jpeg/c-bad-01.jpg",
-    "description": "An invalid C2PA asset containing a single manifest signed by Pixel Camera. It shows captured media. This file is invalid because tampered with address (url) of actions assertion in the claim (changed v2 to v3).",
+    "description": "An invalid C2PA asset containing a single manifest signed by Pixel Camera. It is invalid because the address (URL) of the actions assertion in the claim was tampered with (changed v2 to v3).",
     "activeManifestSigner": "CN=Pixel Camera,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -442,7 +442,7 @@
   },
   {
     "file": "2.2/video/bad/mp4/a-bad-04.mp4",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Google Media Processing Services. It shows fully AI-generated media. This file is invalid because corrupted manifest store at offset 500 to cause ingredient claim signature mismatch.",
+    "description": "An invalid C2PA asset with a history of 2 manifests signed by Google Media Processing Services. It is invalid because the manifest store at offset 500 was corrupted, causing an ingredient claim signature mismatch.",
     "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 98649,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -465,7 +465,7 @@
   },
   {
     "file": "2.2/video/bad/mp4/a-bad-05.mp4",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Google Media Processing Services. It shows fully AI-generated media. This file is invalid because tampered with label of actions assertion in manifest store.",
+    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Google Media Processing Services. It is invalid because the label of the actions assertion in the manifest store was tampered with.",
     "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 98649,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -488,7 +488,7 @@
   },
   {
     "file": "2.2/audio/bad/m4a/a-bad-02.m4a",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It shows captured media, AI editorial transformations. This file is invalid because corrupted claim at offset 12100 to cause claim signature mismatch.",
+    "description": "An invalid C2PA asset with 2 manifests in its history signed by Pixel Recorder. It is invalid because the claim at offset 12100 was corrupted, causing a claim signature mismatch.",
     "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -511,7 +511,7 @@
   },
   {
     "file": "2.2/audio/bad/m4a/a-bad-03.m4a",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It shows captured media, AI editorial transformations. This file is invalid because tampered with digitalsourcetype in actions assertion (changed compositesynthetic to dummysynthetic1234) using precise cbor manipulation.",
+    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It is invalid because the digitalSourceType in the actions assertion was tampered with (changed from compositeSynthetic to dummySynthetic1234) using precise CBOR manipulation.",
     "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -534,7 +534,7 @@
   },
   {
     "file": "2.2/audio/bad/m4a/a-bad-04.m4a",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It shows captured media, AI editorial transformations. This file is invalid because tampered with ingredient url in actions assertion (changed v3 to v4) using precise cbor manipulation.",
+    "description": "An invalid C2PA asset with 2 manifests in its history signed by Pixel Recorder. It is invalid because the ingredient URL in the actions assertion was tampered with (changed v3 to v4) using precise CBOR manipulation.",
     "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -557,7 +557,7 @@
   },
   {
     "file": "2.2/audio/bad/m4a/a-bad-05.m4a",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It shows captured media, AI editorial transformations. This file is invalid because tampered with label of claim box (changed c2pa to x2pa) to cause claim missing and invalid cbor errors.",
+    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It is invalid because the label of the claim box was tampered with (changed c2pa to x2pa), causing claim missing and invalid CBOR errors.",
     "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -580,7 +580,7 @@
   },
   {
     "file": "2.2/audio/bad/mp3/a-bad-10.mp3",
-    "description": "An invalid C2PA asset containing a single manifest signed by Google Media Processing Services. It shows fully AI-generated media, AI editorial transformations. This file is invalid because corrupted manifest store at offset 5520 to cause hard bindings missing and assertion missing failures.",
+    "description": "An invalid C2PA asset with a single manifest signed by Google Media Processing Services. It is invalid because the manifest store at offset 5520 was corrupted, causing hard bindings missing and assertion missing failures.",
     "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 60032,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -599,7 +599,7 @@
   },
   {
     "file": "2.2/audio/bad/m4a/a-bad-06.m4a",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It shows captured media, AI editorial transformations. This file is invalid because corrupted timestamp payload at offset 10000 to cause untrusted timestamp informational error.",
+    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It is invalid because the timestamp payload at offset 10000 was corrupted, causing an untrusted timestamp informational error.",
     "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -622,7 +622,7 @@
   },
   {
     "file": "2.2/audio/bad/m4a/a-bad-07.m4a",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It shows captured media, AI editorial transformations. This file is invalid because corrupted cbor header of claim box (changed \\xa5 to \\xff) to cause claim invalid cbor failure.",
+    "description": "An invalid C2PA asset with 2 manifests in its history signed by Pixel Recorder. It is invalid because the CBOR header of the claim box was corrupted (changed \\xa5 to \\xff), causing a claim invalid CBOR failure.",
     "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -645,7 +645,7 @@
   },
   {
     "file": "2.2/audio/bad/m4a/a-bad-08.m4a",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It shows captured media, AI editorial transformations. This file is invalid because tampered with activemanifest url in ingredient assertion (changed last char to b) using precise cbor manipulation.",
+    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It is invalid because the activeManifest URL in the ingredient assertion was tampered with (changed last char to b) using precise CBOR manipulation.",
     "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -668,7 +668,7 @@
   },
   {
     "file": "2.2/audio/bad/m4a/a-bad-09.m4a",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It shows captured media, AI editorial transformations. This file is invalid because tampered with date string in timestamp (changed 2026 to 2025) to cause untrusted timestamp informational error.",
+    "description": "An invalid C2PA asset with 2 manifests in its history signed by Pixel Recorder. It is invalid because the date string in the timestamp was tampered with (changed 2026 to 2025), causing an untrusted timestamp informational error.",
     "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -691,7 +691,7 @@
   },
   {
     "file": "2.2/audio/bad/m4a/a-bad-10.m4a",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It shows captured media, AI editorial transformations. This file is invalid because tampered with label of signature box in ingredient manifest (changed c2pa to x2pa) to cause ingredient claim signature missing failure.",
+    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It is invalid because the label of the signature box in the ingredient manifest was tampered with (changed c2pa to x2pa), causing an ingredient claim signature missing failure.",
     "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -714,7 +714,7 @@
   },
   {
     "file": "2.2/audio/bad/m4a/a-bad-11.m4a",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It shows captured media, AI editorial transformations. This file is invalid because corrupted payload of actions assertion at offset 12900 to cause assertion hash mismatch and undeclared assertion failures.",
+    "description": "An invalid C2PA asset with 2 manifests in its history signed by Pixel Recorder. It is invalid because the payload of the actions assertion at offset 12900 was corrupted, causing assertion hash mismatch and undeclared assertion failures.",
     "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -737,7 +737,7 @@
   },
   {
     "file": "2.2/audio/bad/m4a/a-bad-12.m4a",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It shows captured media, AI editorial transformations. This file is invalid because broken schema of actions assertion (renamed key 'action' to 'xction') to cause assertion hash mismatch and undeclared assertion failures.",
+    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It is invalid because the schema of the actions assertion was broken (renamed key 'action' to 'xction'), causing assertion hash mismatch and undeclared assertion failures.",
     "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -760,7 +760,7 @@
   },
   {
     "file": "2.2/audio/bad/m4a/a-bad-13.m4a",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It shows captured media, AI editorial transformations. This file is invalid because corrupted payload of ingredient manifest at offset 4000 to cause ingredient claim signature mismatch failure.",
+    "description": "An invalid C2PA asset with 2 manifests in its history signed by Pixel Recorder. It is invalid because the payload of the ingredient manifest at offset 4000 was corrupted, causing an ingredient claim signature mismatch failure.",
     "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -783,7 +783,7 @@
   },
   {
     "file": "2.2/image/bad/jpeg/c-bad-04.jpg",
-    "description": "An invalid C2PA asset containing a single manifest signed by Pixel Camera. It shows captured media. This file is invalid because broken schema of data hash assertion (renamed key 'hash' to 'xash') to cause assertion hash mismatch and hard bindings missing failures.",
+    "description": "An invalid C2PA asset containing a single manifest signed by Pixel Camera. It is invalid because the schema of the data hash assertion was broken (renamed key 'hash' to 'xash'), causing assertion hash mismatch and hard bindings missing failures.",
     "activeManifestSigner": "CN=Pixel Camera,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -800,7 +800,7 @@
   },
   {
     "file": "2.2/audio/bad/m4a/a-bad-14.m4a",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It shows captured media, AI editorial transformations. This file is invalid because changed second action to c2pa.opened violating spec rule, to cause assertion hash mismatch and undeclared assertion failures.",
+    "description": "An invalid C2PA asset with 2 manifests in its history signed by Pixel Recorder. It is invalid because the second action was changed to c2pa.opened violating spec rules, causing assertion hash mismatch and undeclared assertion failures.",
     "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -823,7 +823,7 @@
   },
   {
     "file": "2.2/audio/bad/m4a/a-bad-19.m4a",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It shows captured media, AI editorial transformations. This file is invalid because corrupted first byte of timestamp payload at offset 9811 to cause malformed timestamp informational error.",
+    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It is invalid because the first byte of the timestamp payload at offset 9811 was corrupted, causing a malformed timestamp informational error.",
     "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -846,7 +846,7 @@
   },
   {
     "file": "2.2/audio/bad/m4a/a-bad-20.m4a",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It shows captured media, AI editorial transformations. This file is invalid because corrupted first byte of timestamp payload in ingredient manifest at offset 5015 to cause ingredient claim signature mismatch failure.",
+    "description": "An invalid C2PA asset with 2 manifests in its history signed by Pixel Recorder. It is invalid because the first byte of the timestamp payload in the ingredient manifest at offset 5015 was corrupted, causing an ingredient claim signature mismatch failure.",
     "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -869,7 +869,7 @@
   },
   {
     "file": "2.2/image/bad/jpeg/a-bad-04.jpg",
-    "description": "An invalid C2PA asset containing 3 manifests in its history signed by Google Photos. It shows captured media, AI editorial transformations, non-AI editorial transformations. This file is invalid because tampered with label of ingredient manifest box (changed urn to xrn) to cause ingredient claim signature missing failure.",
+    "description": "An invalid C2PA asset containing 3 manifests in its history signed by Google Photos. It is invalid because the label of the ingredient manifest box was tampered with (changed urn to xrn), causing an ingredient claim signature missing failure.",
     "activeManifestSigner": "CN=Google Photos,OU=Google Photos Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -898,7 +898,7 @@
   },
   {
     "file": "2.2/image/bad/jpeg/b-bad-01.jpg",
-    "description": "An invalid C2PA asset containing 3 manifests in its history signed by Google Photos. It shows captured media, AI editorial transformations, non-AI editorial transformations. This file is invalid because tampered with label of actions assertion in ingredient manifest (changed c2pa to x2pa) to cause assertion missing failure in history.",
+    "description": "An invalid C2PA asset with 3 manifests in its history signed by Google Photos. It is invalid because the label of the actions assertion in the ingredient manifest was tampered with (changed c2pa to x2pa), causing an assertion missing failure in history.",
     "activeManifestSigner": "CN=Google Photos,OU=Google Photos Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -927,7 +927,7 @@
   },
   {
     "file": "2.2/audio/bad/m4a/a-bad-21.m4a",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It shows captured media, AI editorial transformations. This file is invalid because corrupted value in actions assertion of ingredient manifest (changed digitalcapture to dummycapture12) at offset 8078 to cause assertion hash mismatch failure in history.",
+    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It is invalid because the value in the actions assertion of the ingredient manifest was corrupted (changed from digitalCapture to dummyCapture12) at offset 8078, causing an assertion hash mismatch failure in history.",
     "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -950,7 +950,7 @@
   },
   {
     "file": "2.2/image/bad/jpeg/b-bad-02.jpg",
-    "description": "An invalid C2PA asset containing 3 manifests in its history signed by Google Photos. It shows captured media, AI editorial transformations, non-AI editorial transformations. This file is invalid because corrupted value in actions assertion of ingredient manifest (changed computationalcapture to dummycapturecomp2026) at offset 9925 to cause assertion hash mismatch failure in history.",
+    "description": "An invalid C2PA asset with 3 manifests in its history signed by Google Photos. It is invalid because the value in the actions assertion of the ingredient manifest was corrupted (changed from computationalCapture to dummyCaptureComp2026) at offset 9925, causing an assertion hash mismatch failure in history.",
     "activeManifestSigner": "CN=Google Photos,OU=Google Photos Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -979,7 +979,7 @@
   },
   {
     "file": "2.2/audio/bad/m4a/a-bad-17.m4a",
-    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It shows captured media, AI editorial transformations. This file is invalid because tampered with label of actions assertion in ingredient manifest (changed c2pa to x2pa) to cause assertion missing failure in history.",
+    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Pixel Recorder. It is invalid because the label of the actions assertion in the ingredient manifest was tampered with (changed c2pa to x2pa), causing an assertion missing failure in history.",
     "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -1002,7 +1002,7 @@
   },
   {
     "file": "2.2/image/bad/jpeg/c-bad-04.jpg",
-    "description": "An invalid C2PA asset containing a single manifest signed by Pixel Camera. It shows captured media. This file is invalid because broken schema of data hash assertion (renamed key 'hash' to 'xash') to cause assertion hash mismatch and hard bindings missing failures.",
+    "description": "An invalid C2PA asset containing a single manifest signed by Pixel Camera. It is invalid because the schema of the data hash assertion was broken (renamed key 'hash' to 'xash'), causing assertion hash mismatch and hard bindings missing failures.",
     "activeManifestSigner": "CN=Pixel Camera,O=Google LLC,C=US",
     "conformant": true,
     "contributor": "Google LLC",
@@ -1016,5 +1016,125 @@
     ],
     "manipulated": true,
     "manipulation": "Broken schema of data hash assertion (renamed key 'hash' to 'xash') to cause assertion hash mismatch and hard bindings missing failures."
+  },
+  {
+    "file": "2.2/audio/bad/m4a/a-bad-01.m4a",
+    "description": "An invalid C2PA asset signed by Pixel Recorder. It is invalid because the container declares a box size of over 4GB but has only 479 input bytes, causing a fatal parsing error.",
+    "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
+    "conformant": true,
+    "contributor": "Google LLC",
+    "signals": [],
+    "manipulated": true,
+    "manipulation": "Audited: the container declares a box size of over 4GB but has only 479 input bytes, causing a fatal parsing error."
+  },
+  {
+    "file": "2.2/audio/bad/m4a/a-bad-15.m4a",
+    "description": "An invalid C2PA asset signed by Pixel Recorder. It is invalid because it ran out of input bytes while reading a 32-byte hash, causing a fatal parsing error.",
+    "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
+    "conformant": true,
+    "contributor": "Google LLC",
+    "signals": [],
+    "manipulated": true,
+    "manipulation": "Audited: it ran out of input bytes while reading a 32-byte hash, causing a fatal parsing error."
+  },
+  {
+    "file": "2.2/audio/bad/m4a/a-bad-16.m4a",
+    "description": "An invalid C2PA asset signed by Pixel Recorder. It is invalid because it contains a truncated BMFF box, causing a fatal parsing error.",
+    "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
+    "conformant": true,
+    "contributor": "Google LLC",
+    "signals": [],
+    "manipulated": true,
+    "manipulation": "Audited: it contains a truncated BMFF box, causing a fatal parsing error."
+  },
+  {
+    "file": "2.2/audio/bad/mp3/a-bad-11.mp3",
+    "description": "An invalid C2PA asset signed by Google Media Processing Services. It is marked as manipulated with the reason: Temporary explanation.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 60032,O=Google LLC,C=US",
+    "conformant": true,
+    "contributor": "Google LLC",
+    "signals": [],
+    "manipulated": true,
+    "manipulation": "Temporary explanation."
+  },
+  {
+    "file": "2.2/audio/bad/mp3/a-bad-06.mp3",
+    "description": "An invalid C2PA asset signed by Google Media Processing Services. It is invalid because its claim signature failed verification (Tink verification failed: Invalid signature).",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 60032,O=Google LLC,C=US",
+    "conformant": true,
+    "contributor": "Google LLC",
+    "signals": [],
+    "manipulated": true,
+    "manipulation": "Audited: its claim signature failed verification (Tink verification failed: Invalid signature)."
+  },
+  {
+    "file": "2.2/audio/bad/mp3/a-bad-07.mp3",
+    "description": "An invalid C2PA asset signed by Google Media Processing Services. It is invalid because the address of the actions assertion in the claim was tampered with, causing assertion missing and undeclared failures.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 60032,O=Google LLC,C=US",
+    "conformant": true,
+    "contributor": "Google LLC",
+    "signals": [],
+    "manipulated": true,
+    "manipulation": "Audited: the address of the actions assertion in the claim was tampered with, causing assertion missing and undeclared failures."
+  },
+  {
+    "file": "2.2/audio/bad/mp3/a-bad-08.mp3",
+    "description": "An invalid C2PA asset signed by Google Media Processing Services. It is invalid because the address of the actions assertion in the claim was tampered with, causing assertion missing and undeclared failures.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 60032,O=Google LLC,C=US",
+    "conformant": true,
+    "contributor": "Google LLC",
+    "signals": [],
+    "manipulated": true,
+    "manipulation": "Audited: the address of the actions assertion in the claim was tampered with, causing assertion missing and undeclared failures."
+  },
+  {
+    "file": "2.2/audio/bad/mp3/a-bad-09.mp3",
+    "description": "An invalid C2PA asset signed by Google Media Processing Services. It is marked as manipulated with the reason: Temporary explanation.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 60032,O=Google LLC,C=US",
+    "conformant": true,
+    "contributor": "Google LLC",
+    "signals": [],
+    "manipulated": true,
+    "manipulation": "Temporary explanation."
+  },
+  {
+    "file": "2.2/image/bad/a-bad-01.jpg",
+    "description": "An invalid C2PA asset signed by Google Media Processing Services. It is invalid because it contains an invalid JPEG marker, causing a fatal parsing error.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": true,
+    "contributor": "Google LLC",
+    "signals": [],
+    "manipulated": true,
+    "manipulation": "Audited: it contains an invalid JPEG marker, causing a fatal parsing error."
+  },
+  {
+    "file": "2.2/image/bad/jpeg/c-bad-02.jpg",
+    "description": "An invalid C2PA asset signed by Pixel Camera. It is marked as manipulated with the reason: Temporary explanation.",
+    "activeManifestSigner": "CN=Pixel Camera,O=Google LLC,C=US",
+    "conformant": true,
+    "contributor": "Google LLC",
+    "signals": [],
+    "manipulated": true,
+    "manipulation": "Temporary explanation."
+  },
+  {
+    "file": "2.2/image/bad/jpeg/c-bad-03.jpg",
+    "description": "An invalid C2PA asset containing a single manifest signed by Pixel Camera. It is invalid because the address of the actions assertion in the claim was tampered with, causing assertion missing and undeclared failures.",
+    "activeManifestSigner": "CN=Pixel Camera,O=Google LLC,C=US",
+    "conformant": true,
+    "contributor": "Google LLC",
+    "signals": [],
+    "manipulated": true,
+    "manipulation": "Audited: the address of the actions assertion in the claim was tampered with, causing assertion missing and undeclared failures."
+  },
+  {
+    "file": "2.2/video/bad/mp4/a-bad-06.mp4",
+    "description": "An invalid C2PA asset containing 2 manifests in its history signed by Google Media Processing Services. It is invalid because the address of the actions assertion in the claim was tampered with, causing assertion missing and undeclared failures.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 98649,O=Google LLC,C=US",
+    "conformant": true,
+    "contributor": "Google LLC",
+    "signals": [],
+    "manipulated": true,
+    "manipulation": "Audited: the address of the actions assertion in the claim was tampered with, causing assertion missing and undeclared failures."
   }
 ]

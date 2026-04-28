@@ -1,5 +1,5 @@
 rubric_metadata:
-  name: Rubric for a-bad-06.mp4
+  name: Rubric for c-bad-03.jpg
   version: 1.0.0
   issuer: "Google LLC"
   date: "2026-04-25"
@@ -7,22 +7,22 @@ expressions:
   _validationResults: "(manifests[0].validationResults || { failure: [] })"
 
 ---
-- id: test:a-bad-06:expected_failure
-  description: Check if a-bad-06.mp4 produces assertion missing failure
+- id: test:c-bad-03:expected_failure
+  description: Check if c-bad-03.jpg produces assertion missing failure
   expression: |
     length(_validationResults().failure[?code == "assertion.missing"]) > 0
   reportText:
     'true':
-      en: "a-bad-06.mp4 correctly failed with assertion missing"
+      en: "c-bad-03.jpg correctly failed with assertion missing"
     'false':
       en: "Missing expected assertion missing failure"
 
-- id: test:a-bad-06:assertion_undeclared
-  description: Check if a-bad-06.mp4 produces assertion undeclared failure
+- id: test:c-bad-03:assertion_undeclared
+  description: Check if c-bad-03.jpg produces assertion undeclared failure
   expression: |
     length(_validationResults().failure[?code == "assertion.undeclared"]) > 0
   reportText:
     'true':
-      en: "a-bad-06.mp4 correctly failed with assertion undeclared"
+      en: "c-bad-03.jpg correctly failed with assertion undeclared"
     'false':
       en: "Missing expected assertion undeclared failure"
