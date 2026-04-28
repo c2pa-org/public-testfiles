@@ -1,5 +1,5 @@
 rubric_metadata:
-  name: Rubric for a-bad-2.jpg
+  name: Rubric for a-bad-02.jpg
   version: 1.0.0
   issuer: sherifhanna
   date: "2026-04-25"
@@ -7,17 +7,17 @@ expressions:
   _validationResults: "(manifests[0].validationResults || { failure: [] })"
 
 ---
-- id: test:a-bad-2:expected_failure
-  description: Check if a-bad-2.jpg produces ingredient claim signature mismatch
+- id: test:a-bad-02:expected_failure
+  description: Check if a-bad-02.jpg produces ingredient claim signature mismatch
   expression: |
     length(_validationResults().failure[?code == "ingredient.claimSignature.mismatch"]) > 0
   reportText:
     'true':
-      en: "a-bad-2.jpg correctly failed with ingredient claim signature mismatch"
+      en: "a-bad-02.jpg correctly failed with ingredient claim signature mismatch"
     'false':
-      en: "a-bad-2.jpg failed to produce ingredient claim signature mismatch"
+      en: "a-bad-02.jpg failed to produce ingredient claim signature mismatch"
 
-- id: test:a-bad-2:no_other_failures
+- id: test:a-bad-02:no_other_failures
   description: Check if there are no other failures
   expression: |
     length(_validationResults().failure[?code != "ingredient.claimSignature.mismatch"]) == 0
@@ -27,7 +27,7 @@ expressions:
     'false':
       en: "Found unexpected failures"
 
-- id: test:a-bad-2:expected_successes
+- id: test:a-bad-02:expected_successes
   description: Check if all expected successes are present
   expression: |
     length(_validationResults().success[?contains(["timeStamp.validated", "timeStamp.trusted", "signingCredential.trusted", "claimSignature.insideValidity", "claimSignature.validated", "assertion.hashedURI.match"], code)]) >= 6

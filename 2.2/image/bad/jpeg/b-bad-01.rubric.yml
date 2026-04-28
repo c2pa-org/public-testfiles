@@ -1,5 +1,5 @@
 rubric_metadata:
-  name: Rubric for b-bad-1.jpg
+  name: Rubric for b-bad-01.jpg
   version: 1.0.0
   issuer: sherifhanna
   date: "2026-04-25"
@@ -7,17 +7,17 @@ expressions:
   _ingredientValidationResults: "(ingredient_manifests[0].validationResults || { failure: [] })"
 
 ---
-- id: test:b-bad-1:expected_failure
-  description: Check if b-bad-1.jpg produces assertion missing failure in ingredient manifest
+- id: test:b-bad-01:expected_failure
+  description: Check if b-bad-01.jpg produces assertion missing failure in ingredient manifest
   expression: |
     length(_ingredientValidationResults().failure[?code == "assertion.missing"]) > 0
   reportText:
     'true':
-      en: "b-bad-1.jpg correctly failed with assertion missing error in ingredient"
+      en: "b-bad-01.jpg correctly failed with assertion missing error in ingredient"
     'false':
       en: "Missing expected failure in ingredient"
 
-- id: test:b-bad-1:no_failures_active
+- id: test:b-bad-01:no_failures_active
   description: Check if there are no failures in the active manifest
   expression: |
     length((manifests[0].validationResults || { failure: [] }).failure) == 0

@@ -1,5 +1,5 @@
 rubric_metadata:
-  name: Rubric for a-bad-5.mp4
+  name: Rubric for a-bad-07.mp3
   version: 1.0.0
   issuer: sherifhanna
   date: "2026-04-25"
@@ -7,27 +7,27 @@ expressions:
   _validationResults: "(manifests[0].validationResults || { failure: [] })"
 
 ---
-- id: test:a-bad-5:expected_failures
-  description: Check if a-bad-5.mp4 produces hash mismatch errors
+- id: test:a-bad-07:expected_failures
+  description: Check if a-bad-07.mp3 produces assertion missing and undeclared assertion errors
   expression: |
-    length(_validationResults().failure[?contains(["assertion.hashedURI.mismatch", "hashedUri.mismatch"], code)]) >= 2
+    length(_validationResults().failure[?contains(["assertion.missing", "assertion.undeclared"], code)]) >= 2
   reportText:
     'true':
-      en: "a-bad-5.mp4 correctly failed with expected hash mismatch errors"
+      en: "a-bad-07.mp3 correctly failed with expected assertion errors"
     'false':
       en: "Missing expected failures"
 
-- id: test:a-bad-5:no_other_failures
+- id: test:a-bad-07:no_other_failures
   description: Check if there are no other failures
   expression: |
-    length(_validationResults().failure[?!contains(["assertion.hashedURI.mismatch", "hashedUri.mismatch"], code)]) == 0
+    length(_validationResults().failure[?!contains(["assertion.missing", "assertion.undeclared"], code)]) == 0
   reportText:
     'true':
       en: "No other failures found as expected"
     'false':
       en: "Found unexpected failures"
 
-- id: test:a-bad-5:expected_successes
+- id: test:a-bad-07:expected_successes
   description: Check if all expected successes are present
   expression: |
     length(_validationResults().success[?contains(["timeStamp.validated", "timeStamp.trusted", "signingCredential.trusted", "claimSignature.insideValidity", "claimSignature.validated", "assertion.hashedURI.match"], code)]) >= 5
