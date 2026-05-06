@@ -1,0 +1,348 @@
+[
+  {
+    "file": "2.2/audio/good/mp3/a.mp3",
+    "description": "A valid C2PA asset containing a single manifest signed by Google Media Processing Services. It indicates fully AI-generated media and AI editorial transformations.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 60032,O=Google LLC,C=US",
+    "conformant": true,
+    "contributor": "Google LLC",
+    "manipulated": false,
+    "manipulation": "",
+    "expectedFailureCodes": []
+  },
+  {
+    "file": "2.2/image/good/jpeg/a.jpg",
+    "description": "A valid C2PA asset with a history of 4 manifests, all signed by Google Media Processing Services. It records fully AI-generated media with subsequent AI editorial and non-editorial transformations.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": true,
+    "contributor": "Google LLC",
+    "manipulated": false,
+    "manipulation": "",
+    "expectedFailureCodes": []
+  },
+  {
+    "file": "2.2/image/good/jpeg/b.jpg",
+    "description": "A valid C2PA asset containing 3 manifests in its history, with the active one signed by Google Photos. It shows captured media that has been modified by both AI and non-AI editorial transformations.",
+    "activeManifestSigner": "CN=Google Photos,OU=Google Photos Android,O=Google LLC,C=US",
+    "conformant": true,
+    "contributor": "Google LLC",
+    "manipulated": false,
+    "manipulation": "",
+    "expectedFailureCodes": []
+  },
+  {
+    "file": "2.2/image/good/jpeg/c.jpg",
+    "description": "A valid C2PA asset with a single manifest signed by Pixel Camera, confirming it is captured media.",
+    "activeManifestSigner": "CN=Pixel Camera,O=Google LLC,C=US",
+    "conformant": true,
+    "contributor": "Google LLC",
+    "manipulated": false,
+    "manipulation": "",
+    "expectedFailureCodes": []
+  },
+  {
+    "file": "2.2/video/good/mp4/a.mp4",
+    "description": "A valid C2PA asset containing a history of 2 manifests signed by Google Media Processing Services, signaling fully AI-generated media.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 98649,O=Google LLC,C=US",
+    "conformant": true,
+    "contributor": "Google LLC",
+    "manipulated": false,
+    "manipulation": "",
+    "expectedFailureCodes": []
+  },
+  {
+    "file": "2.2/audio/good/m4a/a.m4a",
+    "description": "A valid C2PA asset with 2 manifests in its history signed by Pixel Recorder. It shows captured media with subsequent AI editorial transformations.",
+    "activeManifestSigner": "CN=Pixel Recorder,OU=Android,O=Google LLC,C=US",
+    "conformant": true,
+    "contributor": "Google LLC",
+    "manipulated": false,
+    "manipulation": "",
+    "expectedFailureCodes": []
+  },
+  {
+    "file": "2.2/image/good/png/a.png",
+    "description": "A valid C2PA asset containing 3 manifests in its history signed by Google Media Processing Services. It indicates fully AI-generated media with a mix of AI editorial, non-AI editorial, and non-editorial transformations.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 67154,O=Google LLC,C=US",
+    "conformant": true,
+    "contributor": "Google LLC",
+    "manipulated": false,
+    "manipulation": "",
+    "expectedFailureCodes": []
+  },
+  {
+    "file": "2.2/image/bad/jpeg/a-bad-01.jpg",
+    "description": "A manipulated JPEG where one byte of the image payload is altered to trigger a standard active manifest data hash validation mismatch.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Altered a single byte at offset 25000 inside the JPEG scan payload to invalidate assertion.dataHash.",
+    "expectedFailureCodes": [
+      "assertion.dataHash.mismatch"
+    ]
+  },
+  {
+    "file": "2.2/video/bad/mp4/a-bad-01.mp4",
+    "description": "A manipulated MP4 video where a byte in the non-excluded video track region is flipped to trigger a BMFF data hash validation mismatch.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 98649,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Altered a single byte at offset 350000 inside the MP4 mdat box payload to invalidate assertion.bmffHash.",
+    "expectedFailureCodes": [
+      "assertion.bmffHash.mismatch"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/a-bad-02.jpg",
+    "description": "A manipulated JPEG where one byte inside the COSE signature payload is flipped to trigger an active manifest claim signature validation mismatch.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Flipped a byte inside the COSE_Sign1 signature block to invalidate claimSignature.mismatch.",
+    "expectedFailureCodes": [
+      "claimSignature.mismatch"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/a-bad-03.jpg",
+    "description": "A manipulated JPEG where a byte inside the CBOR actions assertion payload is flipped to trigger a hashed URI validation mismatch.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Flipped a byte inside the c2pa.actions.v2 assertion CBOR data to invalidate assertion.hashedURI.mismatch.",
+    "expectedFailureCodes": [
+      "assertion.hashedURI.mismatch"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/a-bad-04.jpg",
+    "description": "A manipulated JPEG where the data hash assertion is deleted from the metadata segment to trigger a missing claim hard binding error.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Deleted the c2pa.hash.data JUMBF box entirely to trigger claim.hardBindings.missing.",
+    "expectedFailureCodes": [
+      "claim.hardBindings.missing"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/a-bad-05.jpg",
+    "description": "A manipulated JPEG where the actions assertion is renamed to trigger an undeclared assertion error inside the active manifest claim.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Renamed the JUMBF box label c2pa.actions.v2 to x2pa.actions to trigger assertion.undeclared.",
+    "expectedFailureCodes": [
+      "assertion.undeclared"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/a-bad-06.jpg",
+    "description": "A manipulated JPEG where the actions assertion is deleted entirely while leaving it declared in the claim's created_assertions list.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Deleted the c2pa.actions.v2 JUMBF box to trigger assertion.missing.",
+    "expectedFailureCodes": [
+      "assertion.missing"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/a-bad-07.jpg",
+    "description": "A manipulated JPEG where a byte is flipped inside the signature of a historical ingredient manifest, leaving the active manifest intact.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Flipped a byte inside the c2pa.signature box of the first ingredient manifest (urn:c2pa:5c67bdd3) to trigger ingredient.claimSignature.mismatch.",
+    "expectedFailureCodes": [
+      "ingredient.claimSignature.mismatch"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/a-bad-08.jpg",
+    "description": "A manipulated JPEG where a byte is flipped inside a historical ingredient assertion box, leaving the active manifest intact.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Flipped a byte inside the c2pa.actions box of the first ingredient manifest to trigger assertion.hashedURI.mismatch in history.",
+    "expectedFailureCodes": [
+      "assertion.hashedURI.mismatch"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/a-bad-09.jpg",
+    "description": "A manipulated JPEG where the activeManifest hash inside the historical ingredient v3 assertion is flipped to trigger a manifest mismatch error.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Flipped the first byte of activeManifest hash in the c2pa.ingredient.v3 assertion box to trigger ingredient.manifest.mismatch.",
+    "expectedFailureCodes": [
+      "ingredient.manifest.mismatch"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/a-bad-10.jpg",
+    "description": "A manipulated JPEG where the active manifest's signature is replaced with a forged signature generated by a rogue untrusted certificate chain.",
+    "activeManifestSigner": "CN=Rogue Identity,O=Rogue Creator,ST=CA,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Re-signed the claim using a rogue certificate chain to trigger signingCredential.untrusted.",
+    "expectedFailureCodes": [
+      "signingCredential.untrusted"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/a-bad-11.jpg",
+    "description": "A manipulated JPEG where the certificate chain payload inside the active manifest signature box is corrupted to fail ASN.1 parsing.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Flipped a byte in the certificate DER block to trigger signingCredential.invalid.",
+    "expectedFailureCodes": [
+      "signingCredential.invalid"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/a-bad-12.jpg",
+    "description": "A manipulated JPEG where a cryptographically valid TimeStampToken is injected from a custom TSA whose validity period does not cover the time of signing.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Generated and injected a forged TimeStampToken from our custom TSA valid only in Dec 2025 to trigger timeStamp.outsideValidity.",
+    "expectedFailureCodes": [
+      "timeStamp.outsideValidity"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/a-bad-14.jpg",
+    "description": "A manipulated JPEG where a rogue untrusted timestamp token generated by a custom TSA is injected into the active manifest's unprotected headers.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Injected a rogue untrusted timestamp token from our custom TSA to trigger timeStamp.untrusted.",
+    "expectedFailureCodes": [
+      "timeStamp.untrusted"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/a-bad-15.jpg",
+    "description": "A manipulated JPEG where the CBOR payload of the actions assertion is corrupted to trigger a hashed URI validation mismatch.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Corrupted the CBOR payload of c2pa.actions.v2 to trigger assertion.hashedURI.mismatch.",
+    "expectedFailureCodes": [
+      "assertion.hashedURI.mismatch"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/a-bad-16.jpg",
+    "description": "A manipulated JPEG where the active manifest's claim box payload is corrupted to trigger a claim decoding validation failure.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Corrupted the first byte of the raw claim CBOR payload to trigger claim.cbor.invalid.",
+    "expectedFailureCodes": [
+      "claim.cbor.invalid"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/a-bad-17.jpg",
+    "description": "A manipulated JPEG where the mandatory keys are stripped from the active manifest claim box to trigger a malformed claim error.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Stripped the mandatory keys instanceID and claim_generator_info from the active manifest claim to trigger claim.malformed.",
+    "expectedFailureCodes": [
+      "claim.malformed"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/a-bad-18.jpg",
+    "description": "A manipulated JPEG where a forged active manifest signature is injected whose certificate validity period does not cover the claimed signing time.",
+    "activeManifestSigner": "CN=Rogue Identity,O=Rogue Creator,ST=CA,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Injected a rogue certificate valid only in the future to trigger timeOfSigning.outsideValidity (signingCredential.expired).",
+    "expectedFailureCodes": [
+      "timeOfSigning.outsideValidity"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/a-bad-20.jpg",
+    "description": "A manipulated JPEG where the signature box of an ingredient manifest is deleted entirely, leaving the active manifest intact.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Deleted the c2pa.signature box of the first ingredient manifest to trigger ingredient.claimSignature.missing.",
+    "expectedFailureCodes": [
+      "ingredient.claimSignature.missing"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/a-bad-21.jpg",
+    "description": "A manipulated JPEG where an ingredient manifest JUMBF box is completely deleted from the manifest store, leaving the active manifest intact.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Deleted the entire first ingredient manifest box (urn:c2pa:5c67bdd3) to trigger ingredient.manifest.missing.",
+    "expectedFailureCodes": [
+      "ingredient.manifest.missing"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/a-bad-22.jpg",
+    "description": "A manipulated JPEG where the active manifest actions assertion CBOR structure is corrupted to trigger a malformed actions error.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Replaced the actions list CBOR array inside c2pa.actions.v2 with an integer to trigger assertion.action.malformed.",
+    "expectedFailureCodes": [
+      "assertion.action.malformed"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/d-bad-01.jpg",
+    "description": "A manipulated multi-part JPEG where the image payload region of Part 2 is altered to trigger a multi-asset data hash validation mismatch.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Altered a single byte inside the JPEG scan payload of Part 2 (Concatenated file) to invalidate assertion.dataHash.part__1.",
+    "expectedFailureCodes": [
+      "assertion.dataHash.mismatch"
+    ]
+  },
+  {
+    "file": "2.2/image/bad/jpeg/d-bad-02.jpg",
+    "description": "A manipulated multi-part JPEG where the image payload exactly inside the non-excluded region of Part 1 is altered to trigger a multi-asset hash mismatch.",
+    "activeManifestSigner": "CN=Google Media Processing Services,OU=Google System 90291,O=Google LLC,C=US",
+    "conformant": false,
+    "contributor": "Google LLC",
+    "manipulated": true,
+    "manipulation": "Altered a single byte at offset 34500 inside the payload of Part 1 to invalidate assertion.multiAssetHash.mismatch.",
+    "expectedFailureCodes": [
+      "assertion.multiAssetHash.mismatch"
+    ]
+  }
+]
