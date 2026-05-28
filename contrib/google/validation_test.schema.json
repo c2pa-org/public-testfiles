@@ -4,36 +4,42 @@
   "type": "object",
   "properties": {
     "description": {
-      "title": "description",
       "type": "string"
     },
     "inputs": {
-      "title": "inputs",
       "$ref": "#/definitions/Inputs"
     },
     "manifests": {
-      "title": "manifests",
       "description": "Expected validation results for each manifest in the manifest store, IN REVERSE ORDER (active manifest first, as in crJSON). If empty, the validator is expected not to find any C2PA manifests.",
       "type": "array",
       "items": {
         "$ref": "#/definitions/ManifestResult"
       }
+    },
+    "validatorSpecVersions": {
+      "description": "C2PA spec version(s) that this test case applies to (e.g., \"2.4\"). If empty, the test case is assumed to apply to all spec versions.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     }
   },
   "additionalProperties": false,
+  "required": [
+    "description",
+    "inputs",
+    "manifests"
+  ],
   "definitions": {
     "Inputs": {
-      "title": "Inputs",
       "description": "Inputs for the validation.",
       "type": "object",
       "properties": {
         "assetPath": {
-          "title": "assetPath",
           "description": "Path to the asset file.",
           "type": "string"
         },
         "claimSignerTrustListPaths": {
-          "title": "claimSignerTrustListPaths",
           "description": "Paths containing the claim signer trust list (in PEM format) for the C2PA EKU (c2pa-kp-claimSigning). Each file contains one or more PEM certificates. At least one trust anchor must be provided.",
           "type": "array",
           "items": {
@@ -41,7 +47,6 @@
           }
         },
         "tsaTrustListPaths": {
-          "title": "tsaTrustListPaths",
           "description": "Paths containing the TSA trust list (in PEM format). Each file contains one or more PEM certificates. At least one trust anchor must be provided.",
           "type": "array",
           "items": {
@@ -49,8 +54,7 @@
           }
         },
         "validationTime": {
-          "title": "validationTime",
-          "description": "The time at which validation should be performed (RFC 3339 format, e.g., \"2010-03-21T15:30:00Z\"). Required.",
+          "description": "The time at which validation should be performed (RFC 3339 format, e.g., \"2010-03-21T15:30:00Z\").",
           "type": "string"
         }
       },
@@ -58,12 +62,10 @@
       "required": ["assetPath", "claimSignerTrustListPaths", "tsaTrustListPaths", "validationTime"]
     },
     "StatusCodeSet": {
-      "title": "StatusCodeSet",
       "description": "A set of C2PA status codes, e.g., \"signingCredential.trusted\".",
       "type": "object",
       "properties": {
         "codes": {
-          "title": "codes",
           "type": "array",
           "items": {
             "type": "string"
@@ -73,32 +75,26 @@
       "additionalProperties": false
     },
     "StatusCodesExpectations": {
-      "title": "StatusCodesExpectations",
       "description": "A predicate over a set of status codes produced by a C2PA validator.",
       "type": "object",
       "properties": {
         "isEmpty": {
-          "title": "isEmpty",
           "type": "object",
           "additionalProperties": false
         },
         "isNotEmpty": {
-          "title": "isNotEmpty",
           "type": "object",
           "additionalProperties": false
         },
         "containsExactly": {
-          "title": "containsExactly",
           "description": "If present, the set must contain exactly these codes.",
           "$ref": "#/definitions/StatusCodeSet"
         },
         "containsAllOf": {
-          "title": "containsAllOf",
           "description": "If present, the set must contain all of these codes.",
           "$ref": "#/definitions/StatusCodeSet"
         },
         "containsNoneOf": {
-          "title": "containsNoneOf",
           "description": "If present, the set must contain none of these codes.",
           "$ref": "#/definitions/StatusCodeSet"
         },
@@ -107,28 +103,24 @@
           "items": {
             "$ref": "#/definitions/StatusCodeSet"
           },
-          "description": "The set must contain at least one codes from each of the listed sets."
+          "description": "The set must contain at least one code from each of the listed sets."
         }
       },
       "additionalProperties": false
     },
     "ManifestResult": {
-      "title": "ManifestResult",
       "description": "Expectations for the validator's assessment of a single manifest.",
       "type": "object",
       "properties": {
         "failures": {
-          "title": "failures",
           "description": "Expectations regarding failure status codes.",
           "$ref": "#/definitions/StatusCodesExpectations"
         },
         "successes": {
-          "title": "successes",
           "description": "Expectations regarding success status codes.",
           "$ref": "#/definitions/StatusCodesExpectations"
         },
         "informationals": {
-          "title": "informationals",
           "description": "Expectations regarding informational status codes.",
           "$ref": "#/definitions/StatusCodesExpectations"
         }
