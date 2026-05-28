@@ -1,0 +1,17 @@
+description: OCSP expired against nextUpdate (skipped)
+inputs:
+  assetPath: assets/ocsp_expired_next_update.jpg
+  claimSignerTrustListPaths:
+  - certs/root_ca1_cert.pem
+  tsaTrustListPaths:
+  - certs/tsa_ca_2000_2019.pem
+  validationTime: "2013-06-01T00:00:00Z"
+manifests:
+- informationals:
+    containsAllOf:
+      codes:
+      - signingCredential.ocsp.skipped
+  successes:
+    containsNoneOf:
+      codes:
+      - signingCredential.ocsp.notRevoked

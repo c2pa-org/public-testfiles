@@ -1,0 +1,18 @@
+description: signer has C2PA EKU and anyExtendedKeyUsage (forbidden)
+inputs:
+  assetPath: assets/eku_c2pa_any.jpg
+  claimSignerTrustListPaths:
+  - certs/root_ca1_cert.pem
+  tsaTrustListPaths:
+  - certs/root_ca1_cert.pem
+  validationTime: "2001-06-01T00:00:00Z"
+manifests:
+- failures:
+    containsAnyOf:
+    - codes:
+      - signingCredential.untrusted
+      - signingCredential.invalid
+  successes:
+    containsNoneOf:
+      codes:
+      - signingCredential.trusted

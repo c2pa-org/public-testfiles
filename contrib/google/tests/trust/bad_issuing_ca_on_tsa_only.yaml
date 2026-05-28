@@ -1,0 +1,17 @@
+description: issuing CA on TSA trust list but not claim signing trust list
+inputs:
+  assetPath: assets/test1.jpg
+  claimSignerTrustListPaths:
+  - certs/root_ca2_cert.pem
+  tsaTrustListPaths:
+  - certs/root_ca1_cert.pem
+  validationTime: "2001-06-01T00:00:00Z"
+manifests:
+- failures:
+    containsAllOf:
+      codes:
+      - signingCredential.untrusted
+  successes:
+    containsNoneOf:
+      codes:
+      - signingCredential.trusted
