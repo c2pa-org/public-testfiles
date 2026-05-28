@@ -1,0 +1,15 @@
+description: ingredient assertion referencing an ingredient manifest not present in
+  manifest store
+inputs:
+  assetPath: assets/ingredient_with_missing_manifest.jpg
+  claimSignerTrustListPaths:
+  - certs/root_ca1_cert.pem
+  tsaTrustListPaths:
+  - certs/root_ca1_cert.pem
+  validationTime: "2001-06-01T00:00:00Z"
+manifests:
+- failures:
+    containsAnyOf:
+    - codes:
+      - ingredient.claimSignature.missing
+      - ingredient.manifest.missing

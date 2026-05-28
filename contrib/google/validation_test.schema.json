@@ -1,0 +1,131 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ValidationTestCase",
+  "type": "object",
+  "properties": {
+    "description": {
+      "type": "string"
+    },
+    "inputs": {
+      "$ref": "#/definitions/Inputs"
+    },
+    "manifests": {
+      "description": "Expected validation results for each manifest in the manifest store, IN REVERSE ORDER (active manifest first, as in crJSON). If empty, the validator is expected not to find any C2PA manifests.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ManifestResult"
+      }
+    },
+    "validatorSpecVersions": {
+      "description": "C2PA spec version(s) that this test case applies to (e.g., \"2.4\"). If empty, the test case is assumed to apply to all spec versions.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "description",
+    "inputs",
+    "manifests"
+  ],
+  "definitions": {
+    "Inputs": {
+      "description": "Inputs for the validation.",
+      "type": "object",
+      "properties": {
+        "assetPath": {
+          "description": "Path to the asset file.",
+          "type": "string"
+        },
+        "claimSignerTrustListPaths": {
+          "description": "Paths containing the claim signer trust list (in PEM format) for the C2PA EKU (c2pa-kp-claimSigning). Each file contains one or more PEM certificates. At least one trust anchor must be provided.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tsaTrustListPaths": {
+          "description": "Paths containing the TSA trust list (in PEM format). Each file contains one or more PEM certificates. At least one trust anchor must be provided.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validationTime": {
+          "description": "The time at which validation should be performed (RFC 3339 format, e.g., \"2010-03-21T15:30:00Z\").",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": ["assetPath", "claimSignerTrustListPaths", "tsaTrustListPaths", "validationTime"]
+    },
+    "StatusCodeSet": {
+      "description": "A set of C2PA status codes, e.g., \"signingCredential.trusted\".",
+      "type": "object",
+      "properties": {
+        "codes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "StatusCodesExpectations": {
+      "description": "A predicate over a set of status codes produced by a C2PA validator.",
+      "type": "object",
+      "properties": {
+        "isEmpty": {
+          "type": "object",
+          "additionalProperties": false
+        },
+        "isNotEmpty": {
+          "type": "object",
+          "additionalProperties": false
+        },
+        "containsExactly": {
+          "description": "If present, the set must contain exactly these codes.",
+          "$ref": "#/definitions/StatusCodeSet"
+        },
+        "containsAllOf": {
+          "description": "If present, the set must contain all of these codes.",
+          "$ref": "#/definitions/StatusCodeSet"
+        },
+        "containsNoneOf": {
+          "description": "If present, the set must contain none of these codes.",
+          "$ref": "#/definitions/StatusCodeSet"
+        },
+        "containsAnyOf": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StatusCodeSet"
+          },
+          "description": "The set must contain at least one code from each of the listed sets."
+        }
+      },
+      "additionalProperties": false
+    },
+    "ManifestResult": {
+      "description": "Expectations for the validator's assessment of a single manifest.",
+      "type": "object",
+      "properties": {
+        "failures": {
+          "description": "Expectations regarding failure status codes.",
+          "$ref": "#/definitions/StatusCodesExpectations"
+        },
+        "successes": {
+          "description": "Expectations regarding success status codes.",
+          "$ref": "#/definitions/StatusCodesExpectations"
+        },
+        "informationals": {
+          "description": "Expectations regarding informational status codes.",
+          "$ref": "#/definitions/StatusCodesExpectations"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

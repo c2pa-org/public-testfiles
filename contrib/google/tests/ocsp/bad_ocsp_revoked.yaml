@@ -1,0 +1,22 @@
+description: valid REVOKED OCSP response
+inputs:
+  assetPath: assets/ocsp_revoked.jpg
+  claimSignerTrustListPaths:
+  - certs/root_ca1_cert.pem
+  tsaTrustListPaths:
+  - certs/tsa_ca_2000_2019.pem
+  validationTime: "2013-06-01T00:00:00Z"
+manifests:
+- failures:
+    containsAllOf:
+      codes:
+      - signingCredential.ocsp.revoked
+  informationals:
+    containsNoneOf:
+      codes:
+      - signingCredential.ocsp.skipped
+  successes:
+    containsNoneOf:
+      codes:
+      - signingCredential.ocsp.notRevoked
+      - signingCredential.trusted

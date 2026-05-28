@@ -1,0 +1,16 @@
+description: AVIF with valid C2PA manifest
+inputs:
+  assetPath: assets/avif_valid.avif
+  claimSignerTrustListPaths:
+  - certs/root_ca1_cert.pem
+  tsaTrustListPaths:
+  - certs/root_ca1_cert.pem
+  validationTime: "2001-06-01T00:00:00Z"
+manifests:
+- failures:
+    isEmpty: {}
+  successes:
+    containsAllOf:
+      codes:
+      - claimSignature.validated
+      - signingCredential.trusted

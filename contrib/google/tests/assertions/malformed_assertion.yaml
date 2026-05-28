@@ -1,0 +1,13 @@
+description: assertion CBOR is malformed (assertion.cbor.invalid)
+inputs:
+  assetPath: assets/malformed_assertion.jpg
+  claimSignerTrustListPaths:
+  - certs/root_ca1_cert.pem
+  tsaTrustListPaths:
+  - certs/root_ca1_cert.pem
+  validationTime: "2001-06-01T00:00:00Z"
+manifests:
+- failures:
+    containsAllOf:
+      codes:
+      - assertion.cbor.invalid
