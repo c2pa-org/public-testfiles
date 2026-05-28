@@ -1,0 +1,19 @@
+description: Multipart JPEG where optional part (part 3) is truncated by 10 bytes
+inputs:
+  assetPath: assets/multipart_optional_part_partly_removed.jpg
+  claimSignerTrustListPaths:
+  - certs/root_ca1_cert.pem
+  tsaTrustListPaths:
+  - certs/root_ca1_cert.pem
+  validationTime: "2001-06-01T00:00:00Z"
+manifests:
+- failures:
+    containsAnyOf:
+    - codes:
+      - assertion.multiAssetHash.malformed
+      - assertion.multiAssetHash.missingPart
+      - assertion.multiAssetHash.mismatch
+  successes:
+    containsNoneOf:
+      codes:
+      - assertion.multiAssetHash.match

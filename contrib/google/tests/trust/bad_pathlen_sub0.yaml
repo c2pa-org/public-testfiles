@@ -1,0 +1,18 @@
+description: intermediate CA pathlen constraint violation (Root -> Sub1 pathlen:0
+  -> Sub2 -> Signer)
+inputs:
+  assetPath: assets/pathlen_sub0_violation.jpg
+  claimSignerTrustListPaths:
+  - certs/root_ca1_cert.pem
+  tsaTrustListPaths:
+  - certs/root_ca1_cert.pem
+  validationTime: "2001-06-01T00:00:00Z"
+manifests:
+- failures:
+    containsAllOf:
+      codes:
+      - signingCredential.untrusted
+  successes:
+    containsNoneOf:
+      codes:
+      - signingCredential.trusted

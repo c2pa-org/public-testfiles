@@ -1,0 +1,16 @@
+description: claim signature URI in claim invalid (.../c2pa.wrong-signature-label)
+inputs:
+  assetPath: assets/sig_uri_invalid.jpg
+  claimSignerTrustListPaths:
+  - certs/root_ca1_cert.pem
+  tsaTrustListPaths:
+  - certs/root_ca1_cert.pem
+  validationTime: "2001-06-01T00:00:00Z"
+manifests:
+- failures:
+    containsAllOf:
+      codes:
+      - claimSignature.missing
+    containsNoneOf:
+      codes:
+      - claimSignature.validated

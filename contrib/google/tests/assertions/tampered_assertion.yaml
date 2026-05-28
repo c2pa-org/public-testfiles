@@ -1,0 +1,17 @@
+description: assertion content tampered (hashedURI.mismatch)
+inputs:
+  assetPath: assets/tampered_assertion.jpg
+  claimSignerTrustListPaths:
+  - certs/root_ca1_cert.pem
+  tsaTrustListPaths:
+  - certs/root_ca1_cert.pem
+  validationTime: "2001-06-01T00:00:00Z"
+manifests:
+- failures:
+    containsAllOf:
+      codes:
+      - assertion.hashedURI.mismatch
+  successes:
+    containsNoneOf:
+      codes:
+      - assertion.dataHash.match

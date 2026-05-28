@@ -1,0 +1,15 @@
+description: Multipart JPEG with multi-asset hash, optional part 3 of 3 removed
+inputs:
+  assetPath: assets/multipart_optional_part_removed.jpg
+  claimSignerTrustListPaths:
+  - certs/root_ca1_cert.pem
+  tsaTrustListPaths:
+  - certs/root_ca1_cert.pem
+  validationTime: "2001-06-01T00:00:00Z"
+manifests:
+- failures:
+    isEmpty: {}
+  successes:
+    containsAllOf:
+      codes:
+      - assertion.multiAssetHash.match

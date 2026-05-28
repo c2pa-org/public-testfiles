@@ -1,0 +1,13 @@
+description: OCSP valid at TS time but expired at validation time
+inputs:
+  assetPath: assets/ocsp_expired_at_vtime.jpg
+  claimSignerTrustListPaths:
+  - certs/root_ca1_cert.pem
+  tsaTrustListPaths:
+  - certs/tsa_ca_2000_2019.pem
+  validationTime: "2013-06-01T00:00:00Z"
+manifests:
+- successes:
+    containsAllOf:
+      codes:
+      - signingCredential.ocsp.notRevoked

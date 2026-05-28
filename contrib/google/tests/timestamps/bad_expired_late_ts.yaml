@@ -1,0 +1,20 @@
+description: signer expired, timestamp also after signer expired
+inputs:
+  assetPath: assets/ts_late_signer_2010_2014.jpg
+  claimSignerTrustListPaths:
+  - certs/root_ca1_cert.pem
+  tsaTrustListPaths:
+  - certs/tsa_ca_2000_2019.pem
+  validationTime: "2016-06-01T00:00:00Z"
+manifests:
+- failures:
+    containsAllOf:
+      codes:
+      - claimSignature.outsideValidity
+  successes:
+    containsAllOf:
+      codes:
+      - timeStamp.trusted
+    containsNoneOf:
+      codes:
+      - claimSignature.validated
