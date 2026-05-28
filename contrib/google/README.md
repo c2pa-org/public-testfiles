@@ -35,6 +35,9 @@ Test cases are specified as YAML files, following the JSON schema in
     * `failures` - expectations regarding validator failure codes
     * `successes` - expectations regarding validator success codes
     * `informationals` - expectations regarding validator informational codes
+  * `validatorSpecVersions` - optional list of C2PA spec version(s) that this
+    test case applies to (e.g., "2.4"). If empty, the test case is assumed to
+    apply to all spec versions.
 
 Status code expectations are expressed using a `StatusCodesExpectations` object,
 containing zero or more of the following fields, each of which represents a
