@@ -1,0 +1,113 @@
+{
+  "active_manifest": "urn:c2pa:8b6ebacd-930e-631b-d10a-47fe7f6b280b",
+  "manifests": {
+    "urn:c2pa:8b6ebacd-930e-631b-d10a-47fe7f6b280b": {
+      "claim_generator_info": {
+        "name": "Google C2PA SDK for Android",
+        "version": ":"
+      },
+      "format": "",
+      "instance_id": "6cef8fa8-8a0c-5143-711e-4df9594e5763",
+      "title": "",
+      "assertions": [
+        {
+          "label": "c2pa.hash.multi-asset",
+          "data": {
+            "parts": [
+              {
+                "location": {
+                  "byteOffset": 0,
+                  "length": 2708294
+                },
+                "hashAssertion": {
+                  "url": "self#jumbf=c2pa.assertions/c2pa.hash.data.part",
+                  "hash": "U2unW20001B357M6BjrTloSG8q2WG+YDRzNcyL0ie3I="
+                },
+                "optional": false
+              },
+              {
+                "location": {
+                  "byteOffset": 2708294,
+                  "length": 33587
+                },
+                "hashAssertion": {
+                  "url": "self#jumbf=c2pa.assertions/c2pa.hash.data.part__1",
+                  "hash": "NTbpS6bYp5cCzJqJfznI97MIIpa/YOsG3aCPmxS6pwk="
+                },
+                "optional": true
+              },
+              {
+                "location": {
+                  "byteOffset": 2741881,
+                  "length": 3279811
+                },
+                "hashAssertion": {
+                  "url": "self#jumbf=c2pa.assertions/c2pa.hash.data.part__2",
+                  "hash": "oLGzXP85R6KLS3GAhhvZrGKUSQoSHIFJN5YqLBoO7xo="
+                },
+                "optional": true
+              }
+            ],
+            "pad": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "pad2": ""
+          }
+        },
+        {
+          "label": "c2pa.hash.data.part__2",
+          "data": {
+            "alg": "sha256",
+            "hash": "baB8TKO5hGDfIxi8QJZScTop3Yi/VQP12zp5Xz/Hc/M=",
+            "pad": ""
+          }
+        },
+        {
+          "label": "c2pa.hash.data.part__1",
+          "data": {
+            "alg": "sha256",
+            "hash": "TbOaYmaeNW75mFKoXQH6laDA/oCeOqyCTAxncC4jxus=",
+            "pad": ""
+          }
+        },
+        {
+          "label": "c2pa.hash.data.part",
+          "data": {
+            "exclusions": [
+              {
+                "start": 24920,
+                "length": 2808
+              }
+            ],
+            "alg": "sha256",
+            "hash": "g47xPzky8MpE8Bmhec/248KWicbYGuEVaySOH4ekt94=",
+            "pad": "AAAAAAAAAAAAAAAA"
+          }
+        },
+        {
+          "label": "c2pa.hash.data",
+          "data": {
+            "exclusions": [
+              {
+                "start": 24920,
+                "length": 2808
+              }
+            ],
+            "alg": "sha256",
+            "hash": "P2nRRLkTdQvEvDf55edt/lSfuW1XsMoxPiYO7Hvf+sY=",
+            "pad": "AAAAAAAAAAAAAAAA"
+          }
+        },
+        {
+          "label": "c2pa.actions.v2",
+          "data": {
+            "actions": [
+              {
+                "action": "c2pa.created",
+                "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "active_manifest": "urn:c2pa:e1c88031-1072-a33b-ffb5-4beafd993366",
+  "manifests": {
+    "urn:c2pa:e1c88031-1072-a33b-ffb5-4beafd993366": {
+      "claim_generator_info": {
+        "name": "Google C2PA SDK for Android",
+        "version": ":"
+      },
+      "format": "",
+      "instance_id": "499eb3f1-b478-e84c-69aa-4d8d23f9fed5",
+      "title": "",
+      "assertions": [
+        {
+          "label": "c2pa.hash.data",
+          "data": {
+            "exclusions": [
+              {
+                "start": 2924,
+                "length": 1453
+              }
+            ],
+            "alg": "sha256",
+            "hash": "7wNqJ+xJiUGHzAXIDqY284akautIELPOqoyz/EKZ08c=",
+            "pad": "AAAAAAAAAAAAAAAA"
+          }
+        },
+        {
+          "label": "c2pa.actions.v2",
+          "data": {}
+        }
+      ]
+    }
+  }
+}

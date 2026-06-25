@@ -1,0 +1,137 @@
+{
+  "active_manifest": "urn:c2pa:14a1ada5-2f96-91df-804f-42a78d9919c3",
+  "manifests": {
+    "urn:c2pa:06c2b89e-84b1-cd52-c10b-4fe018168540": {
+      "claim_generator_info": {
+        "name": "Google C2PA SDK for Android",
+        "version": ":"
+      },
+      "format": "",
+      "instance_id": "25d69552-1e97-bd6a-104e-49091bab7454",
+      "title": "",
+      "assertions": [
+        {
+          "label": "c2pa.hash.data",
+          "data": {
+            "exclusions": [
+              {
+                "start": 2924,
+                "length": 1453
+              }
+            ],
+            "alg": "sha256",
+            "hash": "EANqJ+xJiUGHzAXIDqY284akautIELPOqoyz/EKZ08c=",
+            "pad": "AAAAAAAAAAAAAAAA"
+          }
+        },
+        {
+          "label": "c2pa.actions.v2",
+          "data": {
+            "actions": [
+              {
+                "action": "c2pa.created",
+                "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "urn:c2pa:14a1ada5-2f96-91df-804f-42a78d9919c3": {
+      "claim_generator_info": {
+        "name": "Google C2PA SDK for Android",
+        "version": ":"
+      },
+      "format": "",
+      "instance_id": "fdbb9e1c-a4bd-f86e-765e-4b336ac4dc32",
+      "title": "",
+      "assertions": [
+        {
+          "label": "c2pa.hash.data",
+          "data": {
+            "exclusions": [
+              {
+                "start": 2924,
+                "length": 4276
+              }
+            ],
+            "alg": "sha256",
+            "hash": "7wNqJ+xJiUGHzAXIDqY284akautIELPOqoyz/EKZ08c=",
+            "pad": "AAAAAAAAAAAAAAAA"
+          }
+        },
+        {
+          "label": "c2pa.actions.v2",
+          "data": {
+            "actions": [
+              {
+                "action": "c2pa.opened",
+                "parameters": {
+                  "ingredients": [
+                    {
+                      "url": "self#jumbf=c2pa.assertions/c2pa.ingredient.v3",
+                      "hash": "Wurb+f6AtHAxSs+C7RmbDZxB1cOIsyGTJ4dsqx0TSd4="
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "label": "c2pa.ingredient.v3",
+          "data": {
+            "dc:format": "image/jpeg",
+            "relationship": "parentOf",
+            "validationResults": {
+              "activeManifest": {
+                "failure": [
+                  {
+                    "code": "assertion.dataHash.mismatch",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:06c2b89e-84b1-cd52-c10b-4fe018168540/c2pa.assertions/c2pa.hash.data"
+                  }
+                ],
+                "success": [
+                  {
+                    "code": "signingCredential.trusted",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:06c2b89e-84b1-cd52-c10b-4fe018168540/c2pa.signature"
+                  },
+                  {
+                    "code": "claimSignature.insideValidity",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:06c2b89e-84b1-cd52-c10b-4fe018168540/c2pa.signature"
+                  },
+                  {
+                    "code": "claimSignature.validated",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:06c2b89e-84b1-cd52-c10b-4fe018168540/c2pa.signature"
+                  },
+                  {
+                    "code": "assertion.hashedURI.match",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:06c2b89e-84b1-cd52-c10b-4fe018168540/c2pa.assertions/c2pa.actions.v2"
+                  },
+                  {
+                    "code": "assertion.hashedURI.match",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:06c2b89e-84b1-cd52-c10b-4fe018168540/c2pa.assertions/c2pa.hash.data"
+                  }
+                ],
+                "informational": [
+                  {
+                    "code": "signingCredential.ocsp.skipped",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:06c2b89e-84b1-cd52-c10b-4fe018168540/c2pa.signature"
+                  }
+                ]
+              }
+            },
+            "activeManifest": {
+              "url": "self#jumbf=/c2pa/urn:c2pa:06c2b89e-84b1-cd52-c10b-4fe018168540",
+              "hash": "hCs2ez3QFxOwUE7Pj7Hj5jeCxJ7TqCy7yZT3jE5szbU="
+            },
+            "claimSignature": {
+              "url": "self#jumbf=/c2pa/urn:c2pa:06c2b89e-84b1-cd52-c10b-4fe018168540/c2pa.signature",
+              "hash": "S2FA+sjcooE/3vavclsaxt6FnoJuh0HhLrjr1PStQYY="
+            }
+          }
+        }
+      ]
+    }
+  }
+}
