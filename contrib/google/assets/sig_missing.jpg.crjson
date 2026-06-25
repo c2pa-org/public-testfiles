@@ -1,0 +1,41 @@
+{
+  "active_manifest": "urn:c2pa:724aa087-2b09-4d32-85b3-46322aabb7bb",
+  "manifests": {
+    "urn:c2pa:724aa087-2b09-4d32-85b3-46322aabb7bb": {
+      "claim_generator_info": {
+        "name": "Google C2PA SDK for Android",
+        "version": ":"
+      },
+      "format": "",
+      "instance_id": "4280a31f-4a9d-9bf6-ee9b-49ea898e14ab",
+      "title": "",
+      "assertions": [
+        {
+          "label": "c2pa.hash.data",
+          "data": {
+            "exclusions": [
+              {
+                "start": 2924,
+                "length": 1455
+              }
+            ],
+            "alg": "sha256",
+            "hash": "7wNqJ+xJiUGHzAXIDqY284akautIELPOqoyz/EKZ08c=",
+            "pad": "AAAAAAAAAAAAAAAA"
+          }
+        },
+        {
+          "label": "c2pa.actions.v2",
+          "data": {
+            "actions": [
+              {
+                "action": "c2pa.created",
+                "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

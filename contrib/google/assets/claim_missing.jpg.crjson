@@ -1,0 +1,38 @@
+{
+  "active_manifest": "urn:c2pa:71af80e4-4bf3-ca84-109c-4569a80ce5ef",
+  "manifests": {
+    "urn:c2pa:71af80e4-4bf3-ca84-109c-4569a80ce5ef": {
+      "claim_generator_info": [],
+      "format": "",
+      "instance_id": "",
+      "title": "",
+      "assertions": [
+        {
+          "label": "c2pa.hash.data",
+          "data": {
+            "exclusions": [
+              {
+                "start": 2924,
+                "length": 1039
+              }
+            ],
+            "alg": "sha256",
+            "hash": "7wNqJ+xJiUGHzAXIDqY284akautIELPOqoyz/EKZ08c=",
+            "pad": "AAAAAAAAAAAAAAAA"
+          }
+        },
+        {
+          "label": "c2pa.actions.v2",
+          "data": {
+            "actions": [
+              {
+                "action": "c2pa.created",
+                "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

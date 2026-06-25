@@ -1,0 +1,92 @@
+{
+  "active_manifest": "urn:c2pa:22ac8f9b-013c-808e-f4f7-4dc4ae065918",
+  "manifests": {
+    "urn:c2pa:22ac8f9b-013c-808e-f4f7-4dc4ae065918": {
+      "claim_generator_info": {
+        "name": "Google C2PA SDK for Android",
+        "version": ":"
+      },
+      "format": "",
+      "instance_id": "84359672-b10e-450f-dbd9-4dff4bd63a89",
+      "title": "",
+      "assertions": [
+        {
+          "label": "c2pa.hash.collection.data",
+          "data": {
+            "uris": [
+              {
+                "uri": "word/numbering.xml",
+                "hash": "PQc3w8TDJx8mDylI21FcRp2i4bSkdwRDZXrn47KbMTs="
+              },
+              {
+                "uri": "word/settings.xml",
+                "hash": "f3mvC2Rl/6fVAKye7jF9sarcyCfKcy0wWSTDvbojv6k="
+              },
+              {
+                "uri": "word/fontTable.xml",
+                "hash": "lGrrst6YY6foAQjPR1loI6QRXD3m+gXN8ScRcWzuE6M="
+              },
+              {
+                "uri": "word/_rels/fontTable.xml.rels",
+                "hash": "5Z1cPBTzI8BXMstopVoR0hmHH8Tfd4ZNh2DnEfA43WQ="
+              },
+              {
+                "uri": "word/styles.xml",
+                "hash": "Jd1aTDebfGNBHvdYOHlooSN8rYVo5n748EQ+Tj1S0b8="
+              },
+              {
+                "uri": "word/document.xml",
+                "hash": "DUPT/UqdOcCxNZXtdIU4gk4lD8pFOIjmnyHo3lblsZI="
+              },
+              {
+                "uri": "word/_rels/document.xml.rels",
+                "hash": "/jN/Xz21ZgbKE8fHkUh0eE8V1zbrcR/Dj/UsRfecNCQ="
+              },
+              {
+                "uri": "_rels/.rels",
+                "hash": "padt2JHix1/18IOXiKp2xpyUGhay3o0brk6T9QDtetU="
+              },
+              {
+                "uri": "word/theme/theme1.xml",
+                "hash": "BjsocWCEJCkon3QacOOND+UfAe8d3+k/mHQltAUxJ84="
+              },
+              {
+                "uri": "word/fonts/GoogleSans-bold.ttf",
+                "hash": "5Ig6n58OxCNl6yRD7SKi1K4zilx+6yU+euuFo0VE1XY="
+              },
+              {
+                "uri": "word/fonts/GoogleSans-italic.ttf",
+                "hash": "EG/PTm3NjKbT8HJcG1UDd+q1ATzaUbks7sySCsCgFHE="
+              },
+              {
+                "uri": "word/fonts/GoogleSans-boldItalic.ttf",
+                "hash": "zcYeOeDSOPt6+0btIR0NJgnsYGaPw6M7t1ZwR3bdZa4="
+              },
+              {
+                "uri": "word/fonts/GoogleSans-regular.ttf",
+                "hash": "45ukTsY9G25zBYFVDKX+KMxt1WItA3xKgiub5CepwaY="
+              },
+              {
+                "uri": "[Content_Types].xml",
+                "hash": "yHbMAtqKAsl+1nBKgwT2ossL7NMSlTsKIK5ir2J/S60="
+              }
+            ],
+            "alg": "sha256",
+            "zip_central_directory_hash": "HoZxaKWwpyORbLOcgB8fBRNOTPmaBGBCXpwGg/i7+DU="
+          }
+        },
+        {
+          "label": "c2pa.actions.v2",
+          "data": {
+            "actions": [
+              {
+                "action": "c2pa.created",
+                "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "active_manifest": "urn:c2pa:5746b69c-3330-de50-cf3e-41ad64e80384",
+  "manifests": {
+    "urn:c2pa:5746b69c-3330-de50-cf3e-41ad64e80384": {
+      "claim_generator_info": {
+        "name": "Google C2PA SDK for Android",
+        "version": ":"
+      },
+      "format": "",
+      "instance_id": "69ffa5d0-2a07-fb64-e1d0-4ecece586f24",
+      "title": "",
+      "assertions": [
+        {
+          "label": "c2pa.hash.bmff.v3",
+          "data": {
+            "exclusions": [
+              {
+                "xpath": "/ftyp"
+              },
+              {
+                "xpath": "/uuid",
+                "data": [
+                  {
+                    "offset": 8,
+                    "value": "2P7D1hsOSDySl1goh37EgQ=="
+                  }
+                ]
+              },
+              {
+                "xpath": "/mfra"
+              },
+              {
+                "xpath": "/free"
+              }
+            ],
+            "alg": "sha256",
+            "hash": "YmaMRPsmbKA0HzgAmRUv71Tifwkj9bPK/tafdPqo7jU=",
+            "name": "BMFF file hash"
+          }
+        },
+        {
+          "label": "c2pa.actions.v2",
+          "data": {
+            "actions": [
+              {
+                "action": "c2pa.created",
+                "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
