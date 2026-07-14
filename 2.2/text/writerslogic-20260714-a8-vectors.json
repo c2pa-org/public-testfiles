@@ -1,0 +1,26 @@
+{
+  "description": "Conformance vectors for C2PA Appendix A.8 unstructured-text embedding (Unicode variation selectors). Format-neutral; verified byte-identical against the c2pa-text reference library and this crate's codec.",
+  "spec": "https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html#_embedding_manifests_into_unstructured_text",
+  "wrapper": {
+    "magic_hex": "4332504154585400",
+    "magic_ascii": "C2PATXT\\0",
+    "version": 1,
+    "marker": "U+FEFF",
+    "layout": "marker U+FEFF, then the variation-selector encoding of magic(8) + version(1) + big-endian length(4) + payload"
+  },
+  "byteToVariationSelector": [
+    { "byte": "0x00", "codepoint": "U+FE00", "utf8": "EF B8 80" },
+    { "byte": "0x0F", "codepoint": "U+FE0F", "utf8": "EF B8 8F" },
+    { "byte": "0x10", "codepoint": "U+E0100", "utf8": "F3 A0 84 80" },
+    { "byte": "0xFF", "codepoint": "U+E01EF", "utf8": "F3 A0 87 AF" }
+  ],
+  "magicSequence": [
+    "U+E0133", "U+E0122", "U+E0140", "U+E0131",
+    "U+E0144", "U+E0148", "U+E0144", "U+FE00"
+  ],
+  "wrapperVector": {
+    "payload_hex": "633270612d6d616e69666573742d3031",
+    "payload_ascii": "c2pa-manifest-01",
+    "wrapper_utf8_hex": "efbbbff3a084b3f3a084a2f3a08580f3a084b1f3a08584f3a08588f3a08584efb880efb881efb880efb880efb880f3a08480f3a08593f3a084a2f3a085a0f3a08591f3a0849df3a0859df3a08591f3a0859ef3a08599f3a08596f3a08595f3a085a3f3a085a4f3a0849df3a084a0f3a084a1"
+  }
+}
