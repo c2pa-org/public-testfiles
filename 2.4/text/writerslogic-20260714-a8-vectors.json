@@ -1,5 +1,5 @@
 {
-  "description": "Conformance vectors for C2PA Appendix A.8 unstructured-text embedding (Unicode variation selectors). Format-neutral. Values are derived from the specification; the c2pa-text reference library was used only as a cross-check, and does not define correctness here.",
+  "description": "Conformance vectors for C2PA Appendix A.8 unstructured-text embedding (Unicode variation selectors). Format-neutral. All values are derived from the specification and independently verified by decoding.",
   "spec": "https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html#_embedding_manifests_into_unstructured_text",
   "wrapper": {
     "magic_hex": "4332504154585400",

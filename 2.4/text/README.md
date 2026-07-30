@@ -51,7 +51,7 @@ which is why both forms are included.
 - The `.txt` files deliberately have no trailing newline, so that the byte offsets
   in the vectors file are unambiguous.
 - These characters are invisible by design — inspect with a hex or code-point viewer.
-- Vector values are derived from the specification. The `c2pa-text` reference library
-  was used as a cross-check only.
+- Vector values are derived from the specification and independently verified by
+  decoding each file back to its payload.
 
 Contributed by [WritersLogic](https://writerslogic.com).
