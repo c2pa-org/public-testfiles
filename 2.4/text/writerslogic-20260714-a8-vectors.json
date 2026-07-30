@@ -1,0 +1,82 @@
+{
+  "description": "Conformance vectors for C2PA Appendix A.8 unstructured-text embedding (Unicode variation selectors). Format-neutral. Values are derived from the specification; the c2pa-text reference library was used only as a cross-check, and does not define correctness here.",
+  "spec": "https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html#_embedding_manifests_into_unstructured_text",
+  "wrapper": {
+    "magic_hex": "4332504154585400",
+    "magic_ascii": "C2PATXT\\0",
+    "version": 1,
+    "marker": "U+FEFF",
+    "layout": "marker U+FEFF, then the variation-selector encoding of magic(8) + version(1) + big-endian length(4) + payload + optional padding"
+  },
+  "byteToVariationSelector": [
+    { "byte": "0x00", "codepoint": "U+FE00", "utf8": "EF B8 80" },
+    { "byte": "0x0F", "codepoint": "U+FE0F", "utf8": "EF B8 8F" },
+    { "byte": "0x10", "codepoint": "U+E0100", "utf8": "F3 A0 84 80" },
+    { "byte": "0xFF", "codepoint": "U+E01EF", "utf8": "F3 A0 87 AF" }
+  ],
+  "magicSequence": [
+    "U+E0133", "U+E0122", "U+E0140", "U+E0131",
+    "U+E0144", "U+E0148", "U+E0144", "U+FE00"
+  ],
+  "payload": {
+    "hex": "633270612d6d616e69666573742d3031",
+    "ascii": "c2pa-manifest-01",
+    "length": 16,
+    "note": "A fixed placeholder, not a signed Manifest Store. These vectors exercise the transport and detection layer."
+  },
+  "wrapperVector": {
+    "padded": false,
+    "utf8_length": 114,
+    "utf8_hex": "efbbbff3a084b3f3a084a2f3a08580f3a084b1f3a08584f3a08588f3a08584efb880efb881efb880efb880efb880f3a08480f3a08593f3a084a2f3a085a0f3a08591f3a0849df3a0859df3a08591f3a0859ef3a08599f3a08596f3a08595f3a085a3f3a085a4f3a0849df3a084a0f3a084a1"
+  },
+  "deterministicPadding": {
+    "note": "The specification fixes both the target length and the padding byte values, so compliant generators emit byte-identical wrappers for the same manifest. This is the most divergence-prone part of A.8.",
+    "formula": "E_target = 3 + (13 + M) * 4 + 6",
+    "manifest_bytes": 16,
+    "e_target": 125,
+    "unpadded_length": 114,
+    "gap": 11,
+    "decomposition": "b = gap mod 3 = 2; a = (gap - 4b) / 3 = 1",
+    "padding_bytes_hex": "001010",
+    "padding_note": "a bytes of 0x00 (3-byte selectors) followed by b bytes of 0x10 (4-byte selectors): 1*3 + 2*4 = 11",
+    "utf8_length": 125,
+    "utf8_hex": "efbbbff3a084b3f3a084a2f3a08580f3a084b1f3a08584f3a08588f3a08584efb880efb881efb880efb880efb880f3a08480f3a08593f3a084a2f3a085a0f3a08591f3a0849df3a0859df3a08591f3a0859ef3a08599f3a08596f3a08595f3a085a3f3a085a4f3a0849df3a084a0f3a084a1efb880f3a08480f3a08480"
+  },
+  "hardBinding": {
+    "note": "Byte offsets are into the asset as stored, before NFC normalization. The excluded range covers the U+FEFF marker together with the variation-selector run, including any trailing padding.",
+    "asset": "writerslogic-20260714-a8-wrapper.txt",
+    "asset_bytes": 187,
+    "visible_text": "This sentence carries an invisible C2PA text manifest wrapper at its end.",
+    "visible_text_bytes": 73,
+    "exclusion": { "start": 73, "length": 114 },
+    "covered_bytes": 73,
+    "covered_note": "Remove the exclusion range first, then normalize the remainder to NFC, then hash. The visible text here is already NFC, so the covered bytes are the 73 bytes above."
+  },
+  "negative": [
+    {
+      "file": "writerslogic-20260714-a8-bad-magic.txt",
+      "defect": "final magic byte is 0x01 rather than 0x00",
+      "expected": "the detection algorithm keys on the magic, so the selector run is not a wrapper candidate at all; the asset carries no C2PA Manifest Store"
+    },
+    {
+      "file": "writerslogic-20260714-a8-bad-version.txt",
+      "defect": "version field is 2",
+      "expected": "candidate does not fully decode; asset treated as if no manifests were located"
+    },
+    {
+      "file": "writerslogic-20260714-a8-bad-length.txt",
+      "defect": "declares a 24-byte payload but the selector run carries 16",
+      "expected": "candidate does not fully decode; asset treated as if no manifests were located"
+    },
+    {
+      "file": "writerslogic-20260714-a8-two-wrappers.txt",
+      "defect": "two valid wrappers",
+      "expected": "asset treated as if no manifests were located"
+    },
+    {
+      "file": "writerslogic-20260714-a8-no-wrapper.txt",
+      "defect": "no marker and no selector run",
+      "expected": "no wrapper present; asset carries no C2PA Manifest Store"
+    }
+  ]
+}
