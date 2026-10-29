@@ -1,0 +1,110 @@
+{
+  "active_manifest": "urn:c2pa:86acddb3-52b0-4f9b-80ce-ee6d88a7a87f",
+  "manifests": {
+    "urn:c2pa:86acddb3-52b0-4f9b-80ce-ee6d88a7a87f": {
+      "claim": {
+        "instanceID": "xmp.iid:12d0f629-ab63-40c1-ae73-c76f70562b7f",
+        "claim_generator_info": {
+          "name": "c2pa-rs test file generator",
+          "version": "0.2.0",
+          "org.contentauth.c2pa_rs": "0.92.0-dev"
+        },
+        "signature": "self#jumbf=/c2pa/urn:c2pa:86acddb3-52b0-4f9b-80ce-ee6d88a7a87f/c2pa.signature",
+        "created_assertions": [
+          {
+            "url": "self#jumbf=c2pa.assertions/c2pa.actions.v2",
+            "hash": "Z1Tih3iySxvphwUO4hzr2rzVHSrBipN4Q8ih7y7WwXs="
+          },
+          {
+            "url": "self#jumbf=c2pa.assertions/c2pa.hash.collection.data",
+            "hash": "gOowsP2V2RXc6N4VjqzWw5AHIIvNuLWFpIBfQl4pUmA="
+          }
+        ],
+        "dc:title": "cogproof-20261029-C.ods",
+        "alg": "sha256",
+        "claim_version": 2
+      },
+      "assertion_store": {
+        "c2pa.actions.v2": {
+          "actions": [
+            {
+              "action": "c2pa.created",
+              "description": "Synthesised test document",
+              "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/algorithmicMedia"
+            }
+          ]
+        },
+        "c2pa.hash.collection.data": {
+          "alg": "sha256",
+          "uris": {
+            "META-INF/manifest.xml": {
+              "hash": "3mxtFwvmHjKM8b3oKcy0y4LopzNxg5iv/F165Xk9Kro=",
+              "size": 234
+            },
+            "content.xml": {
+              "hash": "usanq92Xwvbl5r9hEihcpQ1KrP2xgLAKh8SGKWYOCaw=",
+              "size": 306
+            },
+            "mimetype": {
+              "hash": "WyGYmtpoQY41GplMP183zgaVLirGcKBRW5CT+0+NHEQ=",
+              "size": 84
+            }
+          },
+          "zip_central_directory_hash": "R1Pr/Vide+LkoqRuLz8yf/NDsZ7MWtVwOY5ZPlhBSoc="
+        }
+      },
+      "signature": {
+        "alg": "es256",
+        "issuer": "C2PA Test Signing Cert",
+        "common_name": "C2PA Signer"
+      }
+    }
+  },
+  "validation_results": {
+    "activeManifest": {
+      "success": [
+        {
+          "code": "signingCredential.trusted",
+          "url": "self#jumbf=/c2pa/urn:c2pa:86acddb3-52b0-4f9b-80ce-ee6d88a7a87f/c2pa.signature",
+          "explanation": "signing certificate trusted, found in [system_anchors] trust anchors"
+        },
+        {
+          "code": "claimSignature.insideValidity",
+          "url": "self#jumbf=/c2pa/urn:c2pa:86acddb3-52b0-4f9b-80ce-ee6d88a7a87f/c2pa.signature",
+          "explanation": "claim signature valid"
+        },
+        {
+          "code": "claimSignature.validated",
+          "url": "self#jumbf=/c2pa/urn:c2pa:86acddb3-52b0-4f9b-80ce-ee6d88a7a87f/c2pa.signature",
+          "explanation": "claim signature valid"
+        },
+        {
+          "code": "assertion.hashedURI.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:86acddb3-52b0-4f9b-80ce-ee6d88a7a87f/c2pa.assertions/c2pa.actions.v2",
+          "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+        },
+        {
+          "code": "assertion.hashedURI.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:86acddb3-52b0-4f9b-80ce-ee6d88a7a87f/c2pa.assertions/c2pa.hash.collection.data",
+          "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.collection.data"
+        },
+        {
+          "code": "assertion.collectionHash.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:86acddb3-52b0-4f9b-80ce-ee6d88a7a87f/c2pa.assertions/c2pa.hash.collection.data",
+          "explanation": "collection hash valid"
+        }
+      ],
+      "informational": [
+        {
+          "code": "signingCredential.ocsp.skipped",
+          "url": "self#jumbf=/c2pa/urn:c2pa:86acddb3-52b0-4f9b-80ce-ee6d88a7a87f/c2pa.signature",
+          "explanation": "OCSP fetching skipped"
+        }
+      ],
+      "failure": []
+    },
+    "specVersion": "2.4.0",
+    "trustListUri": "system_anchors"
+  },
+  "validation_state": "Trusted"
+}
