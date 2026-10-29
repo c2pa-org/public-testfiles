@@ -1,0 +1,19 @@
+[package]
+name = "c2pa-audio-testfiles"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# Standalone crate: keep it out of any enclosing Cargo workspace.
+[workspace]
+
+[[bin]]
+name = "make_audio"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1"
+serde_json = "1"
+# c2pa-rs `integration/all-prs`. Set the path to another c2pa-rs checkout
+# to regenerate with a different build.
+c2pa = { path = "../../../c2pa-rs-integration/sdk", features = ["file_io"] }
