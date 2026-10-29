@@ -554,9 +554,131 @@ def zip_document(ext, paras):
 
 ZIPS = ["epub", "docx", "xlsx", "pptx", "odt", "ods", "odp", "odg", "oxps"]
 
+def vtt_time(seconds):
+    return f"00:00:{seconds:02d}.000"
+
+
 TEXTS = {
+    "txt": lambda ps: "\n\n".join(ps) + "\n",
+    "vtt": lambda ps: "WEBVTT\n\n" + "\n\n".join(
+        f"{vtt_time(2 * i)} --> {vtt_time(2 * i + 2)}\n{p}" for i, p in enumerate(ps)) + "\n",
     "md": lambda ps: "---\ntitle: C2PA test document\n---\n\n# C2PA test document\n\n" + "\n\n".join(ps) + "\n",
     "html": lambda ps: '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
     "<title>C2PA test document</title>\n</head>\n<body>\n"
     + "".join(f"<p>{esc(p)}</p>\n" for p in ps) + "</body>\n</html>\n",
 }
+
+
+class Table(Kind):
+    """A Parquet table with one row per paragraph."""
+
+    created = Document.created
+    edited = Document.edited
+    mixed = Document.mixed
+
+    def write(self, ext, variant, dest):
+        import pyarrow as pa
+        import pyarrow.parquet as pq
+
+        paras = TEXT[variant]
+        table = pa.table({"line": list(range(1, len(paras) + 1)), "text": paras})
+        pq.write_table(table, dest, compression="none", write_statistics=False)
+
+
+# ---------------------------------------------------------------- MIDI
+
+
+def vlq(n):
+    out = [n & 0x7F]
+    while n > 0x7F:
+        n >>= 7
+        out.insert(0, (n & 0x7F) | 0x80)
+    return bytes(out)
+
+
+SCALE = [60, 62, 64, 65, 67, 69, 71, 72]  # C major, quarter notes
+
+
+def midi_track(notes, velocity):
+    body = b"\x00\xff\x51\x03\x07\xa1\x20"  # tempo: 500000 us per quarter note (120 bpm)
+    for note, vel in zip(notes, velocity):
+        body += b"\x00" + bytes([0x90, note, vel]) + vlq(480) + bytes([0x80, note, 0])
+    body += b"\x00\xff\x2f\x00"
+    return b"MTrk" + struct.pack(">I", len(body)) + body
+
+
+class Midi(Kind):
+    created = "Synthesised test sequence"
+    edited = "Halved the note velocities"
+    mixed = "Added a second track"
+
+    def write(self, ext, variant, dest):
+        loud, quiet = [100] * len(SCALE), [50] * len(SCALE)
+        fifth = [n + 7 for n in SCALE]
+        tracks = {
+            "created": [(SCALE, loud)],
+            "edited": [(SCALE, quiet)],
+            "mixed": [(SCALE, quiet), (fifth, loud)],
+            "tampered": [(SCALE, quiet[:3] + [51] + quiet[4:])],
+            "component": [(fifth, loud)],
+        }[variant]
+        header = struct.pack(">HHH", 0 if len(tracks) == 1 else 1, len(tracks), 480)
+        dest.write_bytes(b"MThd" + struct.pack(">I", 6) + header +
+                         b"".join(midi_track(n, v) for n, v in tracks))
+
+
+# ---------------------------------------------------------------- machine-learning models
+
+
+def weights(variant):
+    """The tensors of each variant: `weight`, plus `bias` from the component."""
+    import numpy as np
+
+    w = np.arange(1, 9, dtype=np.float32).reshape(2, 4)
+    if variant == "component":
+        return {"bias": np.full(4, 0.25, dtype=np.float32)}
+    if variant != "created":
+        w = w * 0.5
+    if variant == "tampered":
+        w[0, 0] += 0.125
+    tensors = {"weight": w}
+    if variant == "mixed":
+        tensors.update(weights("component"))
+    return tensors
+
+
+class Model(Kind):
+    created = "Synthesised test model"
+    edited = "Scaled the weights by 0.5"
+    mixed = "Added a bias from a component model"
+
+    def write(self, ext, variant, dest):
+        tensors = weights(variant)
+        if ext == "safetensors":
+            from safetensors.numpy import save_file
+
+            save_file(tensors, str(dest))
+            return
+        import onnx
+        from onnx import TensorProto, helper, numpy_helper
+
+        # y = x @ weight (+ bias): x is [1, 2], y is [1, 4].
+        nodes, out = [], "x"
+        if "weight" in tensors:
+            nodes.append(helper.make_node("MatMul", ["x", "weight"], ["xw"]))
+            out = "xw"
+        if "bias" in tensors:
+            nodes.append(helper.make_node("Add", [out, "bias"], ["y"]))
+        else:
+            nodes.append(helper.make_node("Identity", [out], ["y"]))
+        x_shape = [1, 4] if "weight" not in tensors else [1, 2]
+        graph = helper.make_graph(
+            nodes, "c2pa_test",
+            [helper.make_tensor_value_info("x", TensorProto.FLOAT, x_shape)],
+            [helper.make_tensor_value_info("y", TensorProto.FLOAT, [1, 4])],
+            [numpy_helper.from_array(t, name) for name, t in tensors.items()],
+        )
+        model = helper.make_model(graph, producer_name="c2pa test", opset_imports=[helper.make_opsetid("", 13)])
+        model.ir_version = 8
+        onnx.checker.check_model(model)
+        dest.write_bytes(model.SerializeToString())

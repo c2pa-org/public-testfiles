@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regenerate the test files in 2.4.
+"""Regenerate the test files in 2.4 and 2.5.
 
 For each format this script:
   1. synthesises the unsigned source variants (see sources.py)
@@ -13,14 +13,14 @@ For each format this script:
        E-uri-CA  one letter of the c2pa.edited description changed (hashed URI mismatch)
   4. writes manifests/<name>/manifest_store.json and detailed.json for each file
 
-For audio, E-dat-CA flips one byte of audio in the signed file. For every
+For sampled audio, E-dat-CA flips one byte of audio in the signed file. For every
 other format it is CA's manifest store, unchanged, embedded in the
 "tampered" source: the edited asset with one small change.
 
 ECDSA signatures are randomised, so a rebuild produces different bytes with
 the same validation results.
 
-Usage: python3 build.py [--supplier NAME] [--date YYYYMMDD] [--only FOLDER[,FOLDER...]]
+Usage: python3 build.py [--version 2.4|2.5] [--supplier NAME] [--date YYYYMMDD] [--only FOLDER[,FOLDER...]]
 """
 import argparse
 import datetime
@@ -35,12 +35,11 @@ import sources as s
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parent.parent
-ROOT = REPO / "2.4"
 C2PA_RS = (HERE / "../../../c2pa-rs-integration").resolve()
 CERTS = C2PA_RS / "sdk/tests/fixtures/certs"
 
 # (category, folder, extension, kind)
-FORMATS = [
+FORMATS_2_4 = [
     ("audio", "mp3", "mp3", s.Audio("mp3")),
     ("audio", "wav", "wav", s.Audio("wav")),
     ("audio", "flac", "flac", s.Audio("flac")),
@@ -70,6 +69,18 @@ FORMATS = [
     ("text", "md", "md", s.Document()),
     ("html", "html", "html", s.Document()),
 ]
+
+# Embeddings added in 2.5 that c2pa-rs can write.
+FORMATS_2_5 = [
+    ("audio", "midi", "mid", s.Midi()),
+    ("text", "txt", "txt", s.Document()),
+    ("text", "vtt", "vtt", s.Document()),
+    ("model", "onnx", "onnx", s.Model()),
+    ("model", "safetensors", "safetensors", s.Model()),
+    ("data", "parquet", "parquet", s.Table()),
+]
+
+FORMATS = {"2.4": FORMATS_2_4, "2.5": FORMATS_2_5}
 
 
 # ---------------------------------------------------------------- audio byte flips
@@ -122,6 +133,7 @@ def flip_audio(ext, data):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--version", choices=FORMATS, default="2.4")
     parser.add_argument("--supplier", default="cogproof")
     parser.add_argument("--date", default=datetime.date.today().strftime("%Y%m%d"))
     parser.add_argument("--only", help="comma-separated format folders to build (default: all)")
@@ -134,10 +146,11 @@ def main():
     def run(*cmd):
         subprocess.run([str(args.signer), *map(str, cmd)], check=True, env=env)
 
-    for category, folder, ext, kind in FORMATS:
+    root = REPO / args.version
+    for category, folder, ext, kind in FORMATS[args.version]:
         if only and folder not in only:
             continue
-        good, bad = ROOT / category / "good" / folder, ROOT / category / "bad" / folder
+        good, bad = root / category / "good" / folder, root / category / "bad" / folder
         for d in (good, bad):
             shutil.rmtree(d / "manifests", ignore_errors=True)
             for old in d.glob(f"{args.supplier}-*.{ext}"):
@@ -157,7 +170,7 @@ def main():
             run("edit", src["edited"], c, ca, kind.edited)
             run("edit", src["mixed"], c, cai, f"{kind.edited}; {kind.mixed}", src["component"])
 
-            if category == "audio":
+            if isinstance(kind, s.Audio):
                 (bad / name("E-dat-CA")).write_bytes(flip_audio(ext, bytearray(ca.read_bytes())))
             else:
                 run("embed", ca, src["tampered"], bad / name("E-dat-CA"))

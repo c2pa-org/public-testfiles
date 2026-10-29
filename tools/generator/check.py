@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Check the 2.4 test files against the C2PA 2.4 embedding rules, without c2pa-rs.
+"""Check the 2.4 and 2.5 test files against their version's embedding rules, without c2pa-rs.
 
 For each file this parses the container directly and checks where and how the
 C2PA Manifest Store is embedded, against the "Embedding manifests" sections of
-the C2PA Technical Specification 2.4 (specs-core tag 2.4). It also checks that
+the C2PA Technical Specification (specs-core tags 2.4 and 2.5). It also checks that
 the active manifest uses the hard binding the specification requires for the
 format, and recomputes `c2pa.hash.data` and the per-file hashes of
 `c2pa.hash.collection.data` from the file itself.
@@ -12,7 +12,7 @@ The active manifest's assertions are read from manifests/<name>/detailed.json,
 which build.py writes. Bad files are expected to fail only their hash or
 signature checks, so the embedding checks run on them too.
 
-Usage: python3 check.py [FOLDER...]
+Usage: python3 check.py [--version 2.4|2.5] [FOLDER...]
 """
 import base64
 import hashlib
@@ -26,7 +26,8 @@ import zipfile
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parent.parent / "2.4"
+REPO = HERE.parent.parent
+VERSION = "2.4"  # set from --version in main()
 
 C2PA_STORE = b"jumb"  # followed by a jumd box whose UUID starts with "c2pa"
 BMFF_UUID = bytes.fromhex("D8FEC3D61B0E483C92975828877EC481")
@@ -307,14 +308,23 @@ def check_txt(data):
     need(raw[:8] == b"C2PATXT\0" and raw[8] == 1, "wrapper magic/version is not C2PATXT\\0 v1")
     length = struct.unpack(">I", raw[9:13])[0]
     need(is_store(raw[13 : 13 + length]), "wrapper does not hold a Manifest Store of manifestLength bytes")
-    need(len(raw) == 13 + length, f"wrapper has {len(raw) - 13 - length} bytes after jumbfContainer[manifestLength]")
+    rules = ["FEFF + one contiguous variation-selector wrapper, C2PATXT v1"]
+    padding = raw[13 + length :]
+    if VERSION == "2.4":
+        need(not padding, f"wrapper has {len(padding)} bytes after jumbfContainer[manifestLength]")
+    else:
+        # 2.5 "Deterministic Wrapper Padding": the wrapper, FEFF included, is exactly
+        # 3 + (13 + M) * 4 + 6 UTF-8 bytes, padded with 0x00 bytes then (G mod 3) 0x10 bytes.
+        target = 3 + (13 + length) * 4 + 6
+        need(len(m.group(0).encode()) == target, f"wrapper is {len(m.group(0).encode())} bytes, not {target}")
+        tens = len(padding) - len(padding.rstrip(b"\x10"))
+        need(set(padding[: len(padding) - tens]) <= {0} and tens < 3, "padding is not 0x00 bytes then up to two 0x10 bytes")
+        rules.append(f"deterministic padding to {target} bytes ({len(padding)} padding bytes)")
     need(unicodedata.is_normalized("NFC", text), "text is not NFC")
     start = len(text[: m.start()].encode())
-    length = len(m.group(0).encode())
     at_end = text[m.end() :].strip() == ""
-    return (["FEFF + one contiguous variation-selector wrapper, C2PATXT v1",
-             "wrapper at the end of the text (recommended)" if at_end else "wrapper not at the end (should)"],
-            [(start, length)])
+    rules.append("wrapper at the end of the text (recommended)" if at_end else "wrapper not at the end (should)")
+    return rules, [(start, len(m.group(0).encode()))]
 
 
 def check_structured(data, ext):
@@ -322,7 +332,12 @@ def check_structured(data, ext):
     need(data.count(begin) == 1 and data.count(end) == 1, "not exactly one manifest block")
     b, e = data.index(begin), data.index(end) + len(end)
     lines = data.split(b"\n")
-    if ext == "md":
+    if ext == "vtt":
+        need(data.startswith(b"WEBVTT\n\n"), "no WEBVTT header followed by a blank line")
+        need(data[b - 5 : b] == b"NOTE " and b - 5 == 8, "block is not a NOTE comment immediately after the header")
+        need(data[e : e + 2] == b"\n\n", "block is not separated from the next block by a blank line")
+        rules = ["NOTE comment block immediately after the WEBVTT header, separated by blank lines"]
+    elif ext == "md":
         need(data.startswith(b"---\n"), "no front matter")
         fm_end = data.index(b"\n---\n", 3)
         need(b > 0 and e <= fm_end, "manifest block is not inside the front matter")
@@ -338,12 +353,146 @@ def check_structured(data, ext):
     need(is_store(base64.b64decode(ref.split(b",", 1)[1])), "data: URI is not a Manifest Store")
     rules.append("data:application/c2pa;base64 reference")
     # The exclusion covers "the entire manifest block": the delimiters and what lies between.
-    if ext == "md":
+    if ext == "vtt":
+        block = (b - 5, e - b + 5 + 1)  # the NOTE line through its line terminator
+    elif ext == "md":
         block = (b, e - b + 1)  # through the line terminator
     else:
         line_start = data.rindex(b"\n", 0, b) + 1
         block = (line_start, len(data) - line_start)
     return rules, [block]
+
+
+# ---------------------------------------------------------------- 2.5 formats
+
+
+def check_midi(data):
+    need(data[:4] == b"MThd", "not a Standard MIDI File")
+    fmt, ntracks = struct.unpack(">HH", data[8:12])
+    pos, tracks = 8 + struct.unpack(">I", data[4:8])[0], []
+    while pos + 8 <= len(data):
+        kind, size = data[pos : pos + 4], struct.unpack(">I", data[pos + 4 : pos + 8])[0]
+        if kind == b"MTrk":
+            tracks.append((pos + 8, pos + 8 + size))
+        pos += 8 + size
+    need(len(tracks) == ntracks, "track count does not match MThd")
+    designated = {0: 0, 1: len(tracks) - 1, 2: 0}[fmt]
+    found = []  # (track, delta, data offset, data length, next event is End of Track)
+    for t, (start, end) in enumerate(tracks):
+        pos, status = start, 0
+        while pos < end:
+            delta = 0
+            while True:
+                delta, pos = (delta << 7) | (data[pos] & 0x7F), pos + 1
+                if data[pos - 1] < 0x80:
+                    break
+            if data[pos] == 0xFF:
+                kind, pos, length = data[pos + 1], pos + 2, 0
+                while True:
+                    length, pos = (length << 7) | (data[pos] & 0x7F), pos + 1
+                    if data[pos - 1] < 0x80:
+                        break
+                if kind == 0x7F and data[pos : pos + 3] == b"\x00\x43\x32":
+                    nxt = data[pos + length : pos + length + 3]
+                    found.append((t, delta, pos + 3, length - 3, nxt[1:3] == b"\xff\x2f"))
+                pos += length
+            elif data[pos] in (0xF0, 0xF7):
+                length, pos = 0, pos + 1
+                while True:
+                    length, pos = (length << 7) | (data[pos] & 0x7F), pos + 1
+                    if data[pos - 1] < 0x80:
+                        break
+                pos += length
+            else:
+                if data[pos] & 0x80:
+                    status, pos = data[pos], pos + 1
+                pos += 1 if status & 0xF0 in (0xC0, 0xD0) else 2
+    need(len(found) == 1, f"{len(found)} FF 7F events with the C2PA manufacturer identifier")
+    t, delta, start, length, before_eot = found[0]
+    need(t == designated, f"manifest event is in track {t}, not the designated track {designated} (format {fmt})")
+    need(delta == 0 and before_eot, "manifest event is not at delta 0 immediately before End of Track")
+    need(is_store(data[start : start + length]), "FF 7F data is not a C2PA Manifest Store")
+    return ([f"FF 7F event, manufacturer 00 43 32, in the designated track (format {fmt})",
+             "delta 0, immediately before End of Track"], [(start, length)])
+
+
+def varint(data, pos):
+    value = shift = 0
+    while True:
+        value |= (data[pos] & 0x7F) << shift
+        shift, pos = shift + 7, pos + 1
+        if data[pos - 1] < 0x80:
+            return value, pos
+
+
+def check_onnx(data):
+    """ModelProto.metadata_props (field 14): StringStringEntryProto {key = 1, value = 2}."""
+    pos, found = 0, []
+    while pos < len(data):
+        key, pos = varint(data, pos)
+        field, wire = key >> 3, key & 7
+        if wire == 0:
+            _, pos = varint(data, pos)
+        elif wire == 2:
+            length, pos = varint(data, pos)
+            if field == 14:
+                sub, end, entry = pos, pos + length, {}
+                while sub < end:
+                    k, sub = varint(data, sub)
+                    n, sub = varint(data, sub)
+                    entry[k >> 3] = (sub, data[sub : sub + n])
+                    sub += n
+                if entry.get(1, (0, b""))[1] == b"c2pa:manifest":
+                    found.append(entry[2])
+            pos += length
+        elif wire == 5:
+            pos += 4
+        elif wire == 1:
+            pos += 8
+        else:
+            raise Fail(f"unexpected protobuf wire type {wire}")
+    need(len(found) == 1, f"{len(found)} metadata_props entries with key c2pa:manifest")
+    start, value = found[0]
+    need(is_store(base64.b64decode(value)), "c2pa:manifest value is not a Base64 Manifest Store")
+    return ["one metadata_props entry c2pa:manifest, Base64 store"], [(start, len(value))]
+
+
+def check_safetensors(data):
+    n = struct.unpack("<Q", data[:8])[0]
+    header = data[8 : 8 + n]
+    pairs = []
+    json.loads(header, object_pairs_hook=lambda kv: pairs.append(kv) or dict(kv))
+    meta = [dict(kv) for kv in pairs if any(k == "c2pa:manifest" for k, _ in kv)]
+    count = sum(1 for kv in pairs for k, _ in kv if k == "c2pa:manifest")
+    need(count == 1, f"{count} c2pa:manifest keys")
+    top = json.loads(header)
+    need("c2pa:manifest" in top.get("__metadata__", {}), "c2pa:manifest is not in __metadata__")
+    value = top["__metadata__"]["c2pa:manifest"].encode()
+    need(is_store(base64.b64decode(value)), "c2pa:manifest value is not a Base64 Manifest Store")
+    need(header.count(value) == 1, "value not found once in the header")
+    need(8 + n + max(e for t in top.values() if "data_offsets" in t for e in t["data_offsets"]) == len(data),
+         "header length does not match the tensor data")
+    return ["one __metadata__ c2pa:manifest key, Base64 store", "header length field consistent"], \
+        [(8 + header.index(value), len(value))]
+
+
+def check_parquet(data):
+    need(data[:4] == b"PAR1" and data[-4:] == b"PAR1", "not a Parquet file")
+    flen = struct.unpack("<I", data[-8:-4])[0]
+    fstart = len(data) - 8 - flen
+    footer = data[fstart:-8]
+    need(footer.count(b"c2pa:manifest") == 1, f"{footer.count(b'c2pa:manifest')} c2pa:manifest keys in the footer")
+    # KeyValue {1: key, 2: value} in Thrift compact: after the key bytes, field 2 of type binary (0x18).
+    at = footer.index(b"c2pa:manifest") + len(b"c2pa:manifest")
+    need(footer[at] == 0x18, "c2pa:manifest key is not followed by its value")
+    length, vstart = varint(footer, at + 1)
+    value = footer[vstart : vstart + length]
+    need(is_store(base64.b64decode(value)), "c2pa:manifest value is not a Base64 Manifest Store")
+    import pyarrow.parquet as pq
+
+    meta = pq.ParquetFile(__import__("io").BytesIO(data)).metadata.metadata
+    need(meta and meta.get(b"c2pa:manifest") == value, "pyarrow does not read the same c2pa:manifest value")
+    return ["one key_value_metadata entry c2pa:manifest, Base64 store"], [(fstart + vstart, length)]
 
 
 # ---------------------------------------------------------------- hard binding
@@ -366,7 +515,9 @@ FAMILIES = {
     "mov": ("bmff", check_bmff), "heic": ("bmff", check_bmff), "avif": ("bmff", check_bmff),
     "ttf": ("boxes", check_font), "otf": ("boxes", check_font),
     "pdf": ("data", "pdf"), "html": ("data", check_html), "txt": ("data", check_txt),
-    "md": ("data", "structured"), "xml": ("data", "structured"),
+    "md": ("data", "structured"), "xml": ("data", "structured"), "vtt": ("data", "structured"),
+    "midi": ("data", check_midi), "onnx": ("data", check_onnx), "safetensors": ("data", check_safetensors),
+    "parquet": ("data", check_parquet),
     **{z: ("collection", "zip") for z in ["epub", "docx", "xlsx", "pptx", "odt", "ods", "odp", "odg", "oxps"]},
 }
 
@@ -435,10 +586,9 @@ def check_file(path, folder):
         rules = check_zip(path)
     elif check == "structured":
         rules, expected_excl = check_structured(data, folder)
-    elif check in (check_html, check_txt):
-        rules, expected_excl = check(data)
     else:
-        rules = check(data)
+        result = check(data)
+        rules, expected_excl = result if isinstance(result, tuple) else (result, None)
 
     store = active_assertions(path)
     bindings = [k for k in store if k.startswith("c2pa.hash.")]
@@ -463,18 +613,23 @@ def check_file(path, folder):
 
 
 def main():
-    folders = set(sys.argv[1:])
+    global VERSION
+    args = sys.argv[1:]
+    if args[:1] == ["--version"]:
+        VERSION, args = args[1], args[2:]
+    root = REPO / VERSION
+    folders = set(args)
     failures = 0
-    for path in sorted(ROOT.glob("*/*/*/*-*.*")):
+    for path in sorted(root.glob("*/*/*/*-*.*")):
         folder = path.parent.name
         if folders and folder not in folders:
             continue
         try:
             rules = check_file(path, folder)
-            print(f"ok   {path.relative_to(ROOT)}: " + "; ".join(rules))
+            print(f"ok   {path.relative_to(root)}: " + "; ".join(rules))
         except Exception as e:  # noqa: BLE001 - report and continue
             failures += 1
-            print(f"FAIL {path.relative_to(ROOT)}: {type(e).__name__ if not isinstance(e, Fail) else ''}{e}")
+            print(f"FAIL {path.relative_to(root)}: {type(e).__name__ if not isinstance(e, Fail) else ''}{e}")
     print(f"\n{failures} failure(s)")
     sys.exit(1 if failures else 0)
 
