@@ -1,0 +1,106 @@
+{
+  "active_manifest": "urn:c2pa:11696f5c-70e2-4df2-a9fe-7c9967f069a5",
+  "manifests": {
+    "urn:c2pa:11696f5c-70e2-4df2-a9fe-7c9967f069a5": {
+      "claim": {
+        "instanceID": "xmp.iid:f6f7d608-741b-41b0-a5cf-bb67c6418c05",
+        "claim_generator_info": {
+          "name": "c2pa-rs test file generator",
+          "version": "0.2.0",
+          "org.contentauth.c2pa_rs": "0.92.0-dev"
+        },
+        "signature": "self#jumbf=/c2pa/urn:c2pa:11696f5c-70e2-4df2-a9fe-7c9967f069a5/c2pa.signature",
+        "created_assertions": [
+          {
+            "url": "self#jumbf=c2pa.assertions/c2pa.actions.v2",
+            "hash": "SXDmHZiOv5p4LsovuBo6FcXWhTd7fJfUpfknbF000xI="
+          },
+          {
+            "url": "self#jumbf=c2pa.assertions/c2pa.hash.collection.data",
+            "hash": "sXs38N1YV/q777TjO2sJGL55Ktl5LxjMXnibsxUDdsg="
+          }
+        ],
+        "dc:title": "cogproof-20261029-C.warc",
+        "alg": "sha256",
+        "claim_version": 2
+      },
+      "assertion_store": {
+        "c2pa.actions.v2": {
+          "actions": [
+            {
+              "action": "c2pa.created",
+              "description": "Synthesised test document",
+              "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/algorithmicMedia"
+            }
+          ]
+        },
+        "c2pa.hash.collection.data": {
+          "alg": "sha256",
+          "uris": {
+            "urn:uuid:6f1d3a52-2b7e-4c1a-9a0e-000000000001": {
+              "hash": "HRgC6nZZavA7aPKAx4oyrDbc1Q8bD/Qid6c6wuHV308="
+            },
+            "urn:uuid:6f1d3a52-2b7e-4c1a-9a0e-000000000002": {
+              "hash": "rUeaYKjmnso2bR3UmFgZApIZFUhUvYfacgXmsTd81hA="
+            },
+            "urn:uuid:6f1d3a52-2b7e-4c1a-9a0e-000000000003": {
+              "hash": "ZVfEY5Hl40txKgYFxkbH3MVZCpHV4vsKovaRuPoUKcA="
+            }
+          }
+        }
+      },
+      "signature": {
+        "alg": "es256",
+        "issuer": "C2PA Test Signing Cert",
+        "common_name": "C2PA Signer"
+      }
+    }
+  },
+  "validation_results": {
+    "activeManifest": {
+      "success": [
+        {
+          "code": "signingCredential.trusted",
+          "url": "self#jumbf=/c2pa/urn:c2pa:11696f5c-70e2-4df2-a9fe-7c9967f069a5/c2pa.signature",
+          "explanation": "signing certificate trusted, found in [system_anchors] trust anchors"
+        },
+        {
+          "code": "claimSignature.insideValidity",
+          "url": "self#jumbf=/c2pa/urn:c2pa:11696f5c-70e2-4df2-a9fe-7c9967f069a5/c2pa.signature",
+          "explanation": "claim signature valid"
+        },
+        {
+          "code": "claimSignature.validated",
+          "url": "self#jumbf=/c2pa/urn:c2pa:11696f5c-70e2-4df2-a9fe-7c9967f069a5/c2pa.signature",
+          "explanation": "claim signature valid"
+        },
+        {
+          "code": "assertion.hashedURI.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:11696f5c-70e2-4df2-a9fe-7c9967f069a5/c2pa.assertions/c2pa.actions.v2",
+          "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+        },
+        {
+          "code": "assertion.hashedURI.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:11696f5c-70e2-4df2-a9fe-7c9967f069a5/c2pa.assertions/c2pa.hash.collection.data",
+          "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.collection.data"
+        },
+        {
+          "code": "assertion.collectionHash.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:11696f5c-70e2-4df2-a9fe-7c9967f069a5/c2pa.assertions/c2pa.hash.collection.data",
+          "explanation": "collection hash valid"
+        }
+      ],
+      "informational": [
+        {
+          "code": "signingCredential.ocsp.skipped",
+          "url": "self#jumbf=/c2pa/urn:c2pa:11696f5c-70e2-4df2-a9fe-7c9967f069a5/c2pa.signature",
+          "explanation": "OCSP fetching skipped"
+        }
+      ],
+      "failure": []
+    },
+    "specVersion": "2.4.0",
+    "trustListUri": "system_anchors"
+  },
+  "validation_state": "Trusted"
+}

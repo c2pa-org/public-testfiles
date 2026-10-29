@@ -70,8 +70,27 @@ FORMATS_2_4 = [
     ("html", "html", "html", s.Document()),
 ]
 
-# Embeddings added in 2.5 that c2pa-rs can write.
+# Embeddings added or changed in 2.5 that c2pa-rs can write. Some need c2pa-rs
+# branches that are not yet upstream (contentauth/c2pa-rs PRs in brackets):
+#   PDF        fix/pdf-embedded-file-subtype (#2960)
+#   Exif, MPF  fix/jpeg-app11-after-exif (#2962)
+#   TTML       feat/ttml (#2963), `unstable_ttml`
+#   WARC       feat/warc (#2964), `unstable_warc`
+#   Ogg        feat/ogg-vorbis on feat/font-sfnt (#2768), `unstable_ogg`
+#   BlockFact  feat/blockfact, `unstable_blockfact`
 FORMATS_2_5 = [
+    ("image", "jpeg-exif", "jpg", s.Image(jpeg="exif")),
+    ("image", "jpeg-mpf", "jpg", s.Image(jpeg="mpf")),
+    ("pdf", "pdf", "pdf", s.Document()),
+    # XML is left out: the A.9 armour delimiters contain "--", which XML 1.0 forbids in a
+    # comment (c2pa-org/specs-core#2590), and 2.5 gives two placements for a file with an
+    # XML declaration.
+    ("text", "ttml", "ttml", s.Document()),
+    ("audio", "ogg", "ogg", s.Audio("vorbis")),
+    ("image", "facti", "facti", s.BlockFact("facti")),
+    ("audio", "facta", "facta", s.BlockFact("facta")),
+    ("video", "factv", "factv", s.BlockFact("factv")),
+    ("archive", "warc", "warc", s.Warc()),
     ("audio", "midi", "mid", s.Midi()),
     ("text", "txt", "txt", s.Document()),
     ("text", "vtt", "vtt", s.Document()),
@@ -116,7 +135,8 @@ def audio_offset(ext, data):
                 return pos + size // 2
             pos += size
     else:
-        # MP3 and FLAC carry the manifest in a leading ID3 tag.
+        # MP3 and FLAC carry the manifest in a leading ID3 tag, and Ogg in pages right
+        # after the first, so the last 512 bytes are audio.
         return len(data) - 512
     raise AssertionError(f"no audio found in {ext} file")
 

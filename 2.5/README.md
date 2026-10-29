@@ -1,11 +1,15 @@
 # C2PA 2.5 test files
 
-Test files for the embeddings that version 2.5 of the C2PA Technical Specification adds ("Embedding manifests"). Formats already covered by 2.4 are in [`2.4`](../2.4/README.md), except where 2.5 changed the rules (see [Not included](#not-included)).
+Test files for the embeddings that version 2.5 of the C2PA Technical Specification adds or changes ("Embedding manifests"). Formats 2.5 leaves unchanged are in [`2.4`](../2.4/README.md).
 
 | Category | Formats |
 | -------- | ------- |
-| [Audio](audio/README.md) | Standard MIDI File |
-| [Text](text/README.md) | Plain text (with deterministic wrapper padding), WebVTT |
+| [Image](image/README.md) | JPEG (Exif), JPEG (MPF), BlockFact `.facti` |
+| [Audio](audio/README.md) | Standard MIDI File, Ogg Vorbis, BlockFact `.facta` |
+| [Video](video/README.md) | BlockFact `.factv` |
+| [PDF](pdf/README.md) | PDF (`Subtype` on the embedded file stream) |
+| [Text](text/README.md) | Plain text (with deterministic wrapper padding), WebVTT, TTML |
+| [Archive](archive/README.md) | WARC |
 | [Model](model/README.md) | ONNX, SafeTensors |
 | [Data](data/README.md) | Parquet |
 
@@ -20,33 +24,68 @@ Files are named `[supplier]-[YYYYMMDD]-[code].[extension]`, with the same codes 
 | `C` | A synthesised asset, `c2pa.created` (`algorithmicMedia`) | Valid |
 | `CA` | C after one edit, with C as its parent ingredient (`c2pa.opened`, `c2pa.edited`) | Valid |
 | `CAI` | As CA, plus an unsigned component ingredient merged in (`c2pa.placed`) | Valid |
-| `E-dat-CA` | CA's manifest store on a copy of CA with one small change | `assertion.dataHash.mismatch` |
+| `E-dat-CA` | CA with its content changed after signing | The format's hard-binding mismatch |
 | `E-sig-CA` | CA with the last byte of the claim signature flipped | `claimSignature.mismatch` |
 | `E-uri-CA` | CA with one letter of the `c2pa.edited` description changed | `assertion.hashedURI.mismatch` |
+
+The hard-binding mismatch is `assertion.dataHash.mismatch` for most formats, `assertion.boxesHash.mismatch` for Ogg (General Box Hash) and `assertion.collectionHash.mismatch` for WARC (collection data hash). Each category README lists the files and the exact expected failure codes.
 
 Each bad file fails for one reason only. Each file has a C2PA Tool style report in `manifests/<name>/manifest_store.json` and `manifests/<name>/detailed.json`, next to the file.
 
 ## How the files were made
 
-All source assets are synthesised by [`tools/generator`](../tools/generator) (`build.py --version 2.5`): MIDI and text are written directly, ONNX with the `onnx` package, SafeTensors with `safetensors`, and Parquet with `pyarrow`.
+All source assets are synthesised by [`tools/generator`](../tools/generator) (`build.py --version 2.5`):
 
-They are signed by c2pa-rs (0.92.0-dev) with ES256 and no time-stamp, using the same c2pa-rs test certificate as [2.4](../2.4/README.md#signing-certificate). MIDI, plain text and structured text use c2pa-rs's `unstable_midi`, `unstable_plain_text` and `unstable_structured_text` features.
+* **Pillow:** Exif and MPF JPEGs.
+* **ffmpeg:** Ogg Vorbis (its native, stereo-only Vorbis encoder), and the WAV and MP4 inside `.facta` and `.factv`.
+* **The `onnx`, `safetensors` and `pyarrow` packages:** the model and data files.
+* **Written directly:** MIDI, text, TTML, PDF, WARC and the BlockFact containers.
+
+They are signed by c2pa-rs (0.92.0-dev) with ES256 and no time-stamp, using the same c2pa-rs test certificate as [2.4](../2.4/README.md#signing-certificate). Several formats need c2pa-rs changes that aren't upstream yet:
+
+| Formats | c2pa-rs change | Feature |
+| ------- | -------------- | ------- |
+| PDF | contentauth/c2pa-rs#2960 | `pdf` |
+| JPEG (Exif, MPF) | contentauth/c2pa-rs#2962 | |
+| TTML | contentauth/c2pa-rs#2963 | `unstable_ttml` |
+| WARC | contentauth/c2pa-rs#2964 | `unstable_warc` |
+| Ogg Vorbis | `mrappard/c2pa-rs-text-support:feat/ogg-vorbis`, on contentauth/c2pa-rs#2768 | `unstable_ogg` |
+| BlockFact | `mrappard/c2pa-rs-text-support:feat/blockfact` | `unstable_blockfact` |
+| MIDI, plain text, WebVTT | `integration/all-prs` | `unstable_midi`, `unstable_plain_text`, `unstable_structured_text` |
+
+Two of these formats have other implementations under review in c2pa-rs: Ogg in contentauth/c2pa-rs#2073 and BlockFact in contentauth/c2pa-rs#2179. These test files follow the 2.5 text, not one implementation. For example, the Ogg box hash has one box per logical bitstream.
 
 ## How the files were checked
 
 * **c2pa-rs:** with the test root as trust anchor, every good file is Trusted and every bad file reports only its expected failure.
 * **Against the 2.5 text, without c2pa-rs:** [`tools/generator/check.py --version 2.5`](../tools/generator/check.py) checks each file:
+  * **JPEG:** the Exif `APP1` is still first after `SOI`. For MPF, the `APP11` is in the first image and every image still decodes.
+  * **PDF:** `Subtype application/c2pa` is on the embedded file stream, with `AFRelationship` `C2PA_Manifest`, the catalog `AF` entry and `EmbeddedFiles`.
   * **MIDI:** one `FF 7F` event with manufacturer `00 43 32`, at delta 0, immediately before End of Track in the designated track.
+  * **Ogg:**
+    * one logical bitstream whose first packet is `\x00c2pa` + store, from a BOS to an EOS page, with valid page CRCs;
+    * every BOS page first;
+    * every `Stream-[serial]` box hash recomputed over that stream's pages, in order.
   * **ONNX, SafeTensors and Parquet:** exactly one `c2pa:manifest` entry. For SafeTensors, the header length matches the tensor data.
   * **Plain text:** the wrapper is exactly `3 + (13 + M) * 4 + 6` UTF-8 bytes, padded with `0x00` bytes then up to two `0x10` bytes, and the exclusion includes the `U+FEFF` and the padding.
   * **WebVTT:** the `NOTE` block comes right after the `WEBVTT` header, separated by blank lines.
+  * **TTML:** one store at `/tt:tt/tt:head/tt:metadata/c2pa:manifest`, `xmlns:c2pa` on the root, and an exclusion of exactly that element.
+  * **BlockFact:** format version 2, and one `C2PA` extension block whose data is the store and exactly the exclusion.
+  * **WARC:**
+    * the C2PA record last, with `c2pa-provenance`, `application/c2pa` and no `WARC-Target-URI`;
+    * every other record hashed whole and keyed by `WARC-Record-ID`, one to one with the collection's `uris`.
 
-  For every format, the checker also confirms that the exclusion range is exactly the Base64 value or embedded block, and recomputes `c2pa.hash.data`.
-* **Readers:** every ONNX file passes `onnx.checker` and runs in the ONNX reference evaluator, every SafeTensors file loads with `safetensors`, and every Parquet file reads with `pyarrow`.
+  For every data-hash format, the checker confirms that the exclusion range is exactly the embedded block (on files whose content is intact) and recomputes `c2pa.hash.data`.
+* **Readers:**
+  * **Models and data:** every ONNX file passes `onnx.checker` and runs in the ONNX reference evaluator, every SafeTensors file loads with `safetensors`, and every Parquet file reads with `pyarrow`.
+  * **JPEG:** every Exif and MPF image decodes in Pillow.
+  * **PDF:** every PDF reads with pypdf.
+  * **TTML:** every TTML file parses as XML.
+  * **Ogg and BlockFact:** the good Ogg files decode in ffmpeg, which lists the C2PA stream as an unknown stream and skips it. The PNG, WAV and MP4 inside every BlockFact file decode.
 
 ## Regenerating
 
-As for [2.4](../2.4/README.md#regenerating), plus the `onnx`, `safetensors`, `pyarrow` and `numpy` Python packages:
+As for [2.4](../2.4/README.md#regenerating), plus the `onnx`, `safetensors`, `pyarrow` and `numpy` Python packages, and a c2pa-rs build with the changes listed above:
 
 ```sh
 cd tools/generator
@@ -57,11 +96,6 @@ python3 check.py --version 2.5
 
 ## Not included
 
-These 2.5 embeddings have no c2pa-rs handler yet: TTML, Ogg Vorbis, `.facti`/`.facta`/`.factv`, WARC, and append-only text files (logs and JSONL).
-
-These need a change in c2pa-rs first:
-
-* **PDF:** 2.5 moves `Subtype application/c2pa` from the file specification dictionary to the embedded file stream dictionary. c2pa-rs still writes it on the file specification dictionary, which is the 2.4 rule.
-* **Comment-line structured text at the end of a file (for example `.xml`):** the exclusion range also covers the line feed before the block, which belongs to the original content. 2.5 doesn't describe this, as in 2.4.
-
-Not yet made: **JPEG Exif-compressed and MPF files**, which 2.5 adds rules for. The generator does not yet make such sources.
+* **No c2pa-rs handler yet:** append-only text files (logs and JSONL), which use their own checkpoint and segment hash model.
+* **XML (comment-line structured text):** the `-----BEGIN C2PA MANIFEST-----` delimiters contain `--`, which XML 1.0 forbids in a comment, so a file signed this way is not well-formed XML (c2pa-org/specs-core#2590). 2.5 also gives two placements for a file that starts with an XML declaration: at the end of the file, and immediately after the declaration.
+* **Compressed WARC:** the WARC files here are uncompressed. c2pa-rs#2964 also reads and writes gzip-compressed WARC (`.warc.gz`), but not WARC-zstd.
