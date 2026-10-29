@@ -1,0 +1,291 @@
+{
+  "active_manifest": "urn:c2pa:be2cb0d4-8dc1-4698-bff5-3a10b4ee11ef",
+  "manifests": {
+    "urn:c2pa:be2cb0d4-8dc1-4698-bff5-3a10b4ee11ef": {
+      "claim": {
+        "instanceID": "xmp.iid:7abdca77-4508-454c-98ba-a09ad4bd3ae9",
+        "claim_generator_info": {
+          "name": "c2pa-rs audio test file generator",
+          "version": "0.1.0",
+          "org.contentauth.c2pa_rs": "0.92.0-dev"
+        },
+        "signature": "self#jumbf=/c2pa/urn:c2pa:be2cb0d4-8dc1-4698-bff5-3a10b4ee11ef/c2pa.signature",
+        "created_assertions": [
+          {
+            "url": "self#jumbf=c2pa.assertions/c2pa.ingredient.v3",
+            "hash": "DdtQBTwLEjEV4v5MBFQU5P5qr3UH19c9B7ye6u86DEY="
+          },
+          {
+            "url": "self#jumbf=c2pa.assertions/c2pa.actions.v2",
+            "hash": "TRV4Sw/1JbrHqb/yl8vzpt+V/wSw/Kir6w8ah+JKOYw="
+          },
+          {
+            "url": "self#jumbf=c2pa.assertions/c2pa.hash.bmff.v3",
+            "hash": "JZfbGqqXACQLwoQt6aZY0YtHePq4NaMTBCywg+/uZ70="
+          }
+        ],
+        "dc:title": "cogproof-20261029-CA.m4a",
+        "alg": "sha256",
+        "claim_version": 2
+      },
+      "assertion_store": {
+        "c2pa.actions.v2": {
+          "actions": [
+            {
+              "action": "c2pa.opened",
+              "parameters": {
+                "ingredients": [
+                  {
+                    "hash": "DdtQBTwLEjEV4v5MBFQU5P5qr3UH19c9B7ye6u86DEY=",
+                    "url": "self#jumbf=c2pa.assertions/c2pa.ingredient.v3"
+                  }
+                ]
+              }
+            },
+            {
+              "action": "c2pa.edited",
+              "description": "Reduced the volume by 6 dB"
+            }
+          ]
+        },
+        "c2pa.hash.bmff.v3": {
+          "alg": "sha256",
+          "exclusions": [
+            {
+              "data": [
+                {
+                  "offset": 8,
+                  "value": "2P7D1hsOSDySl1goh37EgQ=="
+                }
+              ],
+              "xpath": "/uuid"
+            },
+            {
+              "xpath": "/ftyp"
+            },
+            {
+              "xpath": "/mfra"
+            },
+            {
+              "xpath": "/free"
+            },
+            {
+              "xpath": "/skip"
+            }
+          ],
+          "hash": "4K/rTlUCz8wDEXJEpJ78IVTJqxMOxrnU8mhONJwTQmw=",
+          "name": "jumbf manifest"
+        },
+        "c2pa.ingredient.v3": {
+          "activeManifest": {
+            "alg": "sha256",
+            "hash": "GemlzGViAjDdP2aLhcnI50x0JQi2/ljlzEKMWub8cQA=",
+            "url": "self#jumbf=/c2pa/urn:c2pa:523bcae1-587b-49bf-93a2-bfa9ae13929c"
+          },
+          "claimSignature": {
+            "alg": "sha256",
+            "hash": "Ss7p8ceqTk8l8g2i1sgH+c8x1vTyrw345PK46TIrHQQ=",
+            "url": "self#jumbf=/c2pa/urn:c2pa:523bcae1-587b-49bf-93a2-bfa9ae13929c/c2pa.signature"
+          },
+          "dc:format": "m4a",
+          "dc:title": "cogproof-20261029-C.m4a",
+          "instanceID": "xmp.iid:c000a4e7-7aaf-4a7d-b56f-4457f60afed5",
+          "relationship": "parentOf",
+          "validationResults": {
+            "activeManifest": {
+              "failure": [],
+              "informational": [
+                {
+                  "code": "signingCredential.ocsp.skipped",
+                  "explanation": "OCSP fetching skipped",
+                  "url": "self#jumbf=/c2pa/urn:c2pa:523bcae1-587b-49bf-93a2-bfa9ae13929c/c2pa.signature"
+                },
+                {
+                  "code": "assertion.bmffHash.additionalExclusionsPresent",
+                  "explanation": "extra BMFF hash exclusion(s) found",
+                  "url": "self#jumbf=/c2pa/urn:c2pa:523bcae1-587b-49bf-93a2-bfa9ae13929c/c2pa.assertions/c2pa.hash.bmff.v3"
+                }
+              ],
+              "success": [
+                {
+                  "code": "signingCredential.trusted",
+                  "explanation": "signing certificate trusted, found in [system_anchors] trust anchors",
+                  "url": "self#jumbf=/c2pa/urn:c2pa:523bcae1-587b-49bf-93a2-bfa9ae13929c/c2pa.signature"
+                },
+                {
+                  "code": "claimSignature.insideValidity",
+                  "explanation": "claim signature valid",
+                  "url": "self#jumbf=/c2pa/urn:c2pa:523bcae1-587b-49bf-93a2-bfa9ae13929c/c2pa.signature"
+                },
+                {
+                  "code": "claimSignature.validated",
+                  "explanation": "claim signature valid",
+                  "url": "self#jumbf=/c2pa/urn:c2pa:523bcae1-587b-49bf-93a2-bfa9ae13929c/c2pa.signature"
+                },
+                {
+                  "code": "assertion.hashedURI.match",
+                  "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2",
+                  "url": "self#jumbf=/c2pa/urn:c2pa:523bcae1-587b-49bf-93a2-bfa9ae13929c/c2pa.assertions/c2pa.actions.v2"
+                },
+                {
+                  "code": "assertion.hashedURI.match",
+                  "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.bmff.v3",
+                  "url": "self#jumbf=/c2pa/urn:c2pa:523bcae1-587b-49bf-93a2-bfa9ae13929c/c2pa.assertions/c2pa.hash.bmff.v3"
+                },
+                {
+                  "code": "assertion.bmffHash.match",
+                  "explanation": "BMFF hash valid",
+                  "url": "self#jumbf=/c2pa/urn:c2pa:523bcae1-587b-49bf-93a2-bfa9ae13929c/c2pa.assertions/c2pa.hash.bmff.v3"
+                }
+              ]
+            },
+            "specVersion": "2.4.0",
+            "trustListUri": "system_anchors"
+          }
+        }
+      },
+      "signature": {
+        "alg": "es256",
+        "issuer": "C2PA Test Signing Cert",
+        "common_name": "C2PA Signer"
+      }
+    },
+    "urn:c2pa:523bcae1-587b-49bf-93a2-bfa9ae13929c": {
+      "claim": {
+        "instanceID": "xmp.iid:5fe7d497-1045-42ef-a418-452fd93dd1a6",
+        "claim_generator_info": {
+          "name": "c2pa-rs audio test file generator",
+          "version": "0.1.0",
+          "org.contentauth.c2pa_rs": "0.92.0-dev"
+        },
+        "signature": "self#jumbf=/c2pa/urn:c2pa:523bcae1-587b-49bf-93a2-bfa9ae13929c/c2pa.signature",
+        "created_assertions": [
+          {
+            "url": "self#jumbf=c2pa.assertions/c2pa.actions.v2",
+            "hash": "QxjFnSlUFqSy3wPfKvNotsiZXFMyU6V4pxGxktni/nU="
+          },
+          {
+            "url": "self#jumbf=c2pa.assertions/c2pa.hash.bmff.v3",
+            "hash": "QENBUNi/QHpj4iab7MkvBtw0wUaUuH1/BTTP7g494xM="
+          }
+        ],
+        "dc:title": "cogproof-20261029-C.m4a",
+        "alg": "sha256",
+        "claim_version": 2
+      },
+      "assertion_store": {
+        "c2pa.actions.v2": {
+          "actions": [
+            {
+              "action": "c2pa.created",
+              "description": "Synthesised test tone",
+              "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/algorithmicMedia"
+            }
+          ]
+        },
+        "c2pa.hash.bmff.v3": {
+          "alg": "sha256",
+          "exclusions": [
+            {
+              "data": [
+                {
+                  "offset": 8,
+                  "value": "2P7D1hsOSDySl1goh37EgQ=="
+                }
+              ],
+              "xpath": "/uuid"
+            },
+            {
+              "xpath": "/ftyp"
+            },
+            {
+              "xpath": "/mfra"
+            },
+            {
+              "xpath": "/free"
+            },
+            {
+              "xpath": "/skip"
+            }
+          ],
+          "hash": "8tELv5jlz7GvIxNlWcrKbYIuBUueum+1RwggDdsLVqU=",
+          "name": "jumbf manifest"
+        }
+      },
+      "signature": {
+        "alg": "es256",
+        "issuer": "C2PA Test Signing Cert",
+        "common_name": "C2PA Signer"
+      }
+    }
+  },
+  "validation_results": {
+    "activeManifest": {
+      "success": [
+        {
+          "code": "signingCredential.trusted",
+          "url": "self#jumbf=/c2pa/urn:c2pa:be2cb0d4-8dc1-4698-bff5-3a10b4ee11ef/c2pa.signature",
+          "explanation": "signing certificate trusted, found in [system_anchors] trust anchors"
+        },
+        {
+          "code": "assertion.hashedURI.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:be2cb0d4-8dc1-4698-bff5-3a10b4ee11ef/c2pa.assertions/c2pa.ingredient.v3",
+          "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.ingredient.v3"
+        },
+        {
+          "code": "assertion.hashedURI.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:be2cb0d4-8dc1-4698-bff5-3a10b4ee11ef/c2pa.assertions/c2pa.actions.v2",
+          "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+        },
+        {
+          "code": "assertion.hashedURI.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:be2cb0d4-8dc1-4698-bff5-3a10b4ee11ef/c2pa.assertions/c2pa.hash.bmff.v3",
+          "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.bmff.v3"
+        },
+        {
+          "code": "assertion.bmffHash.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:be2cb0d4-8dc1-4698-bff5-3a10b4ee11ef/c2pa.assertions/c2pa.hash.bmff.v3",
+          "explanation": "BMFF hash valid"
+        }
+      ],
+      "informational": [
+        {
+          "code": "signingCredential.ocsp.skipped",
+          "url": "self#jumbf=/c2pa/urn:c2pa:be2cb0d4-8dc1-4698-bff5-3a10b4ee11ef/c2pa.signature",
+          "explanation": "OCSP fetching skipped"
+        },
+        {
+          "code": "assertion.bmffHash.additionalExclusionsPresent",
+          "url": "self#jumbf=/c2pa/urn:c2pa:be2cb0d4-8dc1-4698-bff5-3a10b4ee11ef/c2pa.assertions/c2pa.hash.bmff.v3",
+          "explanation": "extra BMFF hash exclusion(s) found"
+        }
+      ],
+      "failure": [
+        {
+          "code": "claimSignature.mismatch",
+          "url": "self#jumbf=/c2pa/urn:c2pa:be2cb0d4-8dc1-4698-bff5-3a10b4ee11ef/c2pa.signature",
+          "explanation": "claim signature is not valid"
+        }
+      ]
+    },
+    "ingredientDeltas": [
+      {
+        "ingredientAssertionURI": "self#jumbf=/c2pa/urn:c2pa:be2cb0d4-8dc1-4698-bff5-3a10b4ee11ef/c2pa.assertions/c2pa.ingredient.v3",
+        "validationDeltas": {
+          "success": [
+            {
+              "code": "ingredient.manifest.validated",
+              "url": "self#jumbf=/c2pa/urn:c2pa:523bcae1-587b-49bf-93a2-bfa9ae13929c",
+              "explanation": "ingredient hash matched"
+            }
+          ],
+          "informational": [],
+          "failure": []
+        }
+      }
+    ],
+    "specVersion": "2.4.0",
+    "trustListUri": "system_anchors"
+  },
+  "validation_state": "Invalid"
+}
