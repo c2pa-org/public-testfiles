@@ -281,6 +281,16 @@ def check_pdf(path):
     c2pa = [s for s in specs if s.get("/AFRelationship") == "/C2PA_Manifest"]
     need(len(c2pa) == 1, f"{len(c2pa)} AF file specs with AFRelationship C2PA_Manifest")
     stream = c2pa[0]["/EF"]["/F"].get_object()
+    # ISO 32000-2: names are case-sensitive (7.11.3), and an associated file's embedded file
+    # stream has Params with a ModDate (7.11.4).
+    need(c2pa[0].get("/Type") == "/Filespec", f"file spec Type is {c2pa[0].get('/Type')}, not /Filespec")
+    need(stream.get("/Type") == "/EmbeddedFile", f"embedded file stream Type is {stream.get('/Type')}")
+    params = stream.get("/Params")
+    need(params is not None, "embedded file stream has no Params (required for an associated file)")
+    params = params.get_object()
+    need(re.fullmatch(r"D:\d{4}(\d{2}){0,5}(Z|[+-]\d{2}'?(\d{2}'?)?)?", str(params.get("/ModDate", ""))),
+         f"Params ModDate {params.get('/ModDate')!r} is not a PDF date")
+    need(params.get("/Size") in (None, len(stream.get_data())), "Params Size does not match the embedded file")
     if VERSION == "2.4":
         # 2.4 puts Subtype on the file specification dictionary.
         need(c2pa[0].get("/Subtype") == "/application/c2pa", f"file spec Subtype is {c2pa[0].get('/Subtype')}")
@@ -297,6 +307,7 @@ def check_pdf(path):
     in_annot = any(a.get("/Subtype") == "/FileAttachment" for a in annots)
     need(in_tree or in_annot, "file spec not referenced from EmbeddedFiles or a FileAttachment annotation")
     return [f"Subtype application/c2pa on the {where}, AFRelationship C2PA_Manifest",
+            "Type /Filespec; stream /EmbeddedFile with Params and a PDF-date ModDate",
             "catalog AF entry; referenced from " + ("EmbeddedFiles" if in_tree else "a FileAttachment annotation")]
 
 
