@@ -12,7 +12,7 @@
 
 Checks a validator performs (Chapter 15, Section 19.7, the `com.ezdrm.anchor-chain` continuity method and the CAWG identity assertion).
 
-| ID | Criterion | Spec | Status code on failure | Method | Result |
+| ID | Criterion | Spec section | Status code on failure | Method | Result |
 |:--|:--|:--|:--|:--|:--|
 | V1 | Initialization segment contains no `mdat` | 19.7.1 | `livevideo.init.invalid` | Measured | **PASS** (1/1) |
 | V2 | Each media segment has a C2PA Manifest Box | 19.7.1 | `livevideo.segment.invalid` | Measured | **PASS** (5/5) |
@@ -20,7 +20,7 @@ Checks a validator performs (Chapter 15, Section 19.7, the `com.ezdrm.anchor-cha
 | V4 | Time-stamp is valid for the claim signature | 10.3.2.5, 15 | `timeStamp.mismatch` | c2patool | **PASS** (6/6) |
 | V5 | Every hashed URI in the claim matches its assertion | 15 | `assertion.hashedURI.mismatch` | Measured | **PASS** (6/6), 27/27 hashed URIs |
 | V6 | `c2pa.hash.bmff.v3` matches the segment bytes | 9.2.3, 15 | `assertion.bmffHash.mismatch` | c2patool | **FAIL** (5/6; fails: seg_728692.m4s) |
-| V7 | `c2pa.livevideo.segment` is present | 19.3.2, 19.7.2 | `livevideo.assertion.invalid` | Measured | **PASS** (5/5) |
+| V7 | `c2pa.livevideo.segment` is present | 19.3.2 (defined), 19.7.2 (checked) | `livevideo.assertion.invalid` | Measured | **PASS** (5/5) |
 | V8 | `sequenceNumber` is greater than the previous segment's | 19.7.2 | `livevideo.assertion.invalid` | Measured | **PASS** (5/5) |
 | V9 | `streamId` equals the previous segment's | 19.7.2 | `livevideo.assertion.invalid` | Measured | **PASS** (5/5) |
 | V10 | `continuityMethod` is present and supported | 19.7.2 | `livevideo.continuityMethod.invalid` | Measured | **PASS** (5/5), `com.ezdrm.anchor-chain` |
@@ -34,22 +34,18 @@ Checks a validator performs (Chapter 15, Section 19.7, the `com.ezdrm.anchor-cha
 | File | V1 | V2 | V3 | V4 | V5 | V6 | V7 | V8 | V9 | V10 | V11 | V12 | V13 | V14 |
 |:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 | `init.mp4` (init) | PASS | — | PASS | PASS | PASS | PASS | — | — | — | — | — | — | — | — |
-| `seg_728690.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| `seg_728691.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728690.m4s` to `seg_728691.m4s` (2 files) | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
 | `seg_728692.m4s` | — | PASS | PASS | PASS | PASS | FAIL | PASS | PASS | PASS | PASS | PASS | FAIL | PASS | PASS |
-| `seg_728693.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| `seg_728694.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728693.m4s` to `seg_728694.m4s` (2 files) | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
 
 ### Validator output per file
 
 | File | `validation_state` | Status codes reported |
 |:--|:--|:--|
-| `init.mp4` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x2, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted`, `timeStamp.trusted`, `timeStamp.validated` |
-| `seg_728690.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
-| `seg_728691.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `init.mp4` (init) | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x2, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted`, `timeStamp.trusted`, `timeStamp.validated` |
+| `seg_728690.m4s` to `seg_728691.m4s` (2 files) | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
 | `seg_728692.m4s` | Invalid | `assertion.bmffHash.mismatch`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
-| `seg_728693.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
-| `seg_728694.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `seg_728693.m4s` to `seg_728694.m4s` (2 files) | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
 
 ## Predictive validation
 
@@ -79,7 +75,7 @@ The table replays the segments in order. The "Predicted" columns are computed fr
 
 Requirements on the claim generator. Validators do not reject files that miss these, so they do not affect the validation result above.
 
-| ID | Criterion | Spec | Status code on failure | Method | Result |
+| ID | Criterion | Spec section | Status code on failure | Method | Result |
 |:--|:--|:--|:--|:--|:--|
 | G1 | Claim uses `c2pa.claim.v2` | 10 | None. Validators accept `c2pa.claim` | Measured | **FAIL** (5/6; fails: init.mp4) |
 | G2 | Manifest identifier uses `urn:c2pa:` | 8 | None | Measured | **FAIL** (5/6; fails: init.mp4) |
@@ -89,8 +85,4 @@ Requirements on the claim generator. Validators do not reject files that miss th
 | File | G1 | G2 | G3 | G4 |
 |:--|:-:|:-:|:-:|:-:|
 | `init.mp4` (init) | FAIL | FAIL | FAIL | — |
-| `seg_728690.m4s` | PASS | PASS | PASS | PASS |
-| `seg_728691.m4s` | PASS | PASS | PASS | PASS |
-| `seg_728692.m4s` | PASS | PASS | PASS | PASS |
-| `seg_728693.m4s` | PASS | PASS | PASS | PASS |
-| `seg_728694.m4s` | PASS | PASS | PASS | PASS |
+| `seg_728690.m4s` to `seg_728694.m4s` (5 files) | PASS | PASS | PASS | PASS |

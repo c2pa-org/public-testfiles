@@ -69,7 +69,7 @@ func validationCriteria(useTool bool) []Criterion {
 			Applies: anyFile, Score: func(r *FileResult) Check {
 				return toolCheck(r, "assertion.bmffHash.match", "assertion.bmffHash.mismatch")
 			}},
-		{ID: "V7", Name: "`c2pa.livevideo.segment` is present", Spec: "19.3.2, 19.7.2", Code: "`livevideo.assertion.invalid`", Method: "Measured",
+		{ID: "V7", Name: "`c2pa.livevideo.segment` is present", Spec: "19.3.2 (defined), 19.7.2 (checked)", Code: "`livevideo.assertion.invalid`", Method: "Measured",
 			Applies: isSegment, Score: func(r *FileResult) Check { return check(r.HasLive) }},
 		{ID: "V8", Name: "`sequenceNumber` is greater than the previous segment's", Spec: "19.7.2", Code: "`livevideo.assertion.invalid`", Method: "Measured",
 			Applies: isSegment, Score: func(r *FileResult) Check { return r.SeqIncreasing }},
@@ -188,7 +188,7 @@ func resultCell(c Criterion, files []*FileResult) string {
 }
 
 func writeCriteria(w io.Writer, cs []Criterion, files []*FileResult) {
-	fmt.Fprintln(w, "| ID | Criterion | Spec | Status code on failure | Method | Result |")
+	fmt.Fprintln(w, "| ID | Criterion | Spec section | Status code on failure | Method | Result |")
 	fmt.Fprintln(w, "|:--|:--|:--|:--|:--|:--|")
 	for _, c := range cs {
 		fmt.Fprintf(w, "| %s | %s | %s | %s | %s | %s |\n", c.ID, c.Name, c.Spec, c.Code, c.Method, resultCell(c, files))
@@ -205,30 +205,46 @@ func writePerFile(w io.Writer, cs []Criterion, files []*FileResult) {
 		fmt.Fprint(w, ":-:|")
 	}
 	fmt.Fprintln(w)
-	for _, r := range files {
-		name := "`" + r.Name + "`"
-		if r.IsInit {
-			name += " (init)"
-		}
-		fmt.Fprintf(w, "| %s |", name)
+	writeGrouped(w, files, func(r *FileResult) string {
+		var b strings.Builder
 		for _, c := range cs {
 			v := NA
 			if c.Applies(r) {
 				v = c.Score(r)
 			}
-			fmt.Fprintf(w, " %s |", v)
+			fmt.Fprintf(&b, " %s |", v)
 		}
-		fmt.Fprintln(w)
+		return b.String()
+	})
+}
+
+// writeGrouped writes one table row per run of consecutive files whose cells
+// are identical, so a uniform result reads as a single summary row.
+func writeGrouped(w io.Writer, files []*FileResult, cells func(*FileResult) string) {
+	for i := 0; i < len(files); {
+		row := cells(files[i])
+		j := i + 1
+		for j < len(files) && files[j].IsInit == files[i].IsInit && cells(files[j]) == row {
+			j++
+		}
+		name := "`" + files[i].Name + "`"
+		if j-i > 1 {
+			name = fmt.Sprintf("`%s` to `%s` (%d files)", files[i].Name, files[j-1].Name, j-i)
+		}
+		if files[i].IsInit {
+			name += " (init)"
+		}
+		fmt.Fprintf(w, "| %s |%s\n", name, row)
+		i = j
 	}
 }
 
 func writeToolTable(w io.Writer, files []*FileResult) {
 	fmt.Fprintln(w, "| File | `validation_state` | Status codes reported |")
 	fmt.Fprintln(w, "|:--|:--|:--|")
-	for _, r := range files {
+	writeGrouped(w, files, func(r *FileResult) string {
 		if r.ToolErr != "" {
-			fmt.Fprintf(w, "| `%s` | error | %s |\n", r.Name, r.ToolErr)
-			continue
+			return fmt.Sprintf(" error | %s |", r.ToolErr)
 		}
 		var codes []string
 		for c, n := range r.ToolCodes {
@@ -239,6 +255,6 @@ func writeToolTable(w io.Writer, files []*FileResult) {
 			}
 		}
 		sort.Strings(codes)
-		fmt.Fprintf(w, "| `%s` | %s | %s |\n", r.Name, r.ToolState, strings.Join(codes, ", "))
-	}
+		return fmt.Sprintf(" %s | %s |", r.ToolState, strings.Join(codes, ", "))
+	})
 }
