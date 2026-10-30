@@ -1,0 +1,26 @@
+[package]
+name = "c2pa-testfiles"
+version = "0.2.0"
+edition = "2021"
+publish = false
+
+# Standalone crate: keep it out of any enclosing Cargo workspace.
+[workspace]
+
+[[bin]]
+name = "make_testfile"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1"
+serde_json = "1"
+# c2pa-rs `integration/all-prs`. Set the path to another c2pa-rs checkout
+# to regenerate with a different build. HTML, plain text and structured text
+# are behind c2pa-rs's unstable features, and PDF behind `pdf`.
+c2pa = { path = "../../../c2pa-rs-integration/sdk", features = [
+    "file_io",
+    "pdf",
+    "unstable_html",
+    "unstable_plain_text",
+    "unstable_structured_text",
+] }
