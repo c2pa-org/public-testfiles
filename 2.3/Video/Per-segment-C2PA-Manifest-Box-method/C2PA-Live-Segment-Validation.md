@@ -50,9 +50,9 @@ The parts of the specification that these files exercise are unchanged between
 2.4 adds wording for dynamically packaged content to the live video
 introduction (19.1, 19.2), and allows broadcast "push" streams to repeat an
 initialization segment without a C2PA Manifest Box. Neither changes how these
-files are generated or validated. The files are stored under `2.3/`, following
-this repository's convention that validators compliant with later versions
-also accept earlier test files.
+files are generated or validated. The same files are provided under both
+`2.3/Video/Per-segment-C2PA-Manifest-Box-method/` and
+`2.4/Video/Per-segment-C2PA-Manifest-Box-method/`.
 
 ## Files
 
