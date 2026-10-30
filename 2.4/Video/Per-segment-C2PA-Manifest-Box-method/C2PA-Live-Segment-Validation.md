@@ -29,7 +29,7 @@ The segments also carry a CAWG identity assertion
 - [Missing segments](#missing-segments)
 - [Validation rubric](#validation-rubric)
 - [Checking this test set](#checking-this-test-set)
-- [Known deviations in the current files](#known-deviations-in-the-current-files)
+- [Generator notes](#generator-notes)
 
 ## Specification versions
 
@@ -329,6 +329,9 @@ prev = { seq: seg.sequenceNumber, streamId: seg.streamId, manifestId: store.acti
 
 ### Step 6: Validate the anchor-chained continuity token
 
+`com.ezdrm.anchor-chain` is an implementer-defined continuity method, as
+permitted by Section 19.3.2. A validator supports it by implementing this step.
+
 ```mermaid
 flowchart LR
   A["anchor = floor(sequenceNumber / anchorSegmentIndex) x anchorSegmentIndex"] --> H["anchorIV = SHA-256(UTF-8(streamIdHash + decimal(anchor)))[0..15]"]
@@ -448,89 +451,160 @@ sequenceDiagram
 
 ## Validation rubric
 
-The rubric below scores `m4s/` (`init.mp4` and segments 728690 to 728709)
-against each validation criterion. "Measured" criteria were checked directly
-against the file bytes. "c2patool" criteria were checked with c2patool 0.27.22
-(c2pa-rs), which reports `validation_state` `Valid` for all 21 files.
+- **Method:** Per-segment C2PA Manifest Box method (C2PA 2.3 and 2.4, Section 19.3)
+- **Input:** `m4s`: 1 initialization segment(s), 20 media segment(s)
+- **Validator:** c2patool 0.27.22
+- **Segment index source:** number in the segment file name
+- **Out of scope:** signer and time-stamp authority trust. The rubric scores signature and time-stamp validity, not trust-list membership
 
-Signer certificate trust is out of scope for this test set: the rubric scores
-signature and time-stamp validity, not whether the signing certificates are on
-a particular trust list.
+**Result: all 21 files pass validation.**
 
-### Criteria
+### Validation criteria
+
+Checks a validator performs (Chapter 15, Section 19.7, the `com.ezdrm.anchor-chain` continuity method and the CAWG identity assertion).
 
 | ID | Criterion | Spec | Status code on failure | Method | Result |
 |:--|:--|:--|:--|:--|:--|
-| R1 | Initialization segment contains no `mdat` | 19.7.1 | `livevideo.init.invalid` | Measured | **PASS** (1/1) |
-| R2 | Each media segment has a C2PA Manifest Box | 19.7.1 | `livevideo.segment.invalid` | Measured | **PASS** (20/20) |
-| R3 | Claim uses `c2pa.claim.v2` | 10 | Generator conformance | Measured | **PASS** (20/20 segments). **FAIL** for `init.mp4` (`c2pa.claim`) |
-| R4 | Manifest identifier uses `urn:c2pa:` | 8 | Generator conformance | Measured | **PASS** (20/20 segments). **FAIL** for `init.mp4` (`urn:uuid:`) |
-| R5 | Claim signature carries a v2 time-stamp (`sigTst2`) | 10.3.2.5 | Generator conformance | Measured | **PASS** (20/20) |
-| R6 | Every hashed URI in the claim matches its assertion | 15 | `assertion.hashedURI.mismatch` | Measured | **PASS** (100/100 in segments, 2/2 in `init.mp4`) |
-| R7 | `c2pa.livevideo.segment` is present | 19.3.2 | `livevideo.assertion.invalid` | Measured | **PASS** (20/20) |
-| R8 | `sequenceNumber` is greater than the previous segment's | 19.7.2 | `livevideo.assertion.invalid` | Measured | **PASS** (20/20) |
-| R9 | `streamId` equals the previous segment's | 19.7.2 | `livevideo.assertion.invalid` | Measured | **PASS** (20/20) |
-| R10 | `continuityMethod` is present and supported | 19.7.2 | `livevideo.continuityMethod.invalid` | Measured | **PASS** (20/20, `com.ezdrm.anchor-chain`) |
-| R11 | `streamIdHash` equals `SHA-256(streamId)[0..15]` | `com.ezdrm.anchor-chain` | `livevideo.segment.invalid` | Measured | **PASS** (20/20) |
-| R12 | Continuity token recomputes (anchors 728690 and 728700) | `com.ezdrm.anchor-chain` | `livevideo.segment.invalid` | Measured | **PASS** (20/20) |
-| R13 | `sequenceNumber` matches `mfhd.sequence_number` | 19.3.2 | Generator conformance | Measured | **FAIL** (0/20, `sequenceNumber` is `mfhd` minus 1) |
-| R14 | `cawg.identity` is present and its referenced `c2pa.hash.bmff.v3` hash matches | CAWG Identity Assertion | Identity assertion invalid | Measured | **PASS** (20/20) |
-| R15 | Claim signature is valid and inside the certificate's validity period | 15 | `claimSignature.mismatch`, `claimSignature.outsideValidity` | c2patool | **PASS** (21/21 `claimSignature.validated`, `claimSignature.insideValidity`) |
-| R16 | Time-stamp is valid for the claim signature | 10.3.2.5, 15 | `timeStamp.mismatch` | c2patool | **PASS** (21/21 `timeStamp.validated`) |
-| R17 | `c2pa.hash.bmff.v3` matches the segment bytes | 15 | `assertion.bmffHash.mismatch` | c2patool | **PASS** (21/21 `assertion.bmffHash.match`) |
-| R18 | CAWG identity signature (`cawg.x509.cose`) is valid | CAWG Identity Assertion | Identity assertion invalid | c2patool | **PASS** (20/20 `cawg.identity.well-formed`, "CAWG X.509 identity signature valid") |
+| V1 | Initialization segment contains no `mdat` | 19.7.1 | `livevideo.init.invalid` | Measured | **PASS** (1/1) |
+| V2 | Each media segment has a C2PA Manifest Box | 19.7.1 | `livevideo.segment.invalid` | Measured | **PASS** (20/20) |
+| V3 | Claim signature is valid and inside the certificate's validity period | 15 | `claimSignature.mismatch`, `claimSignature.outsideValidity` | c2patool | **PASS** (21/21) |
+| V4 | Time-stamp is valid for the claim signature | 10.3.2.5, 15 | `timeStamp.mismatch` | c2patool | **PASS** (21/21) |
+| V5 | Every hashed URI in the claim matches its assertion | 15 | `assertion.hashedURI.mismatch` | Measured | **PASS** (21/21), 102/102 hashed URIs |
+| V6 | `c2pa.hash.bmff.v3` matches the segment bytes | 9.2.3, 15 | `assertion.bmffHash.mismatch` | c2patool | **PASS** (21/21) |
+| V7 | `c2pa.livevideo.segment` is present | 19.3.2, 19.7.2 | `livevideo.assertion.invalid` | Measured | **PASS** (20/20) |
+| V8 | `sequenceNumber` is greater than the previous segment's | 19.7.2 | `livevideo.assertion.invalid` | Measured | **PASS** (20/20) |
+| V9 | `streamId` equals the previous segment's | 19.7.2 | `livevideo.assertion.invalid` | Measured | **PASS** (20/20) |
+| V10 | `continuityMethod` is present and supported | 19.7.2 | `livevideo.continuityMethod.invalid` | Measured | **PASS** (20/20), `com.ezdrm.anchor-chain` |
+| V11 | `streamIdHash` equals `SHA-256(streamId)[0..15]` | `com.ezdrm.anchor-chain` | `livevideo.segment.invalid` | Measured | **PASS** (20/20) |
+| V12 | Anchor-chain continuity token recomputes | `com.ezdrm.anchor-chain` | `livevideo.segment.invalid` | Measured | **PASS** (20/20) |
+| V13 | `cawg.identity` referenced assertion hashes match | CAWG Identity Assertion | Identity assertion invalid | Measured | **PASS** (20/20) |
+| V14 | `cawg.identity` signature (`cawg.x509.cose`) is valid | CAWG Identity Assertion | Identity assertion invalid | c2patool | **PASS** (20/20) |
 
-### Results per file (measured)
+#### Results per file
 
-| File | Box structure | C2PA Manifest Box | claim.v2 | urn:c2pa | sigTst2 | livevideo.segment | sequenceNumber increasing | streamId constant | continuityMethod | streamIdHash | Continuity token | seq = mfhd | Assertion hashes | CAWG identity | CAWG ref hash |
-|:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-| `init.mp4` (init) | PASS (`ftyp uuid moov`, no mdat) | PASS | FAIL | FAIL | — | — | — | — | — | — | — | — | PASS (2/2) | — | — |
-| `seg_728690.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
-| `seg_728691.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
-| `seg_728692.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
-| `seg_728693.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
-| `seg_728694.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
-| `seg_728695.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
-| `seg_728696.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
-| `seg_728697.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
-| `seg_728698.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
-| `seg_728699.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
-| `seg_728700.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
-| `seg_728701.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
-| `seg_728702.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
-| `seg_728703.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
-| `seg_728704.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
-| `seg_728705.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
-| `seg_728706.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
-| `seg_728707.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
-| `seg_728708.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
-| `seg_728709.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
+| File | V1 | V2 | V3 | V4 | V5 | V6 | V7 | V8 | V9 | V10 | V11 | V12 | V13 | V14 |
+|:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| `init.mp4` (init) | PASS | — | PASS | PASS | PASS | PASS | — | — | — | — | — | — | — | — |
+| `seg_728690.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728691.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728692.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728693.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728694.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728695.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728696.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728697.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728698.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728699.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728700.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728701.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728702.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728703.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728704.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728705.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728706.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728707.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728708.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `seg_728709.m4s` | — | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
 
-### Results per file (c2patool 0.27.22)
+#### Validator output per file
 
-| File | validation_state | claimSignature.validated | timeStamp.validated | assertion.bmffHash.match | assertion.hashedURI.match | cawg.identity.well-formed |
-|:--|:-:|:-:|:-:|:-:|:-:|:-:|
-| `init.mp4` | Valid | PASS | PASS | PASS | 2 | — |
-| `seg_728690.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
-| `seg_728691.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
-| `seg_728692.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
-| `seg_728693.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
-| `seg_728694.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
-| `seg_728695.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
-| `seg_728696.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
-| `seg_728697.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
-| `seg_728698.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
-| `seg_728699.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
-| `seg_728700.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
-| `seg_728701.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
-| `seg_728702.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
-| `seg_728703.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
-| `seg_728704.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
-| `seg_728705.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
-| `seg_728706.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
-| `seg_728707.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
-| `seg_728708.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
-| `seg_728709.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+| File | `validation_state` | Status codes reported |
+|:--|:--|:--|
+| `init.mp4` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x2, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted`, `timeStamp.trusted`, `timeStamp.validated` |
+| `seg_728690.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `seg_728691.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `seg_728692.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `seg_728693.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `seg_728694.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `seg_728695.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `seg_728696.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `seg_728697.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `seg_728698.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `seg_728699.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `seg_728700.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `seg_728701.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `seg_728702.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `seg_728703.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `seg_728704.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `seg_728705.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `seg_728706.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `seg_728707.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `seg_728708.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+| `seg_728709.m4s` | Valid | `assertion.bmffHash.match`, `assertion.hashedURI.match` x5, `cawg.identity.well-formed`, `claimSignature.insideValidity`, `claimSignature.validated`, `signingCredential.untrusted` x2, `timeStamp.untrusted`, `timeStamp.validated` |
+
+### Predictive validation
+
+With `com.ezdrm.anchor-chain`, a validator knows what the next segment must contain before it arrives. Only the segment's bytes and its `continuityToken` are new. Everything else is fixed for the stream or follows from `sequenceNumber`:
+
+1. **Next `sequenceNumber`:** the previous one plus 1. The segment can be requested by that index.
+2. **Next anchor:** anchors fall where `sequenceNumber % anchorSegmentIndex == 0`, so the validator knows which upcoming segment re-derives its IV.
+3. **Next IV:** the previous IV plus 1, or for an anchor `SHA-256(streamIdHash + anchor)[0..15]`. It is computed before the segment arrives.
+4. **AES key:** `certHash` is constant for the signer, so the AES-128 key schedule is set up once per stream.
+5. **Stream binding:** `streamId` and `streamIdHash` are constant, so they are checked once and then compared by value.
+6. **Streaming token check:** the CBC-MAC runs over `moof` then `mdat` in arrival order, so the token is ready as soon as the last byte of `mdat` arrives. No second pass over the segment is needed.
+7. **Manifest first:** the C2PA Manifest Box comes before `moof` and `mdat`, so signature, time-stamp and CAWG checks can run while the media is still downloading.
+
+The table replays the segments in order. The "Predicted" columns are computed from the previous segment only, before the segment is read. "Matches" checks the arriving segment's `sequenceNumber`, anchor-chain parameters and derived IV against the prediction.
+
+| Segment | Predicted `sequenceNumber` | Predicted anchor | IV source | Predicted IV | Matches |
+|:--|:-:|:-:|:--|:--|:-:|
+| `seg_728690.m4s` | 728690 (first seen) | 728690 | start: anchor 728690 + 0 | `9d45f4a9b9b08700bbf3456c0edb741e` | PASS |
+| `seg_728691.m4s` | 728691 | 728690 | previous IV + 1 | `9d45f4a9b9b08700bbf3456c0edb741f` | PASS |
+| `seg_728692.m4s` | 728692 | 728690 | previous IV + 1 | `9d45f4a9b9b08700bbf3456c0edb7420` | PASS |
+| `seg_728693.m4s` | 728693 | 728690 | previous IV + 1 | `9d45f4a9b9b08700bbf3456c0edb7421` | PASS |
+| `seg_728694.m4s` | 728694 | 728690 | previous IV + 1 | `9d45f4a9b9b08700bbf3456c0edb7422` | PASS |
+| `seg_728695.m4s` | 728695 | 728690 | previous IV + 1 | `9d45f4a9b9b08700bbf3456c0edb7423` | PASS |
+| `seg_728696.m4s` | 728696 | 728690 | previous IV + 1 | `9d45f4a9b9b08700bbf3456c0edb7424` | PASS |
+| `seg_728697.m4s` | 728697 | 728690 | previous IV + 1 | `9d45f4a9b9b08700bbf3456c0edb7425` | PASS |
+| `seg_728698.m4s` | 728698 | 728690 | previous IV + 1 | `9d45f4a9b9b08700bbf3456c0edb7426` | PASS |
+| `seg_728699.m4s` | 728699 | 728690 | previous IV + 1 | `9d45f4a9b9b08700bbf3456c0edb7427` | PASS |
+| `seg_728700.m4s` | 728700 | 728700 | anchor: SHA-256(streamIdHash + anchor) | `cb02af47b8a945642420719cef5f6cef` | PASS |
+| `seg_728701.m4s` | 728701 | 728700 | previous IV + 1 | `cb02af47b8a945642420719cef5f6cf0` | PASS |
+| `seg_728702.m4s` | 728702 | 728700 | previous IV + 1 | `cb02af47b8a945642420719cef5f6cf1` | PASS |
+| `seg_728703.m4s` | 728703 | 728700 | previous IV + 1 | `cb02af47b8a945642420719cef5f6cf2` | PASS |
+| `seg_728704.m4s` | 728704 | 728700 | previous IV + 1 | `cb02af47b8a945642420719cef5f6cf3` | PASS |
+| `seg_728705.m4s` | 728705 | 728700 | previous IV + 1 | `cb02af47b8a945642420719cef5f6cf4` | PASS |
+| `seg_728706.m4s` | 728706 | 728700 | previous IV + 1 | `cb02af47b8a945642420719cef5f6cf5` | PASS |
+| `seg_728707.m4s` | 728707 | 728700 | previous IV + 1 | `cb02af47b8a945642420719cef5f6cf6` | PASS |
+| `seg_728708.m4s` | 728708 | 728700 | previous IV + 1 | `cb02af47b8a945642420719cef5f6cf7` | PASS |
+| `seg_728709.m4s` | 728709 | 728700 | previous IV + 1 | `cb02af47b8a945642420719cef5f6cf8` | PASS |
+
+**20/20 segments matched the prediction made from the previous segment.**
+
+### Generator conformance notes
+
+Requirements on the claim generator. Validators do not reject files that miss these, so they do not affect the validation result above.
+
+| ID | Criterion | Spec | Status code on failure | Method | Result |
+|:--|:--|:--|:--|:--|:--|
+| G1 | Claim uses `c2pa.claim.v2` | 10 | None. Validators accept `c2pa.claim` | Measured | **FAIL** (20/21; fails: init.mp4) |
+| G2 | Manifest identifier uses `urn:c2pa:` | 8 | None | Measured | **FAIL** (20/21; fails: init.mp4) |
+| G3 | Claim signature carries a v2 time-stamp (`sigTst2`) | 10.3.2.5 | None. Validators accept `sigTst` | Measured | **FAIL** (20/21; fails: init.mp4) |
+| G4 | `sequenceNumber` matches `mfhd.sequence_number` or the segment index | 19.3.2 | None | Measured | **PASS** (20/20), matches the segment index (playlist media sequence and file name) |
+
+| File | G1 | G2 | G3 | G4 |
+|:--|:-:|:-:|:-:|:-:|
+| `init.mp4` (init) | FAIL | FAIL | FAIL | — |
+| `seg_728690.m4s` | PASS | PASS | PASS | PASS |
+| `seg_728691.m4s` | PASS | PASS | PASS | PASS |
+| `seg_728692.m4s` | PASS | PASS | PASS | PASS |
+| `seg_728693.m4s` | PASS | PASS | PASS | PASS |
+| `seg_728694.m4s` | PASS | PASS | PASS | PASS |
+| `seg_728695.m4s` | PASS | PASS | PASS | PASS |
+| `seg_728696.m4s` | PASS | PASS | PASS | PASS |
+| `seg_728697.m4s` | PASS | PASS | PASS | PASS |
+| `seg_728698.m4s` | PASS | PASS | PASS | PASS |
+| `seg_728699.m4s` | PASS | PASS | PASS | PASS |
+| `seg_728700.m4s` | PASS | PASS | PASS | PASS |
+| `seg_728701.m4s` | PASS | PASS | PASS | PASS |
+| `seg_728702.m4s` | PASS | PASS | PASS | PASS |
+| `seg_728703.m4s` | PASS | PASS | PASS | PASS |
+| `seg_728704.m4s` | PASS | PASS | PASS | PASS |
+| `seg_728705.m4s` | PASS | PASS | PASS | PASS |
+| `seg_728706.m4s` | PASS | PASS | PASS | PASS |
+| `seg_728707.m4s` | PASS | PASS | PASS | PASS |
+| `seg_728708.m4s` | PASS | PASS | PASS | PASS |
+| `seg_728709.m4s` | PASS | PASS | PASS | PASS |
 
 ## Checking this test set
 
@@ -571,12 +645,12 @@ a particular trust list.
      validates by re-deriving its IV from the anchor
      ([Missing segments](#missing-segments)).
 
-## Known deviations in the current files
+## Generator notes
 
-| Issue | Spec reference | Effect |
+These do not affect validation. All files pass the validation rubric above.
+
+| Note | Spec reference | Detail |
 |:--|:--|:--|
-| `sequenceNumber` is one less than `mfhd.sequence_number` (728690 against 728691) | 19.3.2, 19.4 `sequenceNumber` | `sequenceNumber` should match `mfhd.sequence_number` or follow ISO/IEC 23009-9 segment indexing |
-| The manifest in `init.mp4` uses `c2pa.claim` (v1), `c2pa.hash.bmff.v2` and a `urn:uuid:` label. The media segments already use `c2pa.claim.v2`, `c2pa.hash.bmff.v3` and `urn:c2pa:` | 8, 10, Appendix C | Deprecated constructs. Validators accept them, but generators must not write them |
-| Media segments start with `ftyp` rather than `styp` | ISO/IEC 14496-12 | Media segments normally start with `styp`. Both are excluded from the hash |
-| The anchor-chain fields (`anchorSegmentIndex`, `streamIdHash`, `certHash`, `continuityToken`) are not namespaced | 19.3.2, 6.2 | Fields added by other continuity methods should be named as labels, for example `com.ezdrm.continuityToken` |
-| `com.ezdrm.anchor-chain` is an entity-specific continuity method | 19.7.2 | Validators that do not support it report `livevideo.continuityMethod.invalid` for every segment, by design |
+| `init.mp4` uses `c2pa.claim` (v1), a v1 `sigTst` time-stamp, `c2pa.hash.bmff.v2` and a `urn:uuid:` label | 8, 10, Appendix C | Validators accept these, and `init.mp4` validates. The media segments already use `c2pa.claim.v2`, `sigTst2`, `c2pa.hash.bmff.v3` and `urn:c2pa:` |
+| Media segments start with `ftyp` rather than `styp` | ISO/IEC 14496-12 | Both are excluded from the hash, so validation is unaffected |
+| The anchor-chain fields (`anchorSegmentIndex`, `streamIdHash`, `certHash`, `continuityToken`) are not prefixed | 19.3.2, 6.2 | 19.3.2 asks that fields added by other continuity methods be named as labels, for example `com.ezdrm.continuityToken` |
