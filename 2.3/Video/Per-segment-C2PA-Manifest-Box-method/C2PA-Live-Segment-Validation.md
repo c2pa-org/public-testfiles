@@ -2,7 +2,7 @@
 
 This document describes how to validate the live video segments in this
 directory. They use the **Per-segment C2PA Manifest Box method** defined in
-C2PA 2.3, Section 19.3. Every media segment carries its own C2PA Manifest in a
+C2PA 2.3 and 2.4, Section 19.3. Every media segment carries its own C2PA Manifest in a
 `uuid` box, and each segment is validated on its own, with continuity checked
 against the previous segment. This method does not use session keys or
 `verifiable-segment-info` (Section 19.4).
@@ -20,6 +20,7 @@ The segments also carry a CAWG identity assertion
 
 ## Contents
 
+- [Specification versions](#specification-versions)
 - [Files](#files)
 - [Segment structure](#segment-structure)
 - [Generation flow](#generation-flow)
@@ -29,6 +30,29 @@ The segments also carry a CAWG identity assertion
 - [Validation rubric](#validation-rubric)
 - [Checking this test set](#checking-this-test-set)
 - [Known deviations in the current files](#known-deviations-in-the-current-files)
+
+## Specification versions
+
+These files target **C2PA 2.3 and C2PA 2.4**. All section numbers and status
+codes in this document are the same in both versions.
+
+The parts of the specification that these files exercise are unchanged between
+2.3 and 2.4:
+
+| Area | Sections | 2.3 to 2.4 |
+|:--|:--|:--|
+| Per-segment C2PA Manifest Box method and live video segment assertion | 19.3, 19.3.1, 19.3.2 | Identical |
+| Live video validation | 19.7.1, 19.7.2 | Identical |
+| Live video status codes (`livevideo.*`) | 15 | Identical |
+| BMFF hashing (`c2pa.hash.bmff.v3`) | 9.2.3, A.5 | Identical |
+| Claims, manifest identifiers, time-stamps, labels | 10, 8, 10.3.2.5, 6.2 | Identical |
+
+2.4 adds wording for dynamically packaged content to the live video
+introduction (19.1, 19.2), and allows broadcast "push" streams to repeat an
+initialization segment without a C2PA Manifest Box. Neither changes how these
+files are generated or validated. The files are stored under `2.3/`, following
+this repository's convention that validators compliant with later versions
+also accept earlier test files.
 
 ## Files
 
