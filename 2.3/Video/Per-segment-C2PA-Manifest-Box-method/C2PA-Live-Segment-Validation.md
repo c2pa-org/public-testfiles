@@ -230,16 +230,39 @@ Find the `c2pa.livevideo.segment` assertion in the active manifest. For
 | Field | Value | Meaning |
 |:--|:--|:--|
 | `sequenceNumber` | `728690` | Monotonically increasing segment number (Section 19.3.2) |
-| `streamId` | `https://undefined.s3.amazonaws.com/us-east-1` | Identifier for the whole live stream (see [known deviations](#known-deviations-in-the-current-files)) |
+| `streamId` | `https://undefined.s3.amazonaws.com/us-east-1` | Identifier for the whole live stream (see [Stream identifier](#stream-identifier)) |
 | `continuityMethod` | `com.ezdrm.anchor-chain` | Entity-specific continuity method |
 | `anchorSegmentIndex` | `10` | An anchor segment occurs every N segments |
-| `streamIdHash` | `o1q7p/yXXB+e2q1RXBCUfg==` | Base64 string, seed for the anchor IV |
+| `streamIdHash` | `o1q7p/yXXB+e2q1RXBCUfg==` | Base64 of the first 16 bytes of `SHA-256(UTF-8(streamId))`. Used as a string as the seed for the anchor IV |
 | `certHash` | `dHGNvgfyQjWSbjROm73g/w==` | Base64 string. Its first 16 characters, as UTF-8 bytes, are the AES-128 key |
 | `continuityToken` | `z+yZ/5aCTd+WVSRXk+8uRA==` | Expected token for this segment, Base64 |
 
 ```ts
 const seg = active.assertions.find((a) => a.label === "c2pa.livevideo.segment")?.data;
 ```
+
+#### Stream identifier
+
+Section 19.3.2 allows `streamId` to be "any string that uniquely identifies
+the live video stream, such as a UUID or a URL". The generator creates its own
+`streamId` at the start of the workflow and resolves it in this order:
+
+1. **MPEG-DASH:** the `id` attribute of the root `MPD` element, for example
+   `<MPD id="dash-session-123">` gives `dash-session-123`.
+2. **HLS:** the `VALUE` of an `#EXT-X-SESSION-DATA` tag with `DATA-ID`
+   `"com.publisher.stream-id"`, for example
+   `#EXT-X-SESSION-DATA:DATA-ID="com.publisher.stream-id",VALUE="hls-live-456"`
+   gives `hls-live-456`.
+3. **Fallback:** a canonicalized form of the manifest URL, with query
+   parameters and the port removed, for example
+   `https://cdn.example.com/live/stream_01/manifest.m3u8?auth=token` gives
+   `https://cdn.example.com/live/stream_01/manifest.m3u8`.
+
+`streamIdHash` is derived from the resolved value:
+`Base64(SHA-256(UTF-8(streamId))[0..15])`. For the `m4s/` set,
+`SHA-256("https://undefined.s3.amazonaws.com/us-east-1")` gives
+`o1q7p/yXXB+e2q1RXBCUfg==`, which matches the manifest. A validator may
+recompute `streamIdHash` from `streamId` and reject the segment if they differ.
 
 In the earlier-format `mp4/` set, the anchor-chain values are the `parameters`
 of a `c2pa.IVHASH` entry in an `actions` array inside
@@ -447,7 +470,6 @@ sequenceDiagram
 
 | Issue | Spec reference | Effect |
 |:--|:--|:--|
-| `streamId` is `https://undefined.s3.amazonaws.com/us-east-1`: a value was undefined when the identifier was built | 19.3.2 | Valid as a string, but not a meaningful stream identifier |
 | `sequenceNumber` is one less than `mfhd.sequence_number` (728690 against 728691) | 19.3.2, 19.4 `sequenceNumber` | `sequenceNumber` should match `mfhd.sequence_number` or follow ISO/IEC 23009-9 segment indexing |
 | The manifest in `init.mp4` uses `c2pa.claim` (v1), `c2pa.hash.bmff.v2` and a `urn:uuid:` label. The media segments already use `c2pa.claim.v2`, `c2pa.hash.bmff.v3` and `urn:c2pa:` | 8, 10, Appendix C | Deprecated constructs. Validators accept them, but generators must not write them |
 | Media segments start with `ftyp` rather than `styp` | ISO/IEC 14496-12 | Media segments normally start with `styp`. Both are excluded from the hash |
