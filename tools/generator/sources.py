@@ -96,14 +96,37 @@ def write_dng(img, dest):
     dest.write_bytes(b"II*\0" + struct.pack("<I", 8) + ifd + extra + pixels)
 
 
+def write_exif_jpeg(img, dest, mpf):
+    """A strict Exif JPEG (APP1 right after SOI, no JFIF APP0); with `mpf`, a two-image MPF."""
+    from PIL import Image as PILImage, ImageOps
+
+    exif = PILImage.Exif()
+    exif[0x010F], exif[0x0110] = "C2PA", "Synthetic"  # Make, Model
+    out = io.BytesIO()
+    if mpf:
+        img.save(out, format="MPO", save_all=True, append_images=[ImageOps.invert(img)], exif=exif, quality=90)
+    else:
+        img.save(out, format="JPEG", exif=exif, quality=90)
+    data = out.getvalue()
+    assert data[2:4] == b"\xff\xe0", "expected Pillow to write a JFIF APP0"
+    # Dropping the APP0 before the MP header keeps the MPF offsets valid: they are
+    # relative to the MP header, which moves with the images.
+    dest.write_bytes(data[:2] + data[4 + struct.unpack(">H", data[4:6])[0] :])
+
+
 class Image(Kind):
     created = "Synthesised test image"
     edited = "Reduced the brightness"
     mixed = "Placed a blue circle"
 
+    def __init__(self, jpeg=None):
+        self.jpeg = jpeg  # None, "exif" or "mpf"
+
     def write(self, ext, variant, dest):
         img = picture(variant)
-        if ext == "dng":
+        if self.jpeg:
+            write_exif_jpeg(img, dest, mpf=self.jpeg == "mpf")
+        elif ext == "dng":
             write_dng(img, dest)
         elif ext in ("heic", "jxl"):
             with tempfile.TemporaryDirectory() as tmp:
@@ -165,6 +188,8 @@ AUDIO_CODECS = {
     "flac": ["-c:a", "flac", "-sample_fmt", "s16"],
     "m4a": ["-c:a", "aac", "-b:a", "128k"],
     "alac": ["-c:a", "alac", "-sample_fmt", "s16p"],
+    # ffmpeg's native Vorbis encoder is experimental and stereo-only.
+    "vorbis": ["-c:a", "vorbis", "-strict", "-2", "-ac", "2"],
 }
 
 
@@ -205,7 +230,9 @@ class Audio(Kind):
             args = ["-f", "lavfi", "-i", tone, "-f", "lavfi", "-i", "sine=frequency=660:duration=3",
                     "-filter_complex", graph]
         else:
-            args = ["-f", "lavfi", "-i", tone, "-af", "volume=-6dB"]
+            # "tampered" is the edited tone at a slightly different level.
+            volume = "-6.1dB" if variant == "tampered" else "-6dB"
+            args = ["-f", "lavfi", "-i", tone, "-af", f"volume={volume}"]
         ffmpeg(*args, "-ac", "1", "-ar", "44100", "-map_metadata", "-1", "-fflags", "+bitexact",
                *AUDIO_CODECS[self.codec], str(dest))
         if self.bwf:
@@ -560,6 +587,15 @@ def vtt_time(seconds):
 
 TEXTS = {
     "txt": lambda ps: "\n\n".join(ps) + "\n",
+    "xml": lambda ps: '<?xml version="1.0" encoding="UTF-8"?>\n<document>\n'
+    + "".join(f"  <p>{esc(p)}</p>\n" for p in ps) + "</document>\n",
+    "ttml": lambda ps: '<?xml version="1.0" encoding="UTF-8"?>\n'
+    '<tt:tt xml:lang="en" xmlns:tt="http://www.w3.org/ns/ttml">\n'
+    "  <tt:head>\n    <tt:metadata>\n      <tt:title>C2PA test document</tt:title>\n"
+    "    </tt:metadata>\n  </tt:head>\n  <tt:body>\n    <tt:div>\n"
+    + "".join(f'      <tt:p begin="{vtt_time(2 * i)}" end="{vtt_time(2 * i + 2)}">{esc(p)}</tt:p>\n'
+              for i, p in enumerate(ps))
+    + "    </tt:div>\n  </tt:body>\n</tt:tt>\n",
     "vtt": lambda ps: "WEBVTT\n\n" + "\n\n".join(
         f"{vtt_time(2 * i)} --> {vtt_time(2 * i + 2)}\n{p}" for i, p in enumerate(ps)) + "\n",
     "md": lambda ps: "---\ntitle: C2PA test document\n---\n\n# C2PA test document\n\n" + "\n\n".join(ps) + "\n",
@@ -682,3 +718,60 @@ class Model(Kind):
         model.ir_version = 8
         onnx.checker.check_model(model)
         dest.write_bytes(model.SerializeToString())
+
+
+# ---------------------------------------------------------------- BlockFact
+
+
+class BlockFact(Kind):
+    """A BlockFact v2 container (.facti / .facta / .factv) around a synthesised PNG, WAV or MP4."""
+
+    MAGIC = {"facti": b"\xfaIA\0", "facta": b"\xfaAA\0", "factv": b"\xfaVA\0"}
+    INNER = {"facti": ("png", "image/png"), "facta": ("wav", "audio/wav"), "factv": ("mp4", "video/mp4")}
+
+    def __init__(self, ext):
+        self.inner = {"facti": Image(), "facta": Audio("wav"), "factv": Video()}[ext]
+        self.created, self.edited, self.mixed = self.inner.created, self.inner.edited, self.inner.mixed
+
+    def write(self, ext, variant, dest):
+        import json
+
+        inner_ext, mime = self.INNER[ext]
+        with tempfile.TemporaryDirectory() as tmp:
+            media_path = Path(tmp) / f"media.{inner_ext}"
+            self.inner.write(inner_ext, variant, media_path)
+            media = media_path.read_bytes()
+        length_key = "image_length" if ext == "facti" else "media_length"
+        metadata = json.dumps({"format_version": 2, length_key: len(media), "mime": mime}).encode()
+        dest.write_bytes(self.MAGIC[ext] + struct.pack(">I", len(metadata)) + metadata + media + struct.pack(">H", 0))
+
+
+# ---------------------------------------------------------------- WARC
+
+
+def warc_record(kind, number, content_type, block, extra=""):
+    header = (f"WARC/1.1\r\nWARC-Type: {kind}\r\n"
+              f"WARC-Record-ID: <urn:uuid:6f1d3a52-2b7e-4c1a-9a0e-{number:012d}>\r\n"
+              f"WARC-Date: 2026-10-29T00:00:00Z\r\n{extra}Content-Type: {content_type}\r\n"
+              f"Content-Length: {len(block)}\r\n\r\n")
+    return header.encode() + block + b"\r\n\r\n"
+
+
+class Warc(Kind):
+    """A WARC capture of one page: warcinfo, request and response records."""
+
+    created = Document.created
+    edited = Document.edited
+    mixed = Document.mixed
+
+    def write(self, ext, variant, dest):
+        base = 100 if variant == "component" else 0
+        html = TEXTS["html"](TEXT[variant]).encode()
+        response = (b"HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf-8\r\n"
+                    + f"Content-Length: {len(html)}\r\n\r\n".encode() + html)
+        target = "WARC-Target-URI: https://example.com/c2pa-test\r\n"
+        dest.write_bytes(
+            warc_record("warcinfo", base + 1, "application/warc-fields", b"software: c2pa test file generator\r\n")
+            + warc_record("request", base + 2, "application/http;msgtype=request",
+                          b"GET /c2pa-test HTTP/1.1\r\nHost: example.com\r\n\r\n", target)
+            + warc_record("response", base + 3, "application/http;msgtype=response", response, target))

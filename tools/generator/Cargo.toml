@@ -14,9 +14,11 @@ path = "src/main.rs"
 [dependencies]
 anyhow = "1"
 serde_json = "1"
-# c2pa-rs `integration/all-prs`. Set the path to another c2pa-rs checkout
-# to regenerate with a different build. HTML, MIDI, plain text and structured
-# text are behind c2pa-rs's unstable features, and PDF behind `pdf`.
+# c2pa-rs `integration/all-prs`, plus the 2.5 branches listed in
+# 2.5/README.md for PDF, XML, Exif/MPF JPEG, TTML, Ogg, BlockFact and WARC.
+# Set the path to another c2pa-rs checkout to regenerate with a different
+# build. HTML, MIDI, plain text, structured text, TTML, Ogg, BlockFact and
+# WARC are behind c2pa-rs's unstable features, and PDF behind `pdf`.
 c2pa = { path = "../../../c2pa-rs-integration/sdk", features = [
     "file_io",
     "pdf",
@@ -24,4 +26,8 @@ c2pa = { path = "../../../c2pa-rs-integration/sdk", features = [
     "unstable_midi",
     "unstable_plain_text",
     "unstable_structured_text",
+    "unstable_ttml",
+    "unstable_ogg",
+    "unstable_blockfact",
+    "unstable_warc",
 ] }

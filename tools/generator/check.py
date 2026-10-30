@@ -59,7 +59,7 @@ def check_jpeg(data):
         if marker == 0xDA:  # SOS: entropy-coded data follows
             break
         size = struct.unpack(">H", data[pos + 2 : pos + 4])[0]
-        segs.append(marker)
+        segs.append((marker, data[pos + 4 : pos + 10]))
         if marker == 0xEB and data[pos + 4 : pos + 6] == b"JP":
             app11.append((len(segs) - 1, data[pos + 4 : pos + 2 + size]))
         pos += 2 + size
@@ -70,7 +70,26 @@ def check_jpeg(data):
     first = app11[0][1]
     store = first[8:] + b"".join(seg[16:] for _, seg in app11[1:])
     need(is_store(store), "APP11 payload is not a C2PA Manifest Store")
-    return ["Manifest Store in APP11 (JPEG XT) segments", f"{len(app11)} APP11 segment(s), contiguous, before SOS"]
+    rules = ["Manifest Store in APP11 (JPEG XT) segments", f"{len(app11)} APP11 segment(s), contiguous, before SOS"]
+    exif = [i for i, (m, head) in enumerate(segs) if m == 0xE1 and head == b"Exif\0\0"]
+    if exif:
+        # Exif compressed files (2.5): APP1 shall be recorded immediately after SOI
+        # (Exif 2.32 4.5.4); a JFIF APP0 before it is tolerated.
+        jfif = segs[0][0] == 0xE0
+        need(exif[0] == (1 if jfif else 0), "Exif APP1 is not the first segment after SOI")
+        rules.append("Exif APP1 still first after SOI" + (" (after JFIF APP0)" if jfif else ""))
+    if any(m == 0xE2 and head.startswith(b"MPF\0") for m, head in segs):
+        # MPF (2.5): the manifest is in the first individual image, and the MP index must
+        # still locate the other images.
+        from PIL import Image
+
+        im = Image.open(__import__("io").BytesIO(data))
+        frames = getattr(im, "n_frames", 1)
+        need(frames > 1, "MPF file no longer has more than one image")
+        im.seek(frames - 1)
+        im.load()
+        rules.append(f"MPF: APP11 in the first image, {frames} images still decode")
+    return rules
 
 
 def check_png(data):
@@ -261,9 +280,25 @@ def check_pdf(path):
     specs = [s.get_object() for s in root["/AF"]]
     c2pa = [s for s in specs if s.get("/AFRelationship") == "/C2PA_Manifest"]
     need(len(c2pa) == 1, f"{len(c2pa)} AF file specs with AFRelationship C2PA_Manifest")
-    # C2PA 2.4 puts Subtype on the file specification dictionary.
-    need(c2pa[0].get("/Subtype") == "/application/c2pa", f"file spec Subtype is {c2pa[0].get('/Subtype')}")
     stream = c2pa[0]["/EF"]["/F"].get_object()
+    # ISO 32000-2: names are case-sensitive (7.11.3), and an associated file's embedded file
+    # stream has Params with a ModDate (7.11.4).
+    need(c2pa[0].get("/Type") == "/Filespec", f"file spec Type is {c2pa[0].get('/Type')}, not /Filespec")
+    need(stream.get("/Type") == "/EmbeddedFile", f"embedded file stream Type is {stream.get('/Type')}")
+    params = stream.get("/Params")
+    need(params is not None, "embedded file stream has no Params (required for an associated file)")
+    params = params.get_object()
+    need(re.fullmatch(r"D:\d{4}(\d{2}){0,5}(Z|[+-]\d{2}'?(\d{2}'?)?)?", str(params.get("/ModDate", ""))),
+         f"Params ModDate {params.get('/ModDate')!r} is not a PDF date")
+    need(params.get("/Size") in (None, len(stream.get_data())), "Params Size does not match the embedded file")
+    if VERSION == "2.4":
+        # 2.4 puts Subtype on the file specification dictionary.
+        need(c2pa[0].get("/Subtype") == "/application/c2pa", f"file spec Subtype is {c2pa[0].get('/Subtype')}")
+        where = "file specification"
+    else:
+        # 2.5 moves it to the embedded file stream dictionary.
+        need(stream.get("/Subtype") == "/application/c2pa", f"embedded file stream Subtype is {stream.get('/Subtype')}")
+        where = "embedded file stream"
     need(is_store(stream.get_data()), "embedded file is not a C2PA Manifest Store")
     names = root.get("/Names", {}).get("/EmbeddedFiles", {}).get("/Names", [])
     in_tree = any(names[i + 1].idnum == root["/AF"][0].idnum for i in range(0, len(names), 2)
@@ -271,7 +306,8 @@ def check_pdf(path):
     annots = [a.get_object() for p in reader.pages for a in p.get("/Annots", [])]
     in_annot = any(a.get("/Subtype") == "/FileAttachment" for a in annots)
     need(in_tree or in_annot, "file spec not referenced from EmbeddedFiles or a FileAttachment annotation")
-    return ["embedded file stream, Subtype application/c2pa, AFRelationship C2PA_Manifest",
+    return [f"Subtype application/c2pa on the {where}, AFRelationship C2PA_Manifest",
+            "Type /Filespec; stream /EmbeddedFile with Params and a PDF-date ModDate",
             "catalog AF entry; referenced from " + ("EmbeddedFiles" if in_tree else "a FileAttachment annotation")]
 
 
@@ -364,6 +400,174 @@ def check_structured(data, ext):
 
 
 # ---------------------------------------------------------------- 2.5 formats
+
+
+def ogg_crc(page):
+    crc = 0
+    for b in page[:22] + b"\0\0\0\0" + page[26:]:
+        crc ^= b << 24
+        for _ in range(8):
+            crc = ((crc << 1) ^ 0x04C11DB7) & 0xFFFFFFFF if crc & 0x80000000 else (crc << 1) & 0xFFFFFFFF
+    return crc
+
+
+def check_ogg(data):
+    need(data[:4] == b"OggS", "not Ogg")
+    pages, pos = [], 0
+    while pos < len(data):
+        need(data[pos : pos + 4] == b"OggS" and data[pos + 4] == 0, f"bad page at {pos}")
+        n = data[pos + 26]
+        lacing = data[pos + 27 : pos + 27 + n]
+        end = pos + 27 + n + sum(lacing)
+        pages.append(dict(start=pos, end=end, flags=data[pos + 5], serial=data[pos + 14 : pos + 18],
+                          lacing=lacing, body=data[pos + 27 + n : end], crc=data[pos + 22 : pos + 26]))
+        pos = end
+    bos = [p["flags"] & 2 != 0 for p in pages]
+    need(bos == sorted(bos, reverse=True), "a BOS page follows a non-BOS page (RFC 3533 grouping)")
+    c2pa = {p["serial"] for p in pages if p["flags"] & 2 and p["body"].startswith(b"\x00c2pa")}
+    need(len(c2pa) == 1, f"{len(c2pa)} logical bitstreams start with \\x00c2pa")
+    serial = c2pa.pop()
+    idx = [i for i, p in enumerate(pages) if p["serial"] == serial]
+    need(idx == list(range(idx[0], idx[-1] + 1)), "the C2PA stream's pages are not contiguous")
+    stream = [pages[i] for i in idx]
+    need(stream[0]["flags"] & 2 and stream[-1]["flags"] & 4, "the C2PA stream does not run from a BOS to an EOS page")
+    for p in stream:
+        need(ogg_crc(data[p["start"] : p["end"]]) == int.from_bytes(p["crc"], "little"), "bad CRC on a C2PA page")
+    packet, done = b"", False
+    for p in stream:
+        at = 0
+        for size in p["lacing"]:
+            packet += p["body"][at : at + size]
+            at += size
+            if size < 255:
+                done = True
+                break
+        if done:
+            break
+    need(done and is_store(packet[5:]), "the first packet is not \\x00c2pa followed by a Manifest Store")
+    return [f"one C2PA logical bitstream ({len(stream)} page(s), BOS to EOS, contiguous, CRCs valid)",
+            "first packet \\x00c2pa + Manifest Store; all BOS pages first"]
+
+
+def ogg_boxes(data):
+    """The 2.5 Ogg box list: (name, bytes of every page of that stream, in order)."""
+    streams, pos = {}, 0
+    while pos < len(data):
+        n = data[pos + 26]
+        end = pos + 27 + n + sum(data[pos + 27 : pos + 27 + n])
+        serial = int.from_bytes(data[pos + 14 : pos + 18], "little")
+        first = data[pos + 5] & 2 and data[pos + 27 + n : end].startswith(b"\x00c2pa")
+        name, pages = streams.setdefault(serial, ["C2PA" if first else f"Stream-{serial}", b""])
+        streams[serial][1] = pages + data[pos:end]
+        pos = end
+    return list(streams.values())
+
+
+def box_hash_ok(data, assertion):
+    """Recompute every Ogg box hash: SHA over all pages of the stream, in order."""
+    boxes = ogg_boxes(data)
+    names = [b["names"] for b in assertion["boxes"]]
+    need(names == [[name] for name, _ in boxes], f"box names {names} do not match the streams {[n for n, _ in boxes]}")
+    for (name, pages), entry in zip(boxes, assertion["boxes"]):
+        if name == "C2PA":
+            continue
+        digest = hashlib.new(entry.get("alg") or assertion.get("alg") or "sha256", pages).digest()
+        expected = entry["hash"]
+        expected = bytes(expected) if isinstance(expected, list) else base64.b64decode(expected)
+        if digest != expected:
+            return False
+    return True
+
+
+def check_blockfact(data, ext):
+    magic = {"facti": b"\xfaIA\0", "facta": b"\xfaAA\0", "factv": b"\xfaVA\0"}[ext]
+    need(data[:4] == magic, f"magic is not {magic.hex()} for .{ext}")
+    n = struct.unpack(">I", data[4:8])[0]
+    meta = json.loads(data[8 : 8 + n])
+    need(meta.get("format_version") == 2, "format_version is not 2")
+    m = meta.get("media_length", meta.get("image_length"))
+    need(isinstance(m, int), "no media_length or image_length")
+    pos = 8 + n + m
+    count = struct.unpack(">H", data[pos : pos + 2])[0]
+    pos += 2
+    blocks = []
+    for _ in range(count):
+        kind, length = data[pos : pos + 4], struct.unpack(">I", data[pos + 4 : pos + 8])[0]
+        blocks.append((kind, pos + 8, length))
+        pos += 8 + length
+    need(pos == len(data), "extension blocks do not end at the end of the file")
+    c2pa = [b for b in blocks if b[0] == b"C2PA"]
+    need(len(c2pa) == 1, f"{len(c2pa)} C2PA extension blocks")
+    _, start, length = c2pa[0]
+    need(is_store(data[start : start + length]), "C2PA block data is not a C2PA Manifest Store")
+    return ([f"format version 2, {count} extension block(s), one C2PA block holding the store"], [(start, length)])
+
+
+def warc_records(data):
+    """(record bytes, fields) for each record of a plain WARC file."""
+    out, pos = [], 0
+    while pos < len(data):
+        need(data[pos : pos + 5] == b"WARC/", f"no WARC version line at {pos}")
+        head_end = data.index(b"\r\n\r\n", pos)
+        lines = data[pos:head_end].decode().split("\r\n")
+        fields = {}
+        for line in lines[1:]:
+            name, value = line.split(":", 1)
+            fields[name.strip().lower()] = value.strip()
+        end = head_end + 4 + int(fields["content-length"])
+        need(data[end : end + 4] == b"\r\n\r\n", "block length does not match Content-Length")
+        out.append((data[pos : end + 4], fields, data[head_end + 4 : end]))
+        pos = end + 4
+    return out
+
+
+def is_c2pa_record(fields):
+    return (fields.get("warc-type") == "c2pa-provenance"
+            and fields.get("content-type", "").split(";")[0].strip().lower() == "application/c2pa")
+
+
+def check_warc(data):
+    records = warc_records(data)
+    c2pa = [i for i, (_, f, _) in enumerate(records) if is_c2pa_record(f)]
+    need(len(c2pa) == 1, f"{len(c2pa)} c2pa-provenance records")
+    need(c2pa[0] == len(records) - 1, "the C2PA record is not the last record")
+    _, fields, block = records[-1]
+    need("warc-target-uri" not in fields, "the C2PA record carries a WARC-Target-URI")
+    need(all(k in fields for k in ("warc-record-id", "warc-date")), "the C2PA record lacks WARC-Record-ID or WARC-Date")
+    need(is_store(block), "the C2PA record's block is not a C2PA Manifest Store")
+    return [f"{len(records) - 1} records plus a final c2pa-provenance record (application/c2pa, no WARC-Target-URI)"]
+
+
+def warc_collection_ok(data, assertion):
+    """Each non-C2PA record hashed whole, keyed by WARC-Record-ID; one to one with the uris."""
+    members = {}
+    for raw, fields, _ in warc_records(data):
+        if is_c2pa_record(fields):
+            continue
+        uri = fields["warc-record-id"].strip("<>")
+        need(uri not in members, f"duplicate WARC-Record-ID {uri}")
+        members[uri] = hashlib.new(assertion.get("alg", "sha256"), raw).digest()
+    uris = assertion["uris"]
+    if set(uris) != set(members):
+        return False
+    return all(base64.b64encode(members[u]).decode() == uris[u]["hash"] for u in members)
+
+
+def check_ttml(data):
+    TT, C2PA = "{http://www.w3.org/ns/ttml}", "{http://c2pa.org/manifest}"
+    root = ET.fromstring(data)
+    need(root.tag == TT + "tt", "root is not tt:tt")
+    found = root.findall(f"{TT}head/{TT}metadata/{C2PA}manifest")
+    need(len(found) == 1, f"{len(found)} c2pa:manifest elements at /tt:tt/tt:head/tt:metadata")
+    need(len(root.findall(f".//{C2PA}manifest")) == 1, "c2pa:manifest elements outside tt:head/tt:metadata")
+    need(is_store(base64.b64decode(found[0].text.strip())), "c2pa:manifest is not a Base64 Manifest Store")
+    start_tag = data[data.index(b"<", data.index(b"?>") + 2) : data.index(b">", data.index(b"<tt")) + 1]
+    need(b'xmlns:c2pa="http://c2pa.org/manifest"' in start_tag, "xmlns:c2pa is not declared on the root tt:tt")
+    # The exclusion spans the opening <c2pa:manifest> tag through the closing tag.
+    b = data.index(b"<c2pa:manifest>")
+    e = data.index(b"</c2pa:manifest>") + len(b"</c2pa:manifest>")
+    return (["Base64 store at /tt:tt/tt:head/tt:metadata/c2pa:manifest", "xmlns:c2pa declared on the root tt:tt"],
+            [(b, e - b)])
 
 
 def check_midi(data):
@@ -506,7 +710,7 @@ HARD_BINDINGS = {
 }
 
 FAMILIES = {
-    "jpeg": ("data", check_jpeg), "png": ("data", check_png), "svg": ("data", check_svg),
+    "jpeg": ("data", check_jpeg), "jpeg-exif": ("data", check_jpeg), "jpeg-mpf": ("data", check_jpeg), "png": ("data", check_png), "svg": ("data", check_svg),
     "gif": ("data", check_gif), "tiff": ("data", check_tiff), "dng": ("data", check_tiff),
     "webp": ("data", check_riff), "wav": ("data", check_riff), "bwf": ("data", check_riff),
     "avi": ("data", check_riff), "mp3": ("data", check_id3), "flac": ("data", check_id3),
@@ -517,7 +721,9 @@ FAMILIES = {
     "pdf": ("data", "pdf"), "html": ("data", check_html), "txt": ("data", check_txt),
     "md": ("data", "structured"), "xml": ("data", "structured"), "vtt": ("data", "structured"),
     "midi": ("data", check_midi), "onnx": ("data", check_onnx), "safetensors": ("data", check_safetensors),
-    "parquet": ("data", check_parquet),
+    "parquet": ("data", check_parquet), "ttml": ("data", check_ttml), "ogg": ("boxes", check_ogg),
+    **{e: ("data", "blockfact") for e in ["facti", "facta", "factv"]},
+    "warc": ("collection", check_warc),
     **{z: ("collection", "zip") for z in ["epub", "docx", "xlsx", "pptx", "odt", "ods", "odp", "odg", "oxps"]},
 }
 
@@ -586,6 +792,8 @@ def check_file(path, folder):
         rules = check_zip(path)
     elif check == "structured":
         rules, expected_excl = check_structured(data, folder)
+    elif check == "blockfact":
+        rules, expected_excl = check_blockfact(data, folder)
     else:
         result = check(data)
         rules, expected_excl = result if isinstance(result, tuple) else (result, None)
@@ -599,11 +807,21 @@ def check_file(path, folder):
     content_intact = "E-dat" not in path.name
     if binding == "data":
         ok, excl = data_hash_ok(data, store["c2pa.hash.data"])
-        if expected_excl is not None:
+        # An E-dat file carries CA's manifest on changed content, so its exclusions describe
+        # CA's layout rather than its own.
+        if expected_excl is not None and content_intact:
             need(excl == expected_excl, f"exclusions {excl} do not match the embedded block {expected_excl}")
             rules.append("exclusion range is exactly the embedded block")
         need(ok == content_intact, "recomputed c2pa.hash.data " + ("does not match" if content_intact else "matches"))
         rules.append("recomputed c2pa.hash.data " + ("matches" if ok else "does not match"))
+    elif binding == "boxes" and folder == "ogg":
+        ok = box_hash_ok(data, store["c2pa.hash.boxes"])
+        need(ok == content_intact, "recomputed Stream box hashes " + ("do not match" if content_intact else "match"))
+        rules.append("recomputed Stream-[serial] box hashes " + ("match" if ok else "do not match"))
+    elif binding == "collection" and folder == "warc":
+        ok = warc_collection_ok(data, store["c2pa.hash.collection.data"])
+        need(ok == content_intact, "recomputed record hashes " + ("do not match" if content_intact else "match"))
+        rules.append("recomputed per-record hashes " + ("match" if ok else "do not match") + ", one to one with uris")
     elif binding == "collection":
         ok, why = collection_ok(path, store["c2pa.hash.collection.data"])
         need("zip_central_directory_hash" in store["c2pa.hash.collection.data"], "no zip_central_directory_hash")
