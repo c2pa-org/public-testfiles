@@ -15,7 +15,7 @@ nearest anchor segment. Section 19.3.1 also allows this: "Claim generators may
 derive additional per-segment validation values (e.g., anchor-point-based
 chaining values) from segment hashes and embed them in the Manifest."
 
-The segments in `m4s/` also carry a CAWG identity assertion
+The segments also carry a CAWG identity assertion
 (`cawg.identity`), which binds a named signer to the segment's hard binding.
 
 ## Contents
@@ -32,14 +32,9 @@ The segments in `m4s/` also carry a CAWG identity assertion
 
 ## Files
 
-| Folder | Files | Content | Format | Signer |
-|:--|:--|:--|:--|:--|
-| `m4s/` | `init.mp4` and `seg_728690.m4s` to `seg_728709.m4s` (20 segments, two full anchor cycles: 728690 to 728699 and 728700 to 728709) | Clear | `c2pa.claim.v2`, `c2pa.livevideo.segment` with `continuityMethod` `com.ezdrm.anchor-chain`, `cawg.identity` | DigiCert S/MIME certificate |
-| `mp4/` | `segment_11_12517098.mp4` to `segment_11_12517117.mp4` (20 segments) | CENC-encrypted (`pssh`, `senc`, `sgpd`/`sbgp` `seig` in each `moof`) | Earlier format: `c2pa.claim` (v1), continuity values in a `c2pa.IVHASH` action, no CAWG, no initialization segment | C2PA test signing certificate |
-
-For the encrypted `mp4/` set, the `c2pa.hash.bmff.v3` hash and the continuity
-token are computed over the encrypted samples, so validators need no content
-keys.
+| Folder | Files | Content | Format |
+|:--|:--|:--|:--|
+| `m4s/` | `init.mp4` and `seg_728690.m4s` to `seg_728709.m4s` (20 segments, two full anchor cycles: 728690 to 728699 and 728700 to 728709) | Clear | `c2pa.claim.v2`, `c2pa.livevideo.segment` with `continuityMethod` `com.ezdrm.anchor-chain`, `cawg.identity` |
 
 `example_c2pa_manifest.json` is a decoded dump of the manifest store of
 `m4s/seg_728690.m4s` (the first anchor segment). CBOR byte strings are shown
@@ -265,9 +260,6 @@ the live video stream, such as a UUID or a URL". The generator creates its own
 `o1q7p/yXXB+e2q1RXBCUfg==`, which matches the manifest. A validator may
 recompute `streamIdHash` from `streamId` and reject the segment if they differ.
 
-In the earlier-format `mp4/` set, the anchor-chain values are the `parameters`
-of a `c2pa.IVHASH` entry in an `actions` array inside
-`c2pa.livevideo.segment`, and the segment number is called `segmentId`.
 
 ### Step 5: Apply the Section 19.7.2 checks
 
@@ -432,11 +424,14 @@ sequenceDiagram
 
 ## Validation rubric
 
-The rubric below scores the current-format set in `m4s/` (`init.mp4` and
-segments 728690 to 728709) against each validation criterion. "Measured"
-criteria were checked directly against the files. "Validator" criteria need a
-C2PA validator with the deployment's trust lists (c2pa-rs, c2pa-web or
-c2patool) and are not scored here.
+The rubric below scores `m4s/` (`init.mp4` and segments 728690 to 728709)
+against each validation criterion. "Measured" criteria were checked directly
+against the file bytes. "c2patool" criteria were checked with c2patool 0.27.22
+(c2pa-rs), which reports `validation_state` `Valid` for all 21 files.
+
+Signer certificate trust is out of scope for this test set: the rubric scores
+signature and time-stamp validity, not whether the signing certificates are on
+a particular trust list.
 
 ### Criteria
 
@@ -456,12 +451,12 @@ c2patool) and are not scored here.
 | R12 | Continuity token recomputes (anchors 728690 and 728700) | `com.ezdrm.anchor-chain` | `livevideo.segment.invalid` | Measured | **PASS** (20/20) |
 | R13 | `sequenceNumber` matches `mfhd.sequence_number` | 19.3.2 | Generator conformance | Measured | **FAIL** (0/20, `sequenceNumber` is `mfhd` minus 1) |
 | R14 | `cawg.identity` is present and its referenced `c2pa.hash.bmff.v3` hash matches | CAWG Identity Assertion | Identity assertion invalid | Measured | **PASS** (20/20) |
-| R15 | Claim signature and certificate chain | 15 | `claimSignature.mismatch`, `signingCredential.untrusted` | Validator | Not scored here |
-| R16 | Time-stamp | 15 | `timeStamp.mismatch`, `timeStamp.untrusted` | Validator | Not scored here |
-| R17 | `c2pa.hash.bmff.v3` matches the segment bytes | 15 | `assertion.bmffHash.mismatch` | Validator | Not scored here |
-| R18 | CAWG identity signature (`cawg.x509.cose`) and signer trust | CAWG Identity Assertion | Identity assertion invalid | Validator | Not scored here |
+| R15 | Claim signature is valid and inside the certificate's validity period | 15 | `claimSignature.mismatch`, `claimSignature.outsideValidity` | c2patool | **PASS** (21/21 `claimSignature.validated`, `claimSignature.insideValidity`) |
+| R16 | Time-stamp is valid for the claim signature | 10.3.2.5, 15 | `timeStamp.mismatch` | c2patool | **PASS** (21/21 `timeStamp.validated`) |
+| R17 | `c2pa.hash.bmff.v3` matches the segment bytes | 15 | `assertion.bmffHash.mismatch` | c2patool | **PASS** (21/21 `assertion.bmffHash.match`) |
+| R18 | CAWG identity signature (`cawg.x509.cose`) is valid | CAWG Identity Assertion | Identity assertion invalid | c2patool | **PASS** (20/20 `cawg.identity.well-formed`, "CAWG X.509 identity signature valid") |
 
-### Results per file
+### Results per file (measured)
 
 | File | Box structure | C2PA Manifest Box | claim.v2 | urn:c2pa | sigTst2 | livevideo.segment | sequenceNumber increasing | streamId constant | continuityMethod | streamIdHash | Continuity token | seq = mfhd | Assertion hashes | CAWG identity | CAWG ref hash |
 |:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
@@ -487,6 +482,32 @@ c2patool) and are not scored here.
 | `seg_728708.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
 | `seg_728709.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
 
+### Results per file (c2patool 0.27.22)
+
+| File | validation_state | claimSignature.validated | timeStamp.validated | assertion.bmffHash.match | assertion.hashedURI.match | cawg.identity.well-formed |
+|:--|:-:|:-:|:-:|:-:|:-:|:-:|
+| `init.mp4` | Valid | PASS | PASS | PASS | 2 | — |
+| `seg_728690.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+| `seg_728691.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+| `seg_728692.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+| `seg_728693.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+| `seg_728694.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+| `seg_728695.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+| `seg_728696.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+| `seg_728697.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+| `seg_728698.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+| `seg_728699.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+| `seg_728700.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+| `seg_728701.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+| `seg_728702.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+| `seg_728703.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+| `seg_728704.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+| `seg_728705.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+| `seg_728706.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+| `seg_728707.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+| `seg_728708.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+| `seg_728709.m4s` | Valid | PASS | PASS | PASS | 5 | PASS |
+
 ## Checking this test set
 
 1. **Box structure.** List the top-level boxes, for example with GPAC:
@@ -501,19 +522,23 @@ c2patool) and are not scored here.
 
    `init.mp4` contains `ftyp`, the C2PA `uuid` box and `moov`. Each media
    segment contains `ftyp`, the C2PA `uuid` box, `sidx`, `moof` and `mdat`.
-2. **Manifest.** Read each segment with a C2PA validator (c2pa-rs, c2pa-web or
-   c2patool), with `init.mp4` where the reader needs it, and record
-   `validation_state` and `validation_status`.
+2. **Manifest.** Read each file with a C2PA validator and record
+   `validation_state` and `validation_status`, for example with c2patool:
+
+   ```bash
+   c2patool m4s/seg_728690.m4s
+   ```
+
+   All 21 files report `validation_state` `Valid` with c2patool 0.27.22.
 3. **Hard binding.** Confirm that `c2pa.hash.bmff.v3` validates for every
-   segment (`assertion.bmffHash.match`).
+   file (`assertion.bmffHash.match`).
 4. **CAWG identity.** Confirm that `cawg.identity` validates for every segment
-   in `m4s/`.
-5. **Live video checks.** Run Steps 4 and 5 over each folder in segment order.
-   In `m4s/`, `sequenceNumber` runs from 728690 to 728709 in steps of one and
-   `streamId` is constant.
-6. **Continuity tokens.** Run Step 6 over each folder. All 20 tokens in `m4s/`
-   (anchors 728690 and 728700) and all 20 tokens in `mp4/` recompute
-   correctly with the algorithm above.
+   (`cawg.identity.well-formed`).
+5. **Live video checks.** Run Steps 4 and 5 in segment order.
+   `sequenceNumber` runs from 728690 to 728709 in steps of one and `streamId`
+   is constant.
+6. **Continuity tokens.** Run Step 6. All 20 tokens (anchors 728690 and 728700)
+   recompute correctly with the algorithm above.
 7. **Negative checks.**
    - Flip one byte in an `mdat`: Step 2 (`assertion.bmffHash.mismatch`) and
      Step 6 both fail.
@@ -524,8 +549,6 @@ c2patool) and are not scored here.
 
 ## Known deviations in the current files
 
-### `m4s/` (current format)
-
 | Issue | Spec reference | Effect |
 |:--|:--|:--|
 | `sequenceNumber` is one less than `mfhd.sequence_number` (728690 against 728691) | 19.3.2, 19.4 `sequenceNumber` | `sequenceNumber` should match `mfhd.sequence_number` or follow ISO/IEC 23009-9 segment indexing |
@@ -533,13 +556,3 @@ c2patool) and are not scored here.
 | Media segments start with `ftyp` rather than `styp` | ISO/IEC 14496-12 | Media segments normally start with `styp`. Both are excluded from the hash |
 | The anchor-chain fields (`anchorSegmentIndex`, `streamIdHash`, `certHash`, `continuityToken`) are not namespaced | 19.3.2, 6.2 | Fields added by other continuity methods should be named as labels, for example `com.ezdrm.continuityToken` |
 | `com.ezdrm.anchor-chain` is an entity-specific continuity method | 19.7.2 | Validators that do not support it report `livevideo.continuityMethod.invalid` for every segment, by design |
-
-### `mp4/` (earlier format)
-
-| Issue | Spec reference | Effect |
-|:--|:--|:--|
-| `c2pa.livevideo.segment` has no `sequenceNumber`, `streamId` or `continuityMethod`. It contains `all` and an `actions` list instead | 19.3.2 | `livevideo.continuityMethod.invalid` on every segment |
-| Continuity values are carried in a custom action named `c2pa.IVHASH`. Entity-specific action names must use the entity's reverse domain name | 6.2, 18.15 | Unknown action in the reserved `c2pa.` namespace |
-| Claim uses `c2pa.claim` (v1), a v1 `sigTst` time-stamp and `urn:uuid:` labels | 8, 10, Appendix C | Deprecated constructs |
-| `mfhd.sequence_number` does not match `segmentId` | 19.3.2 | Inconsistent segment numbering |
-| No initialization segment is included | 19.7.1 | The segments cannot be decoded on their own |
