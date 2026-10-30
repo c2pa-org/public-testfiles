@@ -26,6 +26,7 @@ The segments in `m4s/` also carry a CAWG identity assertion
 - [Validation flow](#validation-flow)
 - [Validation steps](#validation-steps)
 - [Missing segments](#missing-segments)
+- [Validation rubric](#validation-rubric)
 - [Checking this test set](#checking-this-test-set)
 - [Known deviations in the current files](#known-deviations-in-the-current-files)
 
@@ -428,6 +429,63 @@ sequenceDiagram
   Note over P: seg 728693, cached IV is stale,<br/>IV re-derived from anchor 728690 + 3, valid
   Note over P: with c2pa.manifestId, 728693 would fail:<br/>previousManifestId names 728692
 ```
+
+## Validation rubric
+
+The rubric below scores the current-format set in `m4s/` (`init.mp4` and
+segments 728690 to 728709) against each validation criterion. "Measured"
+criteria were checked directly against the files. "Validator" criteria need a
+C2PA validator with the deployment's trust lists (c2pa-rs, c2pa-web or
+c2patool) and are not scored here.
+
+### Criteria
+
+| ID | Criterion | Spec | Status code on failure | Method | Result |
+|:--|:--|:--|:--|:--|:--|
+| R1 | Initialization segment contains no `mdat` | 19.7.1 | `livevideo.init.invalid` | Measured | **PASS** (1/1) |
+| R2 | Each media segment has a C2PA Manifest Box | 19.7.1 | `livevideo.segment.invalid` | Measured | **PASS** (20/20) |
+| R3 | Claim uses `c2pa.claim.v2` | 10 | Generator conformance | Measured | **PASS** (20/20 segments). **FAIL** for `init.mp4` (`c2pa.claim`) |
+| R4 | Manifest identifier uses `urn:c2pa:` | 8 | Generator conformance | Measured | **PASS** (20/20 segments). **FAIL** for `init.mp4` (`urn:uuid:`) |
+| R5 | Claim signature carries a v2 time-stamp (`sigTst2`) | 10.3.2.5 | Generator conformance | Measured | **PASS** (20/20) |
+| R6 | Every hashed URI in the claim matches its assertion | 15 | `assertion.hashedURI.mismatch` | Measured | **PASS** (100/100 in segments, 2/2 in `init.mp4`) |
+| R7 | `c2pa.livevideo.segment` is present | 19.3.2 | `livevideo.assertion.invalid` | Measured | **PASS** (20/20) |
+| R8 | `sequenceNumber` is greater than the previous segment's | 19.7.2 | `livevideo.assertion.invalid` | Measured | **PASS** (20/20) |
+| R9 | `streamId` equals the previous segment's | 19.7.2 | `livevideo.assertion.invalid` | Measured | **PASS** (20/20) |
+| R10 | `continuityMethod` is present and supported | 19.7.2 | `livevideo.continuityMethod.invalid` | Measured | **PASS** (20/20, `com.ezdrm.anchor-chain`) |
+| R11 | `streamIdHash` equals `SHA-256(streamId)[0..15]` | `com.ezdrm.anchor-chain` | `livevideo.segment.invalid` | Measured | **PASS** (20/20) |
+| R12 | Continuity token recomputes (anchors 728690 and 728700) | `com.ezdrm.anchor-chain` | `livevideo.segment.invalid` | Measured | **PASS** (20/20) |
+| R13 | `sequenceNumber` matches `mfhd.sequence_number` | 19.3.2 | Generator conformance | Measured | **FAIL** (0/20, `sequenceNumber` is `mfhd` minus 1) |
+| R14 | `cawg.identity` is present and its referenced `c2pa.hash.bmff.v3` hash matches | CAWG Identity Assertion | Identity assertion invalid | Measured | **PASS** (20/20) |
+| R15 | Claim signature and certificate chain | 15 | `claimSignature.mismatch`, `signingCredential.untrusted` | Validator | Not scored here |
+| R16 | Time-stamp | 15 | `timeStamp.mismatch`, `timeStamp.untrusted` | Validator | Not scored here |
+| R17 | `c2pa.hash.bmff.v3` matches the segment bytes | 15 | `assertion.bmffHash.mismatch` | Validator | Not scored here |
+| R18 | CAWG identity signature (`cawg.x509.cose`) and signer trust | CAWG Identity Assertion | Identity assertion invalid | Validator | Not scored here |
+
+### Results per file
+
+| File | Box structure | C2PA Manifest Box | claim.v2 | urn:c2pa | sigTst2 | livevideo.segment | sequenceNumber increasing | streamId constant | continuityMethod | streamIdHash | Continuity token | seq = mfhd | Assertion hashes | CAWG identity | CAWG ref hash |
+|:--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| `init.mp4` (init) | PASS (`ftyp uuid moov`, no mdat) | PASS | FAIL | FAIL | — | — | — | — | — | — | — | — | PASS (2/2) | — | — |
+| `seg_728690.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
+| `seg_728691.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
+| `seg_728692.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
+| `seg_728693.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
+| `seg_728694.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
+| `seg_728695.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
+| `seg_728696.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
+| `seg_728697.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
+| `seg_728698.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
+| `seg_728699.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
+| `seg_728700.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
+| `seg_728701.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
+| `seg_728702.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
+| `seg_728703.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
+| `seg_728704.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
+| `seg_728705.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
+| `seg_728706.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
+| `seg_728707.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
+| `seg_728708.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
+| `seg_728709.m4s` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | `com.ezdrm.anchor-chain` | PASS | PASS | FAIL | PASS (5/5) | present | PASS |
 
 ## Checking this test set
 
