@@ -1,0 +1,104 @@
+{
+  "active_manifest": "urn:c2pa:dd08af14-14a8-45ae-b0c7-23020ef4eee8",
+  "manifests": {
+    "urn:c2pa:dd08af14-14a8-45ae-b0c7-23020ef4eee8": {
+      "claim": {
+        "instanceID": "xmp.iid:683a166d-c377-4006-a99e-0416ea12043e",
+        "claim_generator_info": {
+          "name": "c2pa-rs test file generator",
+          "version": "0.2.0",
+          "org.contentauth.c2pa_rs": "0.92.0-dev"
+        },
+        "signature": "self#jumbf=/c2pa/urn:c2pa:dd08af14-14a8-45ae-b0c7-23020ef4eee8/c2pa.signature",
+        "created_assertions": [
+          {
+            "url": "self#jumbf=c2pa.assertions/c2pa.actions.v2",
+            "hash": "bzQ7m+BkLMqmbQGJJFirUYdb3LtaMKwDGzmUnaPiEo8="
+          },
+          {
+            "url": "self#jumbf=c2pa.assertions/c2pa.hash.data",
+            "hash": "wuZFvAJw+9OQRlxLhYyIm6P8DjCHPb3ln0QJ5XZ4hL0="
+          }
+        ],
+        "dc:title": "cogproof-20261029-C.txt",
+        "alg": "sha256",
+        "claim_version": 2
+      },
+      "assertion_store": {
+        "c2pa.actions.v2": {
+          "actions": [
+            {
+              "action": "c2pa.created",
+              "description": "Synthesised test document",
+              "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/algorithmicMedia"
+            }
+          ]
+        },
+        "c2pa.hash.data": {
+          "alg": "sha256",
+          "exclusions": [
+            {
+              "length": 14293,
+              "start": 20
+            }
+          ],
+          "hash": "6zKWtVEzPNoLM3W/Q/EZ+/77xZpZkkdzkS5pBvF/xOU=",
+          "name": "jumbf manifest",
+          "pad": "AAAAAAAAAAAA"
+        }
+      },
+      "signature": {
+        "alg": "es256",
+        "issuer": "C2PA Test Signing Cert",
+        "common_name": "C2PA Signer"
+      }
+    }
+  },
+  "validation_results": {
+    "activeManifest": {
+      "success": [
+        {
+          "code": "signingCredential.trusted",
+          "url": "self#jumbf=/c2pa/urn:c2pa:dd08af14-14a8-45ae-b0c7-23020ef4eee8/c2pa.signature",
+          "explanation": "signing certificate trusted, found in [system_anchors] trust anchors"
+        },
+        {
+          "code": "claimSignature.insideValidity",
+          "url": "self#jumbf=/c2pa/urn:c2pa:dd08af14-14a8-45ae-b0c7-23020ef4eee8/c2pa.signature",
+          "explanation": "claim signature valid"
+        },
+        {
+          "code": "claimSignature.validated",
+          "url": "self#jumbf=/c2pa/urn:c2pa:dd08af14-14a8-45ae-b0c7-23020ef4eee8/c2pa.signature",
+          "explanation": "claim signature valid"
+        },
+        {
+          "code": "assertion.hashedURI.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:dd08af14-14a8-45ae-b0c7-23020ef4eee8/c2pa.assertions/c2pa.actions.v2",
+          "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+        },
+        {
+          "code": "assertion.hashedURI.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:dd08af14-14a8-45ae-b0c7-23020ef4eee8/c2pa.assertions/c2pa.hash.data",
+          "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+        },
+        {
+          "code": "assertion.dataHash.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:dd08af14-14a8-45ae-b0c7-23020ef4eee8/c2pa.assertions/c2pa.hash.data",
+          "explanation": "data hash valid"
+        }
+      ],
+      "informational": [
+        {
+          "code": "signingCredential.ocsp.skipped",
+          "url": "self#jumbf=/c2pa/urn:c2pa:dd08af14-14a8-45ae-b0c7-23020ef4eee8/c2pa.signature",
+          "explanation": "OCSP fetching skipped"
+        }
+      ],
+      "failure": []
+    },
+    "specVersion": "2.4.0",
+    "trustListUri": "system_anchors"
+  },
+  "validation_state": "Trusted"
+}

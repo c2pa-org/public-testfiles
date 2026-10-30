@@ -1,4 +1,4 @@
-//! Sign, damage and read the test files in `2.4`.
+//! Sign, damage and read the test files in `2.4` and `2.5`.
 //!
 //! Usage:
 //!   make_testfile create <source> <dest> <description>
