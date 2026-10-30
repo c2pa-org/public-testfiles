@@ -602,5 +602,4 @@ These do not affect validation. All files pass the validation rubric above.
 | Note | Spec reference | Detail |
 |:--|:--|:--|
 | `init.mp4` uses `c2pa.claim` (v1), a v1 `sigTst` time-stamp, `c2pa.hash.bmff.v2` and a `urn:uuid:` label | 8, 10, Appendix C | Validators accept these, and `init.mp4` validates. The media segments already use `c2pa.claim.v2`, `sigTst2`, `c2pa.hash.bmff.v3` and `urn:c2pa:` |
-| Media segments start with `ftyp` rather than `styp` | ISO/IEC 14496-12 | Both are excluded from the hash, so validation is unaffected |
 | The anchor-chain fields (`anchorSegmentIndex`, `streamIdHash`, `certHash`, `continuityToken`) are not prefixed | 19.3.2, 6.2 | 19.3.2 asks that fields added by other continuity methods be named as labels, for example `com.ezdrm.continuityToken` |
