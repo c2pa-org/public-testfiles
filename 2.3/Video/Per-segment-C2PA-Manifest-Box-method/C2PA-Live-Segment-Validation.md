@@ -451,6 +451,11 @@ sequenceDiagram
 
 ## Validation rubric
 
+This rubric was produced with
+[`tools/c2pa-live-rubric`](../../../tools/c2pa-live-rubric/README.md), which
+measures the files directly and runs c2patool for the cryptographic checks. Run
+it on this folder to reproduce the results.
+
 - **Method:** Per-segment C2PA Manifest Box method (C2PA 2.3 and 2.4, Section 19.3)
 - **Input:** `m4s`: 1 initialization segment(s), 20 media segment(s)
 - **Validator:** c2patool 0.27.22
