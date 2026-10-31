@@ -1,0 +1,110 @@
+{
+  "active_manifest": "urn:c2pa:e190d4da-9b5f-4a9f-b255-abefe5e5a5a4",
+  "manifests": {
+    "urn:c2pa:e190d4da-9b5f-4a9f-b255-abefe5e5a5a4": {
+      "claim": {
+        "instanceID": "xmp:iid:6bd677f7-bdfa-4b04-804e-cf81242d9cf8",
+        "claim_generator_info": {
+          "name": "Soundmarque test files, UNTRUSTED signer",
+          "version": "1.0",
+          "org.contentauth.c2pa_rs": "0.90.7"
+        },
+        "signature": "self#jumbf=/c2pa/urn:c2pa:e190d4da-9b5f-4a9f-b255-abefe5e5a5a4/c2pa.signature",
+        "created_assertions": [
+          {
+            "url": "self#jumbf=c2pa.assertions/c2pa.hash.data",
+            "hash": "aTzycX6EW5K23HyxMQh+uMi1/Qv3i858IJ00o2LbllU="
+          }
+        ],
+        "gathered_assertions": [
+          {
+            "url": "self#jumbf=c2pa.assertions/c2pa.actions.v2",
+            "hash": "7QZVnX+Pb4Hup4Yc7fEipeVTl9X1SGRubrrin9Qie94="
+          }
+        ],
+        "dc:title": "soundmarque-20261030-retroactive-legacy-master (untrusted twin)",
+        "alg": "sha256",
+        "claim_version": 2
+      },
+      "assertion_store": {
+        "c2pa.hash.data": {
+          "exclusions": [
+            {
+              "start": 6582896,
+              "length": 13384
+            }
+          ],
+          "name": "jumbf manifest",
+          "alg": "sha256",
+          "hash": "LzNotaVqg8HJAJTwWYAcJOjQ54R5r4Ac1X5CZ8suASc=",
+          "pad": "AAAAAAAAAAA="
+        },
+        "c2pa.actions.v2": {
+          "actions": [
+            {
+              "action": "c2pa.created",
+              "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture"
+            }
+          ]
+        }
+      },
+      "signature": {
+        "alg": "es256",
+        "issuer": "Soundmarque Inc. (test only)",
+        "common_name": "Soundmarque Test Files UNTRUSTED Signer",
+        "time": "2026-10-30T13:21:53+00:00"
+      }
+    }
+  },
+  "validation_results": {
+    "activeManifest": {
+      "success": [
+        {
+          "code": "timeStamp.validated",
+          "url": "self#jumbf=/c2pa/urn:c2pa:e190d4da-9b5f-4a9f-b255-abefe5e5a5a4/c2pa.signature",
+          "explanation": "timestamp message digest matched: DigiCert SHA256 RSA4096 Timestamp Responder 2026 1"
+        },
+        {
+          "code": "claimSignature.insideValidity",
+          "url": "self#jumbf=/c2pa/urn:c2pa:e190d4da-9b5f-4a9f-b255-abefe5e5a5a4/c2pa.signature",
+          "explanation": "claim signature valid"
+        },
+        {
+          "code": "claimSignature.validated",
+          "url": "self#jumbf=/c2pa/urn:c2pa:e190d4da-9b5f-4a9f-b255-abefe5e5a5a4/c2pa.signature",
+          "explanation": "claim signature valid"
+        },
+        {
+          "code": "assertion.hashedURI.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:e190d4da-9b5f-4a9f-b255-abefe5e5a5a4/c2pa.assertions/c2pa.hash.data",
+          "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+        },
+        {
+          "code": "assertion.hashedURI.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:e190d4da-9b5f-4a9f-b255-abefe5e5a5a4/c2pa.assertions/c2pa.actions.v2",
+          "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+        },
+        {
+          "code": "assertion.dataHash.match",
+          "url": "self#jumbf=/c2pa/urn:c2pa:e190d4da-9b5f-4a9f-b255-abefe5e5a5a4/c2pa.assertions/c2pa.hash.data",
+          "explanation": "data hash valid"
+        }
+      ],
+      "informational": [
+        {
+          "code": "timeStamp.untrusted",
+          "url": "self#jumbf=/c2pa/urn:c2pa:e190d4da-9b5f-4a9f-b255-abefe5e5a5a4/c2pa.signature",
+          "explanation": "timestamp cert untrusted: DigiCert SHA256 RSA4096 Timestamp Responder 2026 1"
+        }
+      ],
+      "failure": [
+        {
+          "code": "signingCredential.untrusted",
+          "url": "self#jumbf=/c2pa/urn:c2pa:e190d4da-9b5f-4a9f-b255-abefe5e5a5a4/c2pa.signature",
+          "explanation": "signing certificate untrusted"
+        }
+      ]
+    }
+  },
+  "validation_state": "Valid"
+}
